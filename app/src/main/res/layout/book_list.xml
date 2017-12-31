@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="ch.derlin.easypass.easypass.AccountListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookListActivity">
+
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerView"
+        android:name="derlin.ch.mybooks.BookListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="derlin.ch.mybooks.BookListActivity"
+        tools:listitem="@layout/book_list_content" />
+
+    <TextView
+        android:id="@+id/countText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="false"
+        android:background="?android:attr/windowBackground"
+        android:backgroundTint="?attr/colorPrimary"
+        android:padding="5dip"
+        android:paddingEnd="10dip"
+        android:text="XXX accounts"
+        android:textColor="@color/whity" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:indeterminate="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

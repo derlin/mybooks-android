@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MyBooks</string>
+    <string name="action_settings">Settings</string>
+
+    <!--dropbox token and permissions-->
+    <string name="prefs_dbx_access_token">dbx-access-token</string>
+    <string name="dbx_app_key">213bpo6j2q90un0</string>
+    <string name="dbx_app_secret">b1tijzm481l9eta</string>
+    <string name="dbx_app_key_manifest">db-213bpo6j2q90un0</string>
+    <string name="dbx_request_config_name">MyBooks/2.0</string>
+
+    <string name="start_quote">Reading is life</string>
+    <string name="start_quote_author">Lucy Linder</string>
+    <string name="title_book_list">Books</string>
+    <string name="title_book_detail">Book Detail</string>
+
+    <string name="book_list_counter_text">%1$d books</string>
+    <string name="infos_header">INFOS</string>
+    <string name="title_label">Title</string>
+    <string name="author_label">Author</string>
+    <string name="date_label">Read on</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="notes_header">Notes</string>
+</resources>

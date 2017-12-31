@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!--gridlayout with two columns-->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:useDefaultMargins="false">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:indeterminate="true"
+            android:visibility="visible" />
+
+        <!--infos header-->
+        <TextView
+            style="@style/Header"
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="2"
+            android:text="@string/infos_header" />
+
+        <!--name-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_title"
+            android:text="@string/title_label" />
+
+        <EditText
+            android:id="@+id/edit_title"
+            style="@style/DetailsValueEdit"
+            android:inputType="text"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_author"
+            android:scrollHorizontally="true">
+
+            <requestFocus />
+        </EditText>
+
+        <!--pseudo-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_author"
+            android:text="@string/author_label" />
+
+        <EditText
+            android:id="@+id/edit_author"
+            style="@style/DetailsValueEdit"
+            android:inputType="text"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_date"
+            android:scrollHorizontally="true" />
+
+        <!--email-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_date"
+            android:text="@string/date_label" />
+
+        <EditText
+            android:id="@+id/edit_date"
+            style="@style/DetailsValueEdit"
+            android:inputType="text"
+            android:hint="2017-10"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_notes"
+            android:scrollHorizontally="true" />
+
+        <!--notes header-->
+        <TextView
+            style="@style/Header"
+            android:layout_columnSpan="2"
+            android:labelFor="@id/edit_notes"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/notes_header" />
+
+        <!--notes field-->
+        <EditText
+            android:id="@+id/edit_notes"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:imeOptions="actionGo"
+            android:inputType="text"
+            android:padding="15dp" />
+
+        <View
+            style="@style/Divider"
+            android:layout_columnSpan="2"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_vertical|fill_horizontal"
+            android:background="@drawable/bottom_border_gradient"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_edit_cancel"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textColor="?attr/colorAccent" />
+
+            <Button
+                android:id="@+id/button_edit_save"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/save"
+                android:textColor="?attr/colorPrimaryDark" />
+        </LinearLayout>
+
+    </GridLayout>
+
+</LinearLayout>

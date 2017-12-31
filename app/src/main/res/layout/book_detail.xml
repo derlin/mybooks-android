@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--gridlayout with two columns-->
+    <!--scrollview : container for main content-->
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="20sp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:useDefaultMargins="false">
+
+        <TextView
+            style="@style/Header"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/infos_header" />
+
+        <!--title-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:text="@string/title_label" />
+
+        <TextView
+            android:id="@+id/details_title"
+            style="@style/DetailsValue" />
+
+        <!--author-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:text="@string/author_label" />
+
+        <TextView
+            android:id="@+id/details_author"
+            style="@style/DetailsValue"/>
+
+        <!--date-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:text="@string/date_label" />
+
+        <TextView
+            android:id="@+id/details_date"
+            style="@style/DetailsValue" />
+
+
+        <!--notes header-->
+        <TextView
+            style="@style/Header"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/notes_header" />
+
+
+        <!--notes field-->
+        <TextView
+            android:id="@+id/details_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="10dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/AppTheme.TextAppearance" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_columnSpan="2" />
+    </GridLayout>
+
+</RelativeLayout>

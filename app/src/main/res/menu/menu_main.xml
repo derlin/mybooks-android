@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="derlin.ch.mybooks.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:icon="@drawable/ic_sort"
+        android:title="sort"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/group_menu_sort"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/submenu_sort_title_asc"
+                    android:checked="true"
+                    android:title="Title asc" />
+                <item
+                    android:id="@+id/submenu_sort_title_desc"
+                    android:title="Title desc" />
+                <item
+                    android:id="@+id/submenu_sort_year_asc"
+                    android:title="Read on asc" />
+                <item
+                    android:id="@+id/submenu_sort_year_desc"
+                    android:title="Read on desc" />
+            </group>
+        </menu>
+    </item>
+</menu>

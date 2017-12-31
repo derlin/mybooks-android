@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="derlin.ch.mybooks.StartActivity"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/AppTheme.TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:gravity="center_horizontal"
+        android:text="@string/start_quote"
+        android:textColor="@android:color/primary_text_dark"
+        android:textStyle="italic" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dip"
+        android:gravity="end"
+        android:text="@string/start_quote_author" />
+
+    <ProgressBar
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
+</LinearLayout>

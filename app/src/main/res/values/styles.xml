@@ -1,0 +1,96 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--infos: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35-->
+        <!-- editText border color on edit -->
+        <!--<item name="colorControlActivated">@color/colorSecondaryLight</item>-->
+        <!--ripple color-->
+        <item name="colorControlHighlight">@color/colorAccent</item>
+
+        <!--main text color -->
+        <item name="android:textColorPrimary">@color/blacky</item>
+        <!--color of underlines in edittext (not active), etc. -->
+        <item name="android:textColorSecondary">@color/blacky</item>
+
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
+        <item name="android:textAppearanceLarge">@style/AppTheme.TextAppearance.Large</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@color/whity</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--styling the appbar -->
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <!--dropdown in menu bar -->
+        <!--<item name="android:background">?attr/colorPrimary</item>-->
+        <!--<item name="android:textColor">?android:attr/windowBackground</item>-->
+        <!--<item name="colorControlNormal">?android:attr/windowBackground</item>-->
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="colorControlNormal">?android:attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Large" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Small" parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Header" parent="AppTheme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_marginTop">10sp</item>
+        <item name="android:layout_marginBottom">10sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">?attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/bottom_border_gradient</item>
+    </style>
+
+    <style name="Divider" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@drawable/bottom_border_gradient</item>
+        <!--<item name="android:background">?android:attr/listDivider</item>-->
+    </style>
+
+    <!-- styles when showing account details -->
+    <style name="DetailsLabel" parent="AppTheme.TextAppearance">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:layout_gravity">right</item>
+    </style>
+
+    <style name="DetailsValue" parent="AppTheme.TextAppearance">
+        <!--<item name="android:layout_gravity">fill</item>-->
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_gravity">fill_horizontal</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="DetailsValueEdit" parent="DetailsValue">
+        <item name="android:textIsSelectable">false</item>
+    </style>
+
+</resources>
