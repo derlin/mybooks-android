@@ -93,4 +93,13 @@
         <item name="android:textIsSelectable">false</item>
     </style>
 
+    <style name="BottomSheetButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">15dip</item>
+        <item name="android:drawableTint">?android:attr/colorAccent</item>
+        <item name="android:textAppearance">?android:attr/textAppearance</item>
+    </style>
+
 </resources>

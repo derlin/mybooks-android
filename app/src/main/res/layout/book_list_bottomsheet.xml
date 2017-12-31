@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="50dip"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    tools:context=".BookListActivity">
+
+    <TextView
+        android:id="@+id/bottomSheetTitle"
+        style="@style/BottomSheetButton"
+        android:layout_marginBottom="20dip"
+        android:background="?attr/colorPrimary"
+        android:foregroundTint="@android:color/primary_text_dark"
+        android:paddingStart="15dip"
+        android:text="title"
+        android:textColor="@android:color/primary_text_dark" />
+
+    <Button
+        android:id="@+id/copy_pass_btn"
+        style="@style/BottomSheetButton"
+        android:drawableStart="@drawable/ic_copy"
+        android:text="Copy password" />
+
+
+    <Button
+        android:id="@+id/view_edit_btn"
+        style="@style/BottomSheetButton"
+        android:drawableStart="@drawable/ic_edit"
+        android:text="Edit" />
+
+</LinearLayout>

@@ -3,8 +3,10 @@ package derlin.ch.mybooks
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -15,6 +17,7 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
+import kotlinx.android.synthetic.main.book_list_bottomsheet.*
 import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
@@ -47,6 +50,8 @@ class BookListActivity : AppCompatActivity() {
             progressBar.visibility = if (value) View.VISIBLE else View.GONE
         }
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
@@ -64,6 +69,11 @@ class BookListActivity : AppCompatActivity() {
         }
 
         loadBooks()
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        bottomSheetBehavior.setPeekHeight(300)
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -113,7 +123,11 @@ class BookListActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment).commit()
             }
         } else {
-            super.onBackPressed()
+            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -149,7 +163,10 @@ class BookListActivity : AppCompatActivity() {
 
         adapter.onClick = { book ->
             selectedBook = book
-            showDetails(book, BookDetailActivity.OPERATION_SHOW)
+            bottomSheetTitle.setText(book.title)
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
         }
 
         adapter.onLongClick = { book ->
