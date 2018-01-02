@@ -163,7 +163,7 @@ class BookListActivity : AppCompatActivity() {
 
         adapter.onClick = { book ->
             selectedBook = book
-            bottomSheetTitle.setText(book.title)
+            sheetTitle.setText(book.title)
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
