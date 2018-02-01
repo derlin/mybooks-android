@@ -21,16 +21,20 @@
                 <item
                     android:id="@+id/submenu_sort_title_asc"
                     android:checked="true"
-                    android:title="Title asc" />
+                    android:icon="@drawable/ic_arrow_down"
+                    android:title="A-Z" />
                 <item
                     android:id="@+id/submenu_sort_title_desc"
-                    android:title="Title desc" />
+                    android:icon="@drawable/ic_arrow_up"
+                    android:title="Z-A" />
                 <item
                     android:id="@+id/submenu_sort_year_asc"
-                    android:title="Read on asc" />
+                    android:icon="@drawable/ic_arrow_down"
+                    android:title="Older read" />
                 <item
                     android:id="@+id/submenu_sort_year_desc"
-                    android:title="Read on desc" />
+                    android:icon="@drawable/ic_arrow_up"
+                    android:title="Recent read" />
             </group>
         </menu>
     </item>

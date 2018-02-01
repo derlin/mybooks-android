@@ -42,36 +42,15 @@
             android:src="@drawable/ic_edit"
             android:id="@+id/editButton"
             android:contentDescription="edit"
+            android:tint="?android:colorAccent"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:gravity="center"
-        android:text="Roaches have no kings by Georges Orwell"
-        android:textAppearance="@style/AppTheme.TextAppearance.Large"/>
-
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:gravity="end"
-        android:textAppearance="@style/AppTheme.TextAppearance"
-        android:text="Read on xxxx"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@drawable/bottom_border_gradient"
-        android:layout_height="5dp" />
-    <TextView
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="15dp"
         android:textAppearance="@style/AppTheme.TextAppearance"
-        android:text="Notes: dsafjldsaéflk jaf "/>
+        android:text="No notes."/>
 </LinearLayout>

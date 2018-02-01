@@ -31,7 +31,7 @@
             android:layout_columnSpan="2"
             android:text="@string/infos_header" />
 
-        <!--name-->
+        <!--title-->
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_title"
@@ -40,7 +40,7 @@
         <EditText
             android:id="@+id/edit_title"
             style="@style/DetailsValueEdit"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_author"
             android:scrollHorizontally="true">
@@ -48,7 +48,7 @@
             <requestFocus />
         </EditText>
 
-        <!--pseudo-->
+        <!--author-->
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_author"
@@ -57,12 +57,12 @@
         <EditText
             android:id="@+id/edit_author"
             style="@style/DetailsValueEdit"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_date"
             android:scrollHorizontally="true" />
 
-        <!--email-->
+        <!--read on-->
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_date"

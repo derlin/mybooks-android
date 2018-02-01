@@ -41,8 +41,7 @@
             android:layout_alignParentEnd="true"
             android:background="?android:attr/windowBackground"
             android:padding="5dip"
-            android:paddingStart="10dip"
-            android:text="XXX accounts" />
+            android:paddingStart="10dip" />
 
         <ProgressBar
             android:id="@+id/progressBar"

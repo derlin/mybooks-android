@@ -31,7 +31,6 @@
         android:backgroundTint="?attr/colorPrimary"
         android:padding="5dip"
         android:paddingEnd="10dip"
-        android:text="XXX accounts"
         android:textColor="@color/whity" />
 
 

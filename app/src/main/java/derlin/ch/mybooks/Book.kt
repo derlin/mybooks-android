@@ -39,6 +39,11 @@ data class Book(
                 notes.toLowerCase().contains(search)
     }
 
+    fun toSearchQuery(): String {
+        return title.split(" +").joinToString("+") + "+" +
+                author.split(" +").joinToString("+")
+    }
+
     companion object {
 
         val nameComparatorAsc = Comparator<Book> { a1, a2 -> a1.title.compareTo(a2.title, true) }

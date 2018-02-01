@@ -1,9 +1,12 @@
 package derlin.ch.mybooks
 
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.NestedScrollView
@@ -14,10 +17,11 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
-import kotlinx.android.synthetic.main.book_list_bottomsheet.*
 import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
@@ -92,6 +96,19 @@ class BookListActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == DETAIL_ACTIVITY_REQUEST_CODE) {
+            if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) ?: false) {
+                // update the list in case of modification
+                selectedBook = data!!.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
+                notifyBookUpdate(selectedBook!!)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.groupId == R.id.group_menu_sort) {
             Preferences(this).sortOrder = item.itemId
@@ -163,10 +180,11 @@ class BookListActivity : AppCompatActivity() {
 
         adapter.onClick = { book ->
             selectedBook = book
-            sheetTitle.setText(book.title)
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
+            showBottomSheet(book)
+//            sheetTitle.setText(book.title)
+//            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+//                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//            }
         }
 
         adapter.onLongClick = { book ->
@@ -206,6 +224,43 @@ class BookListActivity : AppCompatActivity() {
         if (idx >= 0) recyclerView.scrollToPosition(idx)
 
         if (mTwoPane) showDetails(item, BookDetailActivity.OPERATION_SHOW)
+    }
+
+    private var bottomSheetDialog: BottomSheetDialog? = null
+
+    private fun showBottomSheet(item: Book) {
+
+        selectedBook = item
+        //hideKeyboard()
+        if (searchView.hasFocus()) searchView.clearFocus()
+
+        if (mTwoPane) {
+            showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
+            return
+        }
+
+
+        bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.book_list_bottomsheet, null)
+
+        view.findViewById<TextView>(R.id.sheetTitle).text = item.title
+        view.findViewById<TextView>(R.id.notes).text = item.notes
+
+        view.findViewById<ImageButton>(R.id.editButton)
+                .setOnClickListener { _ -> showDetails(selectedBook!!, BookDetailActivity.OPERATION_EDIT) }
+
+        view.findViewById<ImageButton>(R.id.searchButton)
+                .setOnClickListener { _ -> searchGoogle(selectedBook!!) }
+
+        bottomSheetDialog!!.setContentView(view)
+        bottomSheetDialog!!.show()
+    }
+
+    private fun searchGoogle(book: Book) {
+        // see https://stackoverflow.com/a/4800679/2667536
+        val url = "http://www.google.com/#q=" + book.toSearchQuery()
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 
     fun createSwipeHandler() =
