@@ -1,4 +1,4 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 /**
  * Created by Lin on 24.11.17.

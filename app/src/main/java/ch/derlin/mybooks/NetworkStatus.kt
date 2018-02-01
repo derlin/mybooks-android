@@ -1,4 +1,4 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.content.Context
 import android.net.ConnectivityManager

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BookListActivity"
+            android:name="ch.derlin.mybooks.BookListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity">
+        <activity android:name="ch.derlin.mybooks.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,13 +41,13 @@
         </activity>
 
         <activity
-            android:name=".BookDetailActivity"
+            android:name="ch.derlin.mybooks.BookDetailActivity"
             android:label="@string/title_book_detail"
-            android:parentActivityName=".BookListActivity"
+            android:parentActivityName="ch.derlin.mybooks.BookListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="derlin.ch.mybooks.BookListActivity" />
+                android:value="derlin.ch.mybooks.ch.derlin.mybooks.BookListActivity" />
         </activity>
     </application>
 

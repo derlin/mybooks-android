@@ -1,10 +1,11 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import derlin.ch.mybooks.R
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.book_detail.*
 

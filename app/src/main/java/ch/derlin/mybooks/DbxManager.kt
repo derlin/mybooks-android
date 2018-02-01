@@ -1,15 +1,14 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.content.Context
 import com.dropbox.core.DbxRequestConfig
-import com.dropbox.core.util.IOUtil
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.WriteMode
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import derlin.ch.mybooks.R
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.task
@@ -86,7 +85,7 @@ object DbxManager {
     }
 
     fun upload(): Promise<Boolean, Exception> {
-        assert(this.books != null)
+        assert(books != null)
 
         val deferred = deferred<Boolean, Exception>()
         task {

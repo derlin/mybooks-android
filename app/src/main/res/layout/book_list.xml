@@ -6,7 +6,7 @@
     android:name="ch.derlin.easypass.easypass.AccountListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookListActivity">
+    tools:context="ch.derlin.mybooks.BookListActivity">
 
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
-        tools:context="derlin.ch.mybooks.BookListActivity"
+        tools:context="derlin.ch.mybooks.ch.derlin.mybooks.BookListActivity"
         tools:listitem="@layout/book_list_content" />
 
     <TextView

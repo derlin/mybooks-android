@@ -1,4 +1,4 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.content.Context
 import android.os.Bundle
@@ -15,8 +15,9 @@ import kotlinx.android.synthetic.main.book_edit.*
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
 import kotlinx.android.synthetic.main.activity_book_detail.*
-import derlin.ch.mybooks.MiscUtils.rootView
-import derlin.ch.mybooks.MiscUtils.hideKeyboard
+import ch.derlin.mybooks.MiscUtils.rootView
+import ch.derlin.mybooks.MiscUtils.hideKeyboard
+import derlin.ch.mybooks.R
 
 /**
  * A fragment representing a single Book detail screen.

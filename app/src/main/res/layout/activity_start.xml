@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="derlin.ch.mybooks.StartActivity"
+    tools:context="derlin.ch.mybooks.ch.derlin.mybooks.StartActivity"
     android:background="@color/colorPrimary"
     android:orientation="vertical">
 

@@ -1,11 +1,10 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
-import android.support.v4.app.Fragment
 import android.text.Html
 import android.text.Spanned
 import android.view.View

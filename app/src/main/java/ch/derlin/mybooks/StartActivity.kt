@@ -1,12 +1,11 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import com.dropbox.core.android.Auth
-import nl.komponents.kovenant.ui.failUi
-import nl.komponents.kovenant.ui.successUi
+import derlin.ch.mybooks.R
 import timber.log.Timber
 
 /**

@@ -9,7 +9,7 @@ androidExtensions {
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "derlin.ch.mybooks"
+        applicationId "ch.derlin.mybooks"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1

@@ -1,4 +1,4 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

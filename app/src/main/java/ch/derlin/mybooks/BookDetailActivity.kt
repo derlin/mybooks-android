@@ -1,4 +1,4 @@
-package derlin.ch.mybooks
+package ch.derlin.mybooks
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
+import derlin.ch.mybooks.R
 import kotlinx.android.synthetic.main.activity_book_detail.*
 
 /**
