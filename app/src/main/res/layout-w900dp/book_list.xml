@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="derlin.ch.mybooks.ch.derlin.mybooks.BookListActivity">
+    tools:context="ch.derlin.mybooks.BookListActivity">
 
     <!--
     This layout is a two-pane layout for the Books

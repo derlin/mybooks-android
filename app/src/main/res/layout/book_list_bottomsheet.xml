@@ -30,7 +30,7 @@
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/ic_open_in_browser"
             android:id="@+id/searchButton"
             android:contentDescription="edit"
             style="@style/Widget.AppCompat.Button.Borderless"/>
