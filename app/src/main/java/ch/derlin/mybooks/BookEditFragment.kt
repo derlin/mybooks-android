@@ -110,7 +110,7 @@ class BookEditFragment : Fragment() {
         }
 
         // ensure there are no duplicate names in the account list
-        if (newBook.title != mItem?.title &&
+        if (newBook.normalizedKey != mItem?.normalizedKey &&
                 DbxManager.books!!.containsKey(newBook.normalizedKey)) {
             Toast.makeText(activity, "an account with this name already exists", Toast.LENGTH_LONG).show()
             return
@@ -154,8 +154,8 @@ class BookEditFragment : Fragment() {
     }
 
     private fun getBook(): Book = Book(
-            title = edit_title.text.toString(),
-            author = edit_author.text.toString(),
-            date = edit_date.text.toString(),
-            notes = edit_notes.text.toString())
+            title = edit_title.text.toString().trim(),
+            author = edit_author.text.toString().trim(),
+            date = edit_date.text.toString().trim(),
+            notes = edit_notes.text.toString().trim())
 }
