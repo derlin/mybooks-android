@@ -51,7 +51,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip"
             android:indeterminate="true"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

@@ -25,11 +25,14 @@
         android:gravity="end"
         android:text="@string/start_quote_author" />
 
+
     <ProgressBar
-        android:layout_width="100dp"
+        android:id="@+id/progressBar"
+        android:layout_width="60dp"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
         android:indeterminate="true" />
 
 </LinearLayout>

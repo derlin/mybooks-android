@@ -17,7 +17,7 @@ import nl.komponents.kovenant.ui.successUi
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import ch.derlin.mybooks.MiscUtils.rootView
 import ch.derlin.mybooks.MiscUtils.hideKeyboard
-import derlin.ch.mybooks.R
+import ch.derlin.mybooks.R
 
 /**
  * A fragment representing a single Book detail screen.

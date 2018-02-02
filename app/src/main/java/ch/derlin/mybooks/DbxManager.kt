@@ -8,7 +8,7 @@ import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.WriteMode
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import derlin.ch.mybooks.R
+import ch.derlin.mybooks.R
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.task

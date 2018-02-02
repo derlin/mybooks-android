@@ -4,8 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.dropbox.core.android.Auth
-import derlin.ch.mybooks.R
+import ch.derlin.mybooks.R
+import kotlinx.android.synthetic.main.activity_start.*
+import nl.komponents.kovenant.ui.alwaysUi
+import nl.komponents.kovenant.ui.failUi
+import nl.komponents.kovenant.ui.successUi
 import timber.log.Timber
 
 /**
@@ -19,6 +24,11 @@ class StartActivity : AppCompatActivity() {
 
     private var mIsAuthenticating = false
 
+    private var working: Boolean
+        get() = progressBar.visibility == View.VISIBLE
+        set(value) {
+            progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
+        }
     // ----------------------------------------------------
 
 
@@ -81,5 +91,32 @@ class StartActivity : AppCompatActivity() {
         startActivity(launchIntent)
     }
 
+    /*
+    private fun loadBooks() {
+        if (!NetworkStatus.isInternetAvailable(this)) {
+            // no internet, try to load local file
+            if (!DbxManager.localFileExists) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Internet is not available", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("retry", { _ -> loadBooks() })
+                        .show()
+                return
+            }
+        }
+        // internet, fetch latest rev
+        working = true
+        DbxManager.fetchBooks().alwaysUi {
+            working = false
+        } successUi {
+            startApp()
+        } failUi {
+            Timber.d(it)
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Error: ${it}", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("retry", { _ -> loadBooks() })
+                    .show()
+        }
+    }
+    */
 
 }

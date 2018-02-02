@@ -19,7 +19,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import derlin.ch.mybooks.R
+import ch.derlin.mybooks.R
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -72,7 +72,11 @@ class BookListActivity : AppCompatActivity() {
             mTwoPane = true
         }
 
-        loadBooks()
+        if(DbxManager.books == null) {
+            loadBooks()
+        }else{
+            setupRecyclerView()
+        }
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.setPeekHeight(300)
