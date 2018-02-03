@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.book_edit.*
 import nl.komponents.kovenant.ui.failUi
@@ -17,7 +18,7 @@ import nl.komponents.kovenant.ui.successUi
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import ch.derlin.mybooks.MiscUtils.rootView
 import ch.derlin.mybooks.MiscUtils.hideKeyboard
-import ch.derlin.mybooks.R
+import ch.derlin.mybooks.MiscUtils.afterTextChanged
 
 /**
  * A fragment representing a single Book detail screen.
@@ -63,15 +64,11 @@ class BookEditFragment : Fragment() {
 
         button_edit_save.isEnabled = mItem?.title?.isNotBlank() ?: false
 
-        edit_title.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                val newName = p0?.toString() ?: ""
-                (activity as? BookDetailActivity)?.fab?.isEnabled = newName.isNotBlank()
-                button_edit_save.isEnabled = newName.isNotBlank()
-            }
-        })
+        edit_title.afterTextChanged { newName ->
+            (activity as? BookDetailActivity)?.fab?.isEnabled = newName.isNotBlank()
+            button_edit_save.isEnabled = newName.isNotBlank()
+        }
+
 
         // see https://stackoverflow.com/a/39770984/2667536
         edit_notes.setHorizontallyScrolling(false)
@@ -96,6 +93,35 @@ class BookEditFragment : Fragment() {
                 saveBook()
             }
         }
+
+        // autocomplete for authors
+        DbxManager.books?.let {
+            edit_author.setAdapter(ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, it.getAuthors()))
+        }
+
+        // date
+        if(mItem == null){
+            // new item --> set a date
+            edit_date.setText(Book.readNow)
+        }
+        edit_date.setOnFocusChangeListener { view, focus -> if(!focus){
+            edit_date.setText(Book.standardizedReadOn(edit_date.text.toString()))
+        } }
+        edit_date.addTextChangedListener(object : TextWatcher {
+            var len = 0
+            override fun afterTextChanged(p0: Editable?) {
+                var date = p0.toString()
+                if(date.length == 4 && date.length > len){
+                    edit_date.append("-")
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                len = p0?.length ?: 0
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
     }
 
 
@@ -156,6 +182,6 @@ class BookEditFragment : Fragment() {
     private fun getBook(): Book = Book(
             title = edit_title.text.toString().trim(),
             author = edit_author.text.toString().trim(),
-            date = edit_date.text.toString().trim(),
+            date = Book.standardizedReadOn(edit_date.text.toString().trim()),
             notes = edit_notes.text.toString().trim())
 }

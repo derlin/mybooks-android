@@ -54,7 +54,7 @@
             android:labelFor="@id/edit_author"
             android:text="@string/author_label" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/edit_author"
             style="@style/DetailsValueEdit"
             android:inputType="textCapWords"
@@ -71,7 +71,7 @@
         <EditText
             android:id="@+id/edit_date"
             style="@style/DetailsValueEdit"
-            android:inputType="text"
+            android:inputType="textVisiblePassword"
             android:hint="2017-10"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_notes"
