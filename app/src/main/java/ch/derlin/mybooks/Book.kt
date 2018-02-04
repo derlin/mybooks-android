@@ -5,8 +5,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -44,8 +42,8 @@ data class Book(
     }
 
     fun toSearchQuery(): String {
-        return title.split(" +").joinToString("+") + "+" +
-                author.split(" +").joinToString("+")
+        return title.split(Regex(" +")).joinToString("+") + "+" +
+                author.split(Regex(" +")).joinToString("+")
     }
 
     companion object {

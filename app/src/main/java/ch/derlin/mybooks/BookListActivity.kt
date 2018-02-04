@@ -26,6 +26,7 @@ import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
 import timber.log.Timber
+import java.util.*
 
 /**
  * An activity representing a list of Pings. This activity
@@ -262,8 +263,12 @@ class BookListActivity : AppCompatActivity() {
 
     private fun searchGoogle(book: Book) {
         // see https://stackoverflow.com/a/4800679/2667536
-        val url = "http://www.google.com/#q=" + book.toSearchQuery()
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+        val url = "http://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${book.toSearchQuery()}&pws=0&gl=us&gws_rd=cr"
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//        startActivity(intent)
+        val intent = Intent(this, AppBrowserActivity::class.java)
+        intent.putExtra("url", url)
         startActivity(intent)
     }
 
