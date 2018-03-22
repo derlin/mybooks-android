@@ -6,11 +6,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.dropbox.core.android.Auth
-import ch.derlin.mybooks.R
+import ch.derlin.mybooks.helpers.Preferences
 import kotlinx.android.synthetic.main.activity_start.*
-import nl.komponents.kovenant.ui.alwaysUi
-import nl.komponents.kovenant.ui.failUi
-import nl.komponents.kovenant.ui.successUi
 import timber.log.Timber
 
 /**

@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.book_edit.*
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
 import kotlinx.android.synthetic.main.activity_book_detail.*
-import ch.derlin.mybooks.MiscUtils.rootView
-import ch.derlin.mybooks.MiscUtils.hideKeyboard
-import ch.derlin.mybooks.MiscUtils.afterTextChanged
+import ch.derlin.mybooks.helpers.MiscUtils.rootView
+import ch.derlin.mybooks.helpers.MiscUtils.hideKeyboard
+import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
 
 /**
  * A fragment representing a single Book detail screen.
@@ -87,7 +87,7 @@ class BookEditFragment : Fragment() {
         button_edit_cancel.setOnClickListener { activity.onBackPressed() }
 
         (activity as? BookDetailActivity)?.let {
-            it.updateTitle(if (mItem != null) "Editing ${mItem?.title}" else "New account")
+            it.updateTitle(if (mItem != null) "Editing ${mItem?.title}" else "New book")
             it.fab.setImageResource(R.drawable.ic_save)
             it.fab.setOnClickListener { _ ->
                 saveBook()
@@ -104,7 +104,7 @@ class BookEditFragment : Fragment() {
             // new item --> set a date
             edit_date.setText(Book.readNow)
         }
-        edit_date.setOnFocusChangeListener { view, focus -> if(!focus){
+        edit_date.setOnFocusChangeListener { _, focus -> if(!focus){
             edit_date.setText(Book.standardizedReadOn(edit_date.text.toString()))
         } }
         edit_date.addTextChangedListener(object : TextWatcher {

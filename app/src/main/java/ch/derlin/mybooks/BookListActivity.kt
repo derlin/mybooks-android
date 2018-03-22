@@ -2,7 +2,7 @@ package ch.derlin.mybooks
 
 
 import android.content.Intent
-import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
@@ -19,7 +19,9 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import ch.derlin.mybooks.R
+import ch.derlin.mybooks.helpers.NetworkStatus
+import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -64,18 +66,21 @@ class BookListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
+        fab.visibility = View.GONE
         fab.setImageResource(R.drawable.ic_add)
         fab.setOnClickListener { view ->
-            showDetails(null, BookDetailActivity.OPERATION_NEW)
+            if (NetworkStatus.isInternetAvailable(this))
+                showDetails(null, BookDetailActivity.OPERATION_NEW)
+            else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
         }
 
         if (book_detail_container != null) {
             mTwoPane = true
         }
 
-        if(DbxManager.books == null) {
+        if (DbxManager.books == null) {
             loadBooks()
-        }else{
+        } else {
             setupRecyclerView()
         }
 
@@ -170,6 +175,7 @@ class BookListActivity : AppCompatActivity() {
             working = false
         } successUi {
             setupRecyclerView()
+            fab.visibility = View.VISIBLE
         } failUi {
             Timber.d(it)
             Snackbar.make(findViewById(android.R.id.content),
@@ -252,7 +258,11 @@ class BookListActivity : AppCompatActivity() {
         view.findViewById<TextView>(R.id.notes).text = item.notes
 
         view.findViewById<ImageButton>(R.id.editButton)
-                .setOnClickListener { _ -> showDetails(selectedBook!!, BookDetailActivity.OPERATION_EDIT) }
+                .setOnClickListener { _ ->
+                    if (NetworkStatus.isInternetAvailable(this))
+                        showDetails(selectedBook!!, BookDetailActivity.OPERATION_EDIT)
+                    else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
+                }
 
         view.findViewById<ImageButton>(R.id.searchButton)
                 .setOnClickListener { _ -> searchGoogle(selectedBook!!) }

@@ -1,4 +1,4 @@
-package ch.derlin.mybooks
+package ch.derlin.mybooks.helpers
 
 import android.content.Context
 import android.graphics.Canvas

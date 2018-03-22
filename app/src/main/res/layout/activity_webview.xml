@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ch.derlin.mybooks.WebviewActivity">
+    tools:context="ch.derlin.mybooks.AppBrowserActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -21,22 +21,22 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

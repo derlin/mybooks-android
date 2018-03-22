@@ -1,7 +1,8 @@
-package ch.derlin.mybooks
+package ch.derlin.mybooks.helpers
 
 import android.content.Context
 import android.net.ConnectivityManager
+import ch.derlin.mybooks.App
 
 
 object NetworkStatus {

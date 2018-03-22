@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
-import ch.derlin.mybooks.R
+import ch.derlin.mybooks.helpers.NetworkStatus
 import kotlinx.android.synthetic.main.activity_book_detail.*
 
 /**

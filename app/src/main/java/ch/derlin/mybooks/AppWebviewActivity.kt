@@ -1,8 +1,6 @@
 package ch.derlin.mybooks
 
 
-import android.app.DownloadManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -20,6 +18,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
 import java.io.File
 
@@ -44,7 +43,7 @@ class AppBrowserActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
 
-        url = intent.getStringExtra("url") ?: "https://www.google.com?q=1984"
+        url = intent.getStringExtra("url") //?: "https://www.google.com?q=1984"
 
         webview.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
@@ -77,7 +76,6 @@ class AppBrowserActivity : AppCompatActivity() {
         webview.settings.javaScriptEnabled = true
         webview.settings.setSupportZoom(true)
         webview.settings.builtInZoomControls = true
-
         webview.isHorizontalScrollBarEnabled = true
 
         registerForContextMenu(webview)
@@ -95,7 +93,8 @@ class AppBrowserActivity : AppCompatActivity() {
             contextMenu.add(0, 1, 0, "Download image")
                     .setOnMenuItemClickListener {
                         val imageUrl = webViewHitTestResult.getExtra()
-
+                        downloadImage(imageUrl)
+                        /*
                         try {
                             if (imageUrl.startsWith("data")) {
                                 downloadBase64Image(imageUrl)
@@ -112,6 +111,7 @@ class AppBrowserActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext, "something went wrong...", Toast.LENGTH_SHORT).show()
                         }
                         false
+                    */
                     }
         }
     }
@@ -133,7 +133,7 @@ class AppBrowserActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
             val externalStorage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             File(externalStorage, "${System.currentTimeMillis()}.${type}").outputStream().use {
-                if(bitmap.compress(compressor, 100, it))
+                if (bitmap.compress(compressor, 100, it))
                     Toast.makeText(applicationContext, "Success", Toast.LENGTH_SHORT).show()
             }
         }

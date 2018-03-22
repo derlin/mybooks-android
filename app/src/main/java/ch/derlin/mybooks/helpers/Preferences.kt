@@ -1,6 +1,7 @@
-package ch.derlin.mybooks
+package ch.derlin.mybooks.helpers
 
 import android.content.Context
+import ch.derlin.mybooks.App
 
 
 class Preferences(context: Context = App.appContext) {
