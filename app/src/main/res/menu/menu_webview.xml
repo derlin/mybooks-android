@@ -1,29 +1,44 @@
 <?xml version='1.0' encoding='utf-8'?>
 <menu xmlns:android='http://schemas.android.com/apk/res/android'
-    xmlns:app='http://schemas.android.com/apk/res-auto'>
+    xmlns:app='http://schemas.android.com/apk/res-auto'
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AppWebviewActivity">
+
+    <item
+        android:id="@+id/action_open_in_browser"
+        android:icon='@drawable/ic_open_in_browser'
+        android:orderInCategory='80'
+        android:title='open in browser'
+        app:showAsAction='always' />
+
+    <item
+        android:id="@+id/action_share"
+        android:layout_width="wrap_content"
+        android:icon='@drawable/ic_share'
+        android:orderInCategory='90'
+        android:title='share'
+        app:showAsAction='always' />
+
+    <item
+        android:id='@+id/action_back'
+        android:icon='@drawable/ic_arrow_back'
+        android:orderInCategory='100'
+        android:title='back'
+        app:showAsAction='always' />
 
     <item
         android:id='@+id/action_refresh'
         android:icon='@drawable/ic_refresh'
-        android:orderInCategory='100'
-        android:title='refresh'
-        app:showAsAction='always' />
-    <item
-        android:id="@+id/action_open_in_browser"
-        android:icon='@drawable/ic_open_in_browser'
-        android:orderInCategory='100'
-        android:title='open in browser'
-        app:showAsAction='always' />
-    <item
-        android:id='@+id/action_back'
-        android:icon='@drawable/ic_arrow_back'
         android:orderInCategory='101'
-        android:title='back'
-        app:showAsAction='always' />
+        android:title='refresh'
+        app:iconTint="@color/colorAccent"
+        app:showAsAction='ifRoom' />
+
     <item
         android:id='@+id/action_forward'
         android:icon='@drawable/ic_arrow_forward'
         android:orderInCategory='102'
         android:title='forward'
-        app:showAsAction='always' />
+        app:iconTint="@color/colorAccent"
+        app:showAsAction='ifRoom' />
 </menu>

@@ -17,17 +17,19 @@ import android.view.View
 import android.webkit.*
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
+import android.support.v7.view.menu.MenuBuilder
 
 
 class AppBrowserActivity : AppCompatActivity() {
 
+    // update the progressbar when the browser is working, i.e. loading a page
     private var working: Boolean
         get() = progressBar.visibility == View.VISIBLE
         set(value) {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
 
-    private lateinit var url: String
+    // don't show a "download image" option if we can't write the storage
     private var writeExternalStorageIsGranted = false
 
     // keep track of the last link/image/phone (i.e. <a href>) link pressed
@@ -48,16 +50,20 @@ class AppBrowserActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar?.let { actionBar ->
+            // remove title, but show a cross to close the webview
             actionBar.setTitle("")
             actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close)
         }
-
-        url = intent.getStringExtra("url") //?: "https://www.google.com?q=1984"
 
         checkPermissions()
         initWebview()
-        registerForContextMenu(webview)
-        webview.loadUrl(url)
+        registerForContextMenu(webview) // to show "download", "open in..." on long-press
+
+        // TODO: what if no url is provided ?
+        // right now, just load the google search screen
+        webview.loadUrl(intent.getStringExtra("url") ?: "https://google.com")
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -71,16 +77,18 @@ class AppBrowserActivity : AppCompatActivity() {
             }
         }
 
-        WebView.setWebContentsDebuggingEnabled(true)
+        WebView.setWebContentsDebuggingEnabled(true) // TODO
         webview.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                invalidateOptionsMenu()
+                invalidateOptionsMenu() // update back/forward button states in the actionbar
             }
 
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 super.onReceivedError(view, request, error)
+                // update back/forward button states in the actionbar
+                // and hide progressbar whatever happened
                 progressBar!!.visibility = View.GONE
                 invalidateOptionsMenu()
             }
@@ -89,11 +97,13 @@ class AppBrowserActivity : AppCompatActivity() {
                 request?.let {
                     val url = it.url.toString()
                     if (url.startsWith("http")) return super.shouldOverrideUrlLoading(view, request)
+
                     val type =
                             if (url.startsWith("tel:")) WebView.HitTestResult.PHONE_TYPE
                             else if (url.startsWith("mailto:")) WebView.HitTestResult.EMAIL_TYPE
                             else if (url.startsWith("data:image")) WebView.HitTestResult.IMAGE_TYPE
                             else WebView.HitTestResult.UNKNOWN_TYPE
+
                     _hit = Pair(type, url)
                     openContextMenu(view)
                     return true
@@ -102,6 +112,7 @@ class AppBrowserActivity : AppCompatActivity() {
                 return super.shouldOverrideUrlLoading(view, request)
             }
         }
+        // don't keep history
         webview.clearCache(true)
         webview.clearHistory()
 
@@ -112,6 +123,7 @@ class AppBrowserActivity : AppCompatActivity() {
     }
 
     private fun checkPermissions() {
+        // we need the external storage permission in order to download images
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,
@@ -132,6 +144,7 @@ class AppBrowserActivity : AppCompatActivity() {
 
         if (hit.first != WebView.HitTestResult.UNKNOWN_TYPE &&
                 hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE) {
+            // something like a link or a part of text --> share
             contextMenu.add(0, 1, 0, "Share")
                     .setOnMenuItemClickListener {
                         val shareIntent = Intent(Intent.ACTION_SEND)
@@ -142,11 +155,11 @@ class AppBrowserActivity : AppCompatActivity() {
                     }
         }
 
-        // try to download the image under the click (if it is actually an image)
         if (hit.first == WebView.HitTestResult.IMAGE_TYPE
                 || hit.first == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
 
-            if (writeExternalStorageIsGranted) {
+            // try to download the image under the click
+            if (writeExternalStorageIsGranted) { // if we can actually write the image
                 contextMenu.add(0, 1, 0, "Download image")
                         .setOnMenuItemClickListener {
                             val imageUrl = hit.second
@@ -156,18 +169,24 @@ class AppBrowserActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_webview, menu)
+        // show the icons also in the action overflow (trick)
+        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        // update the back/forward buttons: enabled only if the action is actually possible
         setMenuItemState(menu.findItem(R.id.action_back), webview.canGoBack())
         setMenuItemState(menu.findItem(R.id.action_forward), webview.canGoForward())
         return true
     }
 
     private fun setMenuItemState(item: MenuItem, enabled: Boolean) {
+        // make the icon a bit transparent if disabled
+        // easier than creating a button_state with xml
         item.isEnabled = enabled
         item.icon.alpha = if (enabled) 255 else 125
     }
@@ -179,11 +198,19 @@ class AppBrowserActivity : AppCompatActivity() {
             R.id.action_open_in_browser -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(webview.url)))
             R.id.action_back -> webview.goBack()
             R.id.action_forward -> webview.goForward()
+            R.id.action_share -> {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, webview.url)
+                startActivity(Intent.createChooser(shareIntent, "Share link using"))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
+        // go back in the browser on back button pressed
+        // return to the book list view only if browser history is empty
         if (webview.canGoBack()) {
             webview.goBack()
         } else {
