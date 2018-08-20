@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 import ch.derlin.mybooks.helpers.NetworkStatus
+import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import kotlinx.android.synthetic.main.activity_book_detail.*
 
 /**
@@ -25,6 +26,7 @@ class BookDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         setContentView(R.layout.activity_book_detail)
         setSupportActionBar(toolbar)
 
