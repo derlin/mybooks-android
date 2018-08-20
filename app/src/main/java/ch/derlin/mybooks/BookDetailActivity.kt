@@ -28,7 +28,7 @@ class BookDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_detail)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view -> editBook() }
+        fab.setOnClickListener { _ -> editBook() }
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar

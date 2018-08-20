@@ -84,7 +84,7 @@ class BookListAdapter(var books: Books,
     }
 
     private fun doFilter() {
-        filtered = if (lastSearch == null || lastSearch.isBlank()) books.values.toMutableList()
+        filtered = if (lastSearch.isBlank()) books.values.toMutableList()
         else books.values.filter { i -> i.match(lastSearch) }.toMutableList()
     }
 

@@ -68,7 +68,7 @@ class BookListActivity : AppCompatActivity() {
 
         fab.visibility = View.GONE
         fab.setImageResource(R.drawable.ic_add)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
             if (NetworkStatus.isInternetAvailable(this))
                 showDetails(null, BookDetailActivity.OPERATION_NEW)
             else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
@@ -126,9 +126,7 @@ class BookListActivity : AppCompatActivity() {
             item.isChecked = true
             return true
         } else {
-            when (item?.itemId) {
-                else -> return super.onOptionsItemSelected(item)
-            }
+            return super.onOptionsItemSelected(item)
         }
     }
 
@@ -273,12 +271,8 @@ class BookListActivity : AppCompatActivity() {
 
     private fun searchGoogle(book: Book) {
         // see https://stackoverflow.com/a/4800679/2667536
-
-        val url = "http://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${book.toSearchQuery()}&pws=0&gl=us&gws_rd=cr"
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//        startActivity(intent)
         val intent = Intent(this, AppBrowserActivity::class.java)
-        intent.putExtra("url", url)
+        intent.putExtra("url", googleUrlFor(book.toSearchQuery()))
         startActivity(intent)
     }
 
@@ -323,6 +317,9 @@ class BookListActivity : AppCompatActivity() {
 
     companion object {
         val DETAIL_ACTIVITY_REQUEST_CODE = 1984
+
+        fun googleUrlFor(queryParams: String) =
+                "http://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${queryParams}&pws=0&gl=us&gws_rd=cr"
     }
 
 }

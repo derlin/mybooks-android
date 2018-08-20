@@ -1,5 +1,6 @@
 package ch.derlin.mybooks
 
+import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -13,6 +14,7 @@ import java.util.*
 
 typealias Books = MutableMap<String, Book>
 
+@SuppressLint("ParcelCreator")
 @Parcelize
 data class Book(
         @Expose @SerializedName("title") val title: String,
@@ -104,8 +106,18 @@ data class Book(
             .replace(" +".toRegex(), " ")
             .trim { it <= ' ' }
 
+    fun sanitize(): Book = Book(
+            // trim + capitalize first letter of each word
+            title = title.trim().split(' ').joinToString(" ") { it.capitalize() },
+            author = author.trim().split(' ').joinToString(" ") { it.capitalize() },
+            // just trim
+            date = date.trim(),
+            notes = notes.trim()
+    )
 }
 
 
 fun Books.getAuthors(): List<String> = map { b -> b.value.author }.distinct()
+
+fun Books.sanitize(): Books { return mapValues { it.value.sanitize() }.toMutableMap() }
 

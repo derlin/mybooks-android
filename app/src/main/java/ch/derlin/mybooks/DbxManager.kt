@@ -84,6 +84,14 @@ object DbxManager {
         return deferred.promise
     }
 
+    fun sanitize(): Promise<Boolean, Exception> {
+        books?.let {
+            books = it.sanitize()
+            return upload()
+        }
+        return Promise.of(false)
+    }
+
     fun upload(): Promise<Boolean, Exception> {
         assert(books != null)
 
@@ -121,7 +129,7 @@ object DbxManager {
                     .download(metadata!!.pathDisplay)
                     .download(App.appContext.openFileOutput(localFileName, Context.MODE_PRIVATE))
 
-            deserialize(App.appContext.openFileInput(localFileName), metadata?.pathDisplay)
+            deserialize(App.appContext.openFileInput(localFileName)) //, metadata?.pathDisplay)
             prefs.revision = metadata!!.rev
             isInSync = true
             deferred.resolve(true)
@@ -133,11 +141,11 @@ object DbxManager {
     }
 
     private fun loadCachedFile() {
-        deserialize(App.appContext.openFileInput(localFileName), remoteFilePath)
+        deserialize(App.appContext.openFileInput(localFileName))
         Timber.d("loaded cached file: rev=%s", prefs.revision)
     }
 
-    private fun deserialize(fin: FileInputStream, pathName: String?) {
+    private fun deserialize(fin: FileInputStream) {
         books = gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.getType())
     }
 }
