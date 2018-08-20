@@ -12,7 +12,7 @@
             <gradient
                 android:angle="0"
                 android:startColor="#F5F5F5"
-                android:centerColor="?android:colorPrimary"
+                android:centerColor="?attr/colorDividers"
                 android:endColor="#F5F5F5"
                 android:centerX="0.3"
                 />

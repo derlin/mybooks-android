@@ -13,9 +13,9 @@
     <!--<color name="colorPrimary">#565676</color> violet foncé -->
 
     <!--bleu bébé et vert pale-->
-    <color name="colorPrimary">#7F95D1</color>
-    <color name="colorPrimaryDark">#5871B5</color>
-    <color name="colorAccent">#77CBB9</color>
+    <color name="babyBlue">#7F95D1</color>
+    <color name="babyBlueDark">#5871B5</color>
+    <color name="paleGreen">#77CBB9</color>
 
 
     <!--<color name="colorPrimaryDark">#90C186</color>-->

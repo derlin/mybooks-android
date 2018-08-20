@@ -2,7 +2,6 @@ package ch.derlin.mybooks
 
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
@@ -253,7 +252,9 @@ class BookListActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.book_list_bottomsheet, null)
 
         view.findViewById<TextView>(R.id.sheetTitle).text = item.title
-        view.findViewById<TextView>(R.id.notes).text = item.notes
+        if (item.notes.isNotBlank()) {
+            view.findViewById<TextView>(R.id.notes).text = item.notes
+        }
 
         view.findViewById<ImageButton>(R.id.editButton)
                 .setOnClickListener { _ ->
@@ -277,7 +278,7 @@ class BookListActivity : AppCompatActivity() {
     }
 
     fun createSwipeHandler() =
-            object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.colorAccent)) {
+            object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.paleGreen)) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                     val item = adapter.removeAt(viewHolder!!.adapterPosition)
                     working = true

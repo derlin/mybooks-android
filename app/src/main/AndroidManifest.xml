@@ -16,8 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="ch.derlin.mybooks.BookListActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/app_name" />
 
         <!-- dropbox activity -->
         <activity
@@ -43,14 +42,12 @@
 
         <activity
             android:name="ch.derlin.mybooks.AppBrowserActivity"
-            android:label="browse"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="browse" />
 
         <activity
             android:name="ch.derlin.mybooks.BookDetailActivity"
             android:label="@string/title_book_detail"
-            android:parentActivityName="ch.derlin.mybooks.BookListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName="ch.derlin.mybooks.BookListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.derlin.mybooks.BookListActivity" />

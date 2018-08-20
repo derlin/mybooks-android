@@ -26,20 +26,20 @@
 
         <!--infos header-->
         <TextView
-            style="@style/Header"
+            style="?attr/headerStyle"
             android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
             android:text="@string/infos_header" />
 
         <!--title-->
         <TextView
-            style="@style/DetailsLabel"
+            style="?attr/detailsLabelStyle"
             android:labelFor="@id/edit_title"
             android:text="@string/title_label" />
 
         <EditText
             android:id="@+id/edit_title"
-            style="@style/DetailsValueEdit"
+            style="?attr/detailsValueEditStyle"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_author"
@@ -50,13 +50,13 @@
 
         <!--author-->
         <TextView
-            style="@style/DetailsLabel"
+            style="?attr/detailsLabelStyle"
             android:labelFor="@id/edit_author"
             android:text="@string/author_label" />
 
         <AutoCompleteTextView
             android:id="@+id/edit_author"
-            style="@style/DetailsValueEdit"
+            style="?attr/detailsValueEditStyle"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_date"
@@ -64,13 +64,13 @@
 
         <!--read on-->
         <TextView
-            style="@style/DetailsLabel"
+            style="?attr/detailsLabelStyle"
             android:labelFor="@id/edit_date"
             android:text="@string/date_label" />
 
         <EditText
             android:id="@+id/edit_date"
-            style="@style/DetailsValueEdit"
+            style="?attr/detailsValueEditStyle"
             android:inputType="textVisiblePassword"
             android:hint="2017-10"
             android:maxLines="1"
@@ -79,7 +79,7 @@
 
         <!--notes header-->
         <TextView
-            style="@style/Header"
+            style="?attr/headerStyle"
             android:layout_columnSpan="2"
             android:labelFor="@id/edit_notes"
             android:layout_gravity="fill_horizontal"
@@ -96,7 +96,7 @@
             android:padding="15dp" />
 
         <View
-            style="@style/Divider"
+            style="?attr/dividerStyle"
             android:layout_columnSpan="2"
             android:layout_marginTop="10dp" />
 
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/save"
-                android:textColor="?attr/colorPrimaryDark" />
+                android:textColor="?attr/colorHeaders" />
         </LinearLayout>
 
     </GridLayout>
