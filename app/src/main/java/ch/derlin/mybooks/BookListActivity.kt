@@ -21,6 +21,8 @@ import android.widget.Toast
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
+import ch.derlin.mybooks.helpers.ThemeHelper
+import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -60,6 +62,7 @@ class BookListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         setContentView(R.layout.activity_book_list)
 
         setSupportActionBar(toolbar)
@@ -100,8 +103,15 @@ class BookListActivity : AppCompatActivity() {
                 return true
             }
         })
-        val sort = Preferences(this).sortOrder
+
+        val prefs = Preferences(this)
+
+        val sort = prefs.sortOrder
         menu.findItem(sort).isChecked = true
+
+        val theme = prefs.currentTheme
+        menu.findItem(theme).isChecked = true
+
         return true
     }
 
@@ -118,15 +128,21 @@ class BookListActivity : AppCompatActivity() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.groupId == R.id.group_menu_sort) {
-            Preferences(this).sortOrder = item.itemId
-            adapter.comparator = getSortOrder(item.itemId)
-            item.isChecked = true
-            return true
-        } else {
-            return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(iitem: MenuItem?): Boolean {
+        iitem?.let { item ->
+            if (item.groupId == R.id.group_menu_sort) {
+                Preferences(this).sortOrder = item.itemId
+                adapter.comparator = getSortOrder(item.itemId)
+                item.isChecked = true
+                return true
+            } else if (item.groupId == R.id.group_menu_theme) {
+                Preferences(this).currentTheme = item.itemId
+                finish()
+                startActivity(intent)
+                return true
+            }
         }
+        return super.onOptionsItemSelected(iitem)
     }
 
     private fun getSortOrder(itemId: Int): Comparator<Book> {

@@ -12,7 +12,9 @@ class Preferences(context: Context = App.appContext) {
 
     var dbxAccessToken: String?
         get() = sharedPrefs.getString("dbx_access-token", null)
-        set(value) { sharedPrefs.edit().putString("dbx_access-token", value).commit() }
+        set(value) {
+            sharedPrefs.edit().putString("dbx_access-token", value).commit()
+        }
 
     var revision: String?
         get() = sharedPrefs.getString("revision", null)
@@ -24,4 +26,9 @@ class Preferences(context: Context = App.appContext) {
                 "id", App.appContext.packageName)
         set(value) = sharedPrefs.edit().putString("sortOrder", App.appContext.resources.getResourceName(value)).apply()
 
+    var currentTheme: Int
+        get() = App.appContext.resources.getIdentifier(
+                sharedPrefs.getString("currentTheme", "submenu_theme_light"),
+                "id", App.appContext.packageName)
+        set(value) = sharedPrefs.edit().putString("currentTheme", App.appContext.resources.getResourceName(value)).apply()
 }

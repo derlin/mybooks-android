@@ -13,7 +13,7 @@
     <item
         android:icon="@drawable/ic_sort"
         android:title="sort"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
         <menu>
             <group
                 android:id="@+id/group_menu_sort"
@@ -38,4 +38,22 @@
             </group>
         </menu>
     </item>
+    <item
+        android:icon="@drawable/ic_theme"
+        android:title="Theme"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group
+                android:id="@+id/group_menu_theme"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/submenu_theme_light"
+                    android:title="Light theme" />
+                <item
+                    android:id="@+id/submenu_theme_dark"
+                    android:title="Dark theme" />
+            </group>
+        </menu>
+    </item>
+
 </menu>
