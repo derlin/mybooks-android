@@ -1,6 +1,7 @@
 package ch.derlin.mybooks
 
 import android.content.Context
+import android.content.PeriodicSync
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_book_detail.*
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
 import ch.derlin.mybooks.helpers.MiscUtils.hideKeyboard
 import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
+import ch.derlin.mybooks.persistence.PersistenceManager
 
 /**
  * A fragment representing a single Book detail screen.
@@ -32,6 +34,7 @@ class BookEditFragment : Fragment() {
      * The dummy content this fragment is presenting.
      */
     private var mItem: Book? = null
+    private lateinit var manager: PersistenceManager
 
     private var working: Boolean
         get() = progressBar.visibility == View.VISIBLE
@@ -53,6 +56,7 @@ class BookEditFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         working = false
+        manager = PersistenceManager.instance
 
         // Show the dummy content as text in a TextView.
         mItem?.let {
@@ -95,7 +99,7 @@ class BookEditFragment : Fragment() {
         }
 
         // autocomplete for authors
-        DbxManager.books?.let {
+        manager.books?.let {
             edit_author.setAdapter(ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, it.getAuthors()))
         }
 
@@ -137,7 +141,7 @@ class BookEditFragment : Fragment() {
 
         // ensure there are no duplicate names in the account list
         if (newBook.normalizedKey != mItem?.normalizedKey &&
-                DbxManager.books!!.containsKey(newBook.normalizedKey)) {
+                manager.books!!.containsKey(newBook.normalizedKey)) {
             Toast.makeText(activity, "an account with this name already exists", Toast.LENGTH_LONG).show()
             return
         }
@@ -148,13 +152,13 @@ class BookEditFragment : Fragment() {
 
         mItem?.let {
             // remove old book
-            DbxManager.books!!.remove(it.normalizedKey)
+            manager.books!!.remove(it.normalizedKey)
         }
-        DbxManager.books!![newBook.normalizedKey] = newBook
+        manager.books!![newBook.normalizedKey] = newBook
 
 
         // try save
-        DbxManager.upload().successUi {
+        manager.persist().successUi {
             // saved ok, end the edit activity
             Toast.makeText(activity, "Saved!", Toast.LENGTH_SHORT).show()
             (activity as? BookDetailActivity)?.setUpdatedBook(newBook)
@@ -174,9 +178,9 @@ class BookEditFragment : Fragment() {
 
     private fun undo(newAccount: Book) {
         mItem?.let {
-            DbxManager.books!![it.normalizedKey] = it
+            manager.books!![it.normalizedKey] = it
         }
-        DbxManager.books!!.remove(newAccount.normalizedKey)
+        manager.books!!.remove(newAccount.normalizedKey)
     }
 
     private fun getBook(): Book = Book(

@@ -6,9 +6,9 @@ import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.WriteMode
-import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.persistence.PersistenceManager
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.task
@@ -20,16 +20,14 @@ import java.io.*
  * Created by Lin on 24.11.17.
  */
 
-object DbxManager {
+object DbxManager: PersistenceManager() {
 
-    const val remoteFilePath = "/mybooks.json"
-    const val localFileName = "mybooks.json"
-
-    val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create()
+    val remoteFilePath = "/${baseFileName}"
 
     var metadata: FileMetadata? = null
 
-    val localFileExists: Boolean
+    override var books: Books? = null
+    override val localFileExists: Boolean
         get() = prefs.revision != null
 
     val client: DbxClientV2 by lazy {
@@ -44,21 +42,19 @@ object DbxManager {
         Preferences(App.appContext)
     }
 
-    var books: Books? = null
-
     var isInSync = false
         private set
 
 
     fun removeLocalFile(): Boolean {
-        val localFile = File(App.appContext.filesDir.getAbsolutePath(), localFileName)
+        val localFile = File(App.appContext.filesDir.getAbsolutePath(), baseFileName)
         val ok = localFile.delete()
         Timber.d("""removed local file ? $ok""")
         prefs.revision = null
         return ok
     }
 
-    fun fetchBooks(): Promise<Boolean, Exception> {
+    override fun fetchBooks(): Promise<Boolean, Exception> {
         val deferred = deferred<Boolean, Exception>()
         task {
 
@@ -87,12 +83,12 @@ object DbxManager {
     fun sanitize(): Promise<Boolean, Exception> {
         books?.let {
             books = it.sanitize()
-            return upload()
+            return persist()
         }
         return Promise.of(false)
     }
 
-    fun upload(): Promise<Boolean, Exception> {
+    override fun persist(): Promise<Boolean, Exception> {
         assert(books != null)
 
         val deferred = deferred<Boolean, Exception>()
@@ -101,14 +97,14 @@ object DbxManager {
 
             // serialize books to private file
             val serialized = gson.toJson(books)
-            App.appContext.openFileOutput(localFileName, Context.MODE_PRIVATE).use { out ->
+            App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE).use { out ->
                 out.write(serialized.toByteArray())
             }
 
             metadata = client.files()
                     .uploadBuilder(remoteFilePath)
                     .withMode(WriteMode.OVERWRITE)
-                    .uploadAndFinish(App.appContext.openFileInput(localFileName))
+                    .uploadAndFinish(App.appContext.openFileInput(baseFileName))
 
             prefs.revision = metadata!!.rev
             deferred.resolve(true)
@@ -127,9 +123,9 @@ object DbxManager {
         try {
             metadata = client.files()
                     .download(metadata!!.pathDisplay)
-                    .download(App.appContext.openFileOutput(localFileName, Context.MODE_PRIVATE))
+                    .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
 
-            deserialize(App.appContext.openFileInput(localFileName)) //, metadata?.pathDisplay)
+            deserialize(App.appContext.openFileInput(baseFileName)) //, metadata?.pathDisplay)
             prefs.revision = metadata!!.rev
             isInSync = true
             deferred.resolve(true)
@@ -141,11 +137,7 @@ object DbxManager {
     }
 
     private fun loadCachedFile() {
-        deserialize(App.appContext.openFileInput(localFileName))
+        deserialize(App.appContext.openFileInput(baseFileName))
         Timber.d("loaded cached file: rev=%s", prefs.revision)
-    }
-
-    private fun deserialize(fin: FileInputStream) {
-        books = gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.getType())
     }
 }

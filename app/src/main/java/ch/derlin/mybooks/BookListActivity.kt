@@ -21,6 +21,7 @@ import android.widget.Toast
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
+import ch.derlin.mybooks.persistence.PersistenceManager
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -49,6 +50,7 @@ class BookListActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
 
     private lateinit var adapter: BookListAdapter
+    private lateinit var manager: PersistenceManager
 
     private var working: Boolean
         get() = progressBar.visibility == View.VISIBLE
@@ -77,7 +79,8 @@ class BookListActivity : AppCompatActivity() {
             mTwoPane = true
         }
 
-        if (DbxManager.books == null) {
+        manager = PersistenceManager.instance
+        if (manager.books == null) {
             loadBooks()
         } else {
             setupRecyclerView()
@@ -158,7 +161,7 @@ class BookListActivity : AppCompatActivity() {
     private fun loadBooks() {
         if (!NetworkStatus.isInternetAvailable(this)) {
             // no internet, try to load local file
-            if (!DbxManager.localFileExists) {
+            if (!manager.localFileExists) {
                 Snackbar.make(findViewById(android.R.id.content),
                         "Internet is not available", Snackbar.LENGTH_INDEFINITE)
                         .setAction("retry", { _ -> loadBooks() })
@@ -168,7 +171,7 @@ class BookListActivity : AppCompatActivity() {
         }
         // internet, fetch latest rev
         working = true
-        DbxManager.fetchBooks().alwaysUi {
+        manager.fetchBooks().alwaysUi {
             working = false
         } successUi {
             setupRecyclerView()
@@ -183,7 +186,7 @@ class BookListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = BookListAdapter(DbxManager.books!!, getSortOrder(Preferences().sortOrder), countText)
+        adapter = BookListAdapter(manager.books!!, getSortOrder(Preferences().sortOrder), countText)
         recyclerView.adapter = adapter
 
         adapter.onClick = { book ->
@@ -283,7 +286,7 @@ class BookListActivity : AppCompatActivity() {
                     val item = adapter.removeAt(viewHolder!!.adapterPosition)
                     working = true
 
-                    DbxManager.upload()
+                    manager.persist()
                             .alwaysUi { working = false }
                             .successUi {
                                 if (mTwoPane && selectedBook == item)
@@ -296,7 +299,7 @@ class BookListActivity : AppCompatActivity() {
                                         .setAction("undo", { _ ->
                                             working = true
                                             adapter.add(item)
-                                            DbxManager.upload()
+                                            manager.persist()
                                                     .alwaysUi { working = false }
                                                     .failUi {
                                                         Toast.makeText(this@BookListActivity,
