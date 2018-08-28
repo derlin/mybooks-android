@@ -20,7 +20,7 @@ import java.io.*
  * Created by Lin on 24.11.17.
  */
 
-object DbxManager: PersistenceManager() {
+object DbxManager : PersistenceManager() {
 
     val remoteFilePath = "/${baseFileName}"
 
@@ -56,7 +56,6 @@ object DbxManager: PersistenceManager() {
     override fun fetchBooks(): Promise<Boolean, Exception> {
         val deferred = deferred<Boolean, Exception>()
         task {
-
             try {
                 metadata = client.files().getMetadata(remoteFilePath) as FileMetadata
                 isInSync = metadata?.rev.equals(prefs.revision)
@@ -87,6 +86,21 @@ object DbxManager: PersistenceManager() {
         return Promise.of(false)
     }
 
+    fun unbind(): Promise<Boolean, Exception> {
+        val deferred = deferred<Boolean, Exception>()
+        task {
+            Timber.d("revoking Dropbox token")
+            val prefs = Preferences()
+            prefs.dbxAccessToken = null
+            prefs.revision = null
+            client.auth().tokenRevoke()
+            deferred.resolve(true)
+        } fail {
+            deferred.reject(it)
+        }
+        return deferred.promise
+    }
+
     override fun persist(): Promise<Boolean, Exception> {
         assert(books != null)
 
@@ -113,13 +127,14 @@ object DbxManager: PersistenceManager() {
         return deferred.promise
     }
 
-    // ----------------------------
+// ----------------------------
 
     private fun fetchRemote(deferred: nl.komponents.kovenant.Deferred<Boolean, Exception>) {
         try {
             metadata = client.files()
                     .download(metadata!!.pathDisplay)
                     .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
+
 
             books = deserialize()
             prefs.revision = metadata!!.rev

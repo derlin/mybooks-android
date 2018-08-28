@@ -26,14 +26,19 @@ abstract class PersistenceManager {
     abstract fun fetchBooks(): Promise<Boolean, Exception>
     abstract fun persist(): Promise<Boolean, Exception>
 
-    fun serialize(fout: FileOutputStream = App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE)){
+    fun serialize(fout: FileOutputStream = App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE)) {
         fout.use { out ->
             out.write(gson.toJson(books).toByteArray())
         }
     }
 
-    fun deserialize(fin: FileInputStream = App.appContext.openFileInput(baseFileName)): Books? {
-        return gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.getType())
+    fun deserialize(fileInputStream: FileInputStream? = null): Books {
+        try {
+            val fin = fileInputStream ?: App.appContext.openFileInput(baseFileName)
+            return gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.getType())
+        } catch (e: Exception) {
+            return mutableMapOf()
+        }
     }
 
     fun removeAppFile(filename: String = baseFileName): Boolean {

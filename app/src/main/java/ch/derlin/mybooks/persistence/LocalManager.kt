@@ -1,9 +1,6 @@
 package ch.derlin.mybooks.persistence
 
-import android.content.Context
-import ch.derlin.mybooks.App
 import ch.derlin.mybooks.Books
-import ch.derlin.mybooks.DbxManager
 import nl.komponents.kovenant.Promise
 
 object LocalManager : PersistenceManager() {
@@ -19,9 +16,7 @@ object LocalManager : PersistenceManager() {
     override fun persist(): Promise<Boolean, Exception> {
         assert(books != null)
         try {
-            App.appContext.openFileOutput(DbxManager.baseFileName, Context.MODE_PRIVATE).use { out ->
-                out.write(gson.toJson(DbxManager.books).toByteArray())
-            }
+            serialize()
             return Promise.of(true)
         } catch (e: Exception) {
             return Promise.ofFail(e)

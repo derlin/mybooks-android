@@ -1,6 +1,7 @@
 package ch.derlin.mybooks
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
@@ -43,11 +44,13 @@ import java.util.*
  */
 class BookListActivity : AppCompatActivity() {
 
+    private val LINK_DROPBOX_REQUEST_CODE = 2006
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private var mTwoPane: Boolean = false
+
     private var selectedBook: Book? = null
     private var mTwoPaneCurrentFragment: Fragment? = null
     private lateinit var searchView: SearchView
@@ -71,7 +74,6 @@ class BookListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
-        fab.visibility = View.GONE
         fab.setImageResource(R.drawable.ic_add)
         fab.setOnClickListener { _ ->
             if (NetworkStatus.isInternetAvailable(this))
@@ -85,6 +87,7 @@ class BookListActivity : AppCompatActivity() {
 
         manager = PersistenceManager.instance
         if (manager.books == null) {
+            fab.visibility = View.GONE
             loadBooks()
         } else {
             setupRecyclerView()
@@ -116,34 +119,56 @@ class BookListActivity : AppCompatActivity() {
         val theme = prefs.currentTheme
         menu.findItem(theme).isChecked = true
 
+        val linkedToDbx = prefs.dbxAccessToken != null
+        menu.findItem(R.id.action_dropbox_unlink).isVisible = linkedToDbx
+        menu.findItem(R.id.action_dropbox_link).isVisible = !linkedToDbx
+
         return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == DETAIL_ACTIVITY_REQUEST_CODE) {
-            if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) ?: false) {
-                // update the list in case of modification
-                selectedBook = data!!.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
-                notifyBookUpdate(selectedBook!!)
+        when (requestCode) {
+            DETAIL_ACTIVITY_REQUEST_CODE ->
+                if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) ?: false) {
+                    // update the list in case of modification
+                    selectedBook = data!!.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
+                    notifyBookUpdate(selectedBook!!)
+                }
+            LINK_DROPBOX_REQUEST_CODE -> {
+                if(resultCode == Activity.RESULT_OK) restart()
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
 
     }
 
     override fun onOptionsItemSelected(iitem: MenuItem?): Boolean {
         iitem?.let { item ->
-            if (item.groupId == R.id.group_menu_sort) {
+            if (item.itemId == R.id.action_dropbox_link) {
+                startActivityForResult(
+                        Intent(this, DbxLoginActivity::class.java),
+                        LINK_DROPBOX_REQUEST_CODE)
+
+            } else if (item.itemId == R.id.action_dropbox_unlink) {
+                (manager as? DbxManager)?.unbind()?.successUi {
+                    Snackbar.make(fab,
+                            "Unlink successful", Snackbar.LENGTH_SHORT).show()
+                    PersistenceManager.instance.fetchBooks().always { restart() }
+                }?.failUi {
+                    Snackbar.make(fab, "Error: ${it}", Snackbar.LENGTH_LONG).show()
+                }
+
+            } else if (item.groupId == R.id.group_menu_sort) {
                 Preferences(this).sortOrder = item.itemId
                 adapter.comparator = getSortOrder(item.itemId)
                 item.isChecked = true
                 return true
+
             } else if (item.groupId == R.id.group_menu_theme) {
                 Preferences(this).currentTheme = item.itemId
-                finish()
-                startActivity(intent)
+                restart()
                 return true
+            } else {
             }
         }
         return super.onOptionsItemSelected(iitem)
@@ -335,6 +360,11 @@ class BookListActivity : AppCompatActivity() {
                             }
                 }
             }
+
+    private fun restart() {
+        finish()
+        startActivity(intent)
+    }
 
     companion object {
         val DETAIL_ACTIVITY_REQUEST_CODE = 1984

@@ -1,7 +1,7 @@
 package ch.derlin.mybooks
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -10,9 +10,11 @@ import android.view.View
 import android.widget.TextView
 import com.dropbox.core.android.Auth
 import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import ch.derlin.mybooks.persistence.LocalManager
 import ch.derlin.mybooks.persistence.PersistenceManager
 import kotlinx.android.synthetic.main.activity_start.*
+import nl.komponents.kovenant.ui.alwaysUi
 import timber.log.Timber
 
 /**
@@ -38,16 +40,18 @@ class DbxLoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         setContentView(R.layout.activity_start)
 
         val token = Preferences(this).dbxAccessToken
         if (token == null) {
             Timber.d("Dropbox token is null")
+            working = true
             mIsAuthenticating = true
             Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
         } else {
             Timber.d("Dropbox token is ${token}")
-            startApp()
+            finishTask()
         }
     }
 
@@ -70,13 +74,15 @@ class DbxLoginActivity : AppCompatActivity() {
         if (mIsAuthenticating) {
             val token = Auth.getOAuth2Token() //generate Access Token
             if (token != null) {
+                Snackbar.make(findViewById(android.R.id.content), "Finishing authentication",
+                        Snackbar.LENGTH_INDEFINITE).show()
                 Preferences(this).dbxAccessToken = token //Store accessToken in SharedPreferences
                 Timber.d("new Dropbox token is ${token}")
                 mIsAuthenticating = false
                 if (hasLocalData) {
-                    merge()
+                    PersistenceManager.instance.fetchBooks().alwaysUi { merge() }
                 } else {
-                    startApp()
+                    finishTask()
                 }
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Error authenticating with Dropbox",
@@ -105,32 +111,32 @@ class DbxLoginActivity : AppCompatActivity() {
             manager.persist()
         } else {
             // we have books both in local and remote
-            if (oldBooks!!.equals(newBooks)) {
+            if (oldBooks.equals(newBooks)) {
                 // same content, do nothing
             } else {
-                val view = TextView(this)
-                view.setText("You have both books locally and in Dropbox. What version do you want to keep ?")
                 dialog = AlertDialog.Builder(this) // TODO, R.style.AppTheme_AlertDialog)
-                        .setView(view)
                         .setTitle("Resolve conflicts")
+                        .setMessage("You have both books locally and in Dropbox. What version do you want to keep ?")
                         .setNegativeButton("Dropbox version", { d, _ ->
                             d.dismiss()
-                            startApp()
+                            finishTask()
                         })
                         .setPositiveButton("Local version", { _, _ ->
                             manager.books = oldBooks
                             manager.persist()
-                            startApp()
+                            finishTask()
                         })
-                        .show()
+                        .create()
+                dialog.show()
             }
         }
 
         manager.removeAppFile(tmpBooksFile) // delete old file
-        if(dialog == null) startApp()
+        if(dialog == null) finishTask()
     }
 
-    private fun startApp() {
+    private fun finishTask() {
+        setResult(Activity.RESULT_OK)
         this.finish()
     }
 

@@ -12,7 +12,7 @@
 
     <item
         android:icon="@drawable/ic_sort"
-        android:title="sort"
+        android:title="Sort order"
         app:showAsAction="ifRoom">
         <menu>
             <group
@@ -29,11 +29,11 @@
                     android:title="Z-A" />
                 <item
                     android:id="@+id/submenu_sort_year_asc"
-                    android:icon="@drawable/ic_arrow_down"
+                    android:icon="@drawable/ic_arrow_up"
                     android:title="Older read" />
                 <item
                     android:id="@+id/submenu_sort_year_desc"
-                    android:icon="@drawable/ic_arrow_up"
+                    android:icon="@drawable/ic_arrow_down"
                     android:title="Recent read" />
             </group>
         </menu>
@@ -56,5 +56,16 @@
             </group>
         </menu>
     </item>
+
+    <item
+        android:id="@+id/action_dropbox_link"
+        android:icon="@drawable/ic_dropbox"
+        android:title="Link to Dropbox"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_dropbox_unlink"
+        android:icon="@drawable/ic_dropbox"
+        android:title="Unlink from Dropbox"
+        app:showAsAction="never" />
 
 </menu>
