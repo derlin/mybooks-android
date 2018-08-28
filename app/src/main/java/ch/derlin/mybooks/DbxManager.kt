@@ -47,8 +47,7 @@ object DbxManager: PersistenceManager() {
 
 
     fun removeLocalFile(): Boolean {
-        val localFile = File(App.appContext.filesDir.getAbsolutePath(), baseFileName)
-        val ok = localFile.delete()
+        val ok = removeAppFile()
         Timber.d("""removed local file ? $ok""")
         prefs.revision = null
         return ok
@@ -63,7 +62,7 @@ object DbxManager: PersistenceManager() {
                 isInSync = metadata?.rev.equals(prefs.revision)
 
                 if (isInSync && localFileExists) {
-                    loadCachedFile()
+                    books = deserialize()
                     deferred.resolve(true)
                 } else {
                     fetchRemote(deferred)
@@ -96,11 +95,8 @@ object DbxManager: PersistenceManager() {
             Timber.d("begin save books %s", Thread.currentThread())
 
             // serialize books to private file
-            val serialized = gson.toJson(books)
-            App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE).use { out ->
-                out.write(serialized.toByteArray())
-            }
-
+            serialize()
+            // upload changes to dropbox
             metadata = client.files()
                     .uploadBuilder(remoteFilePath)
                     .withMode(WriteMode.OVERWRITE)
@@ -125,7 +121,7 @@ object DbxManager: PersistenceManager() {
                     .download(metadata!!.pathDisplay)
                     .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
 
-            deserialize(App.appContext.openFileInput(baseFileName)) //, metadata?.pathDisplay)
+            books = deserialize()
             prefs.revision = metadata!!.rev
             isInSync = true
             deferred.resolve(true)
@@ -134,10 +130,5 @@ object DbxManager: PersistenceManager() {
             Timber.d(e)
             deferred.reject(e)
         }
-    }
-
-    private fun loadCachedFile() {
-        deserialize(App.appContext.openFileInput(baseFileName))
-        Timber.d("loaded cached file: rev=%s", prefs.revision)
     }
 }

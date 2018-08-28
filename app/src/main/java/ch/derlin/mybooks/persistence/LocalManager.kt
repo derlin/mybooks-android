@@ -12,7 +12,7 @@ object LocalManager : PersistenceManager() {
     override val localFileExists = true
 
     override fun fetchBooks(): Promise<Boolean, Exception> {
-        deserialize(App.appContext.openFileInput(baseFileName))
+        books = deserialize()
         return Promise.of(true)
     }
 
