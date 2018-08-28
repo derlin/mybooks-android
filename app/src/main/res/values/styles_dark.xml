@@ -12,7 +12,7 @@
         <!--main text color -->
         <item name="android:textColorPrimary">@color/whity</item>
         <!--color of underlines in edittext (not active), etc. -->
-        <item name="android:textColorSecondary">@color/whity</item>
+        <item name="android:textColorSecondary">@color/whityDark</item>
         <!-- ## text sizes -->
         <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
         <item name="android:textAppearanceLarge">@style/AppTheme.TextAppearance.Large</item>
@@ -27,8 +27,8 @@
         <item name="detailsValueEditStyle">@style/DetailsValueEdit</item>
         <item name="bottomsheetButtonStyle">@style/BottomSheetButton</item>
 
-        <item name="colorHeaders">@color/babyBlue</item>
-        <item name="colorDividers">@color/babyBlue</item>
+        <item name="colorHeaders">@color/holoBlue</item>
+        <item name="colorDividers">@android:color/darker_gray</item>
 
         <!-- ## IMPORTANT: set no actionbar to avoid
             "This Activity already has an action bar supplied by the window decor" runtime error

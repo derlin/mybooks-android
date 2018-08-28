@@ -18,6 +18,7 @@ import android.webkit.*
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
 import android.support.v7.view.menu.MenuBuilder
+import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 
 
 class AppBrowserActivity : AppCompatActivity() {
@@ -46,6 +47,7 @@ class AppBrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         setContentView(R.layout.activity_webview)
 
         setSupportActionBar(toolbar)

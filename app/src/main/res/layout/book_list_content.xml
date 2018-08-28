@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="title"
-        style="@style/AppTheme.TextAppearance.Large"/>
+        android:textColor="?attr/colorHeaders"
+        style="@style/AppTheme.TextAppearance"/>
 
     <TextView
         android:id="@+id/subtitle_left"
@@ -32,6 +33,7 @@
         android:textStyle="italic"
         android:layout_alignParentEnd="true"
         android:text="subtitle"
+        android:textColor="?android:attr/textColorSecondary"
         style="@style/AppTheme.TextAppearance.Small" />
 
 </RelativeLayout>
