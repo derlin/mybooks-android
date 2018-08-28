@@ -43,6 +43,7 @@
 
         <Button
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/button_link_dropbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -63,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dip"
+            android:layout_margin="30dp"
             android:indeterminate="true"
             android:visibility="invisible" />
 

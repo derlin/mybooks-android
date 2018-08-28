@@ -3,7 +3,6 @@ package ch.derlin.mybooks.persistence
 import android.content.Context
 import ch.derlin.mybooks.App
 import ch.derlin.mybooks.Books
-import ch.derlin.mybooks.DbxManager
 import ch.derlin.mybooks.helpers.Preferences
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -22,6 +21,9 @@ abstract class PersistenceManager {
 
     abstract var books: Books?
     abstract val localFileExists: Boolean
+
+    val isInitialised: Boolean
+        get() = books != null
 
     abstract fun fetchBooks(): Promise<Boolean, Exception>
     abstract fun persist(): Promise<Boolean, Exception>
@@ -47,8 +49,19 @@ abstract class PersistenceManager {
     }
 
     companion object {
+        private var _instance: PersistenceManager? = null
+
         val instance: PersistenceManager
-            get() = if (Preferences().dbxAccessToken != null)
-                DbxManager else LocalManager
+            get() {
+                if (_instance == null) {
+                    _instance = if (Preferences().dbxAccessToken != null) DbxManager() else LocalManager()
+                }
+                return _instance!!
+            }
+
+
+        fun invalidate() {
+            _instance = null
+        }
     }
 }

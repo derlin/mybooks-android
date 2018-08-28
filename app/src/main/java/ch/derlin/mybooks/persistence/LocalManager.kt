@@ -3,7 +3,7 @@ package ch.derlin.mybooks.persistence
 import ch.derlin.mybooks.Books
 import nl.komponents.kovenant.Promise
 
-object LocalManager : PersistenceManager() {
+class LocalManager : PersistenceManager() {
     override var books: Books? = null
 
     override val localFileExists = true

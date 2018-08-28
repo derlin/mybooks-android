@@ -7,13 +7,12 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.TextView
 import com.dropbox.core.android.Auth
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import ch.derlin.mybooks.persistence.LocalManager
 import ch.derlin.mybooks.persistence.PersistenceManager
-import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_login.*
 import nl.komponents.kovenant.ui.alwaysUi
 import timber.log.Timber
 
@@ -26,7 +25,6 @@ import timber.log.Timber
  */
 class DbxLoginActivity : AppCompatActivity() {
 
-    private var mIsAuthenticating = false
     private val tmpBooksFile = "mybooks-tmp.json"
     private var hasLocalData = false
 
@@ -34,6 +32,7 @@ class DbxLoginActivity : AppCompatActivity() {
         get() = progressBar.visibility == View.VISIBLE
         set(value) {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
+            button_link_dropbox.isEnabled = !value
         }
     // ----------------------------------------------------
 
@@ -41,57 +40,57 @@ class DbxLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         applyTheme()
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_login)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val token = Preferences(this).dbxAccessToken
         if (token == null) {
             Timber.d("Dropbox token is null")
-            working = true
-            mIsAuthenticating = true
-            Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
+            button_link_dropbox.setOnClickListener { _ ->
+                // save local books to a tmp file
+                (PersistenceManager.instance as? LocalManager)?.books?.let { books ->
+                    if (books.size > 0) {
+                        PersistenceManager.instance
+                                .serialize(this.openFileOutput(tmpBooksFile, Context.MODE_PRIVATE))
+                        hasLocalData = true
+                    }
+                }
+                working = true
+                Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
+            }
         } else {
             Timber.d("Dropbox token is ${token}")
             finishTask()
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (mIsAuthenticating) {
-            LocalManager.books?.let { books ->
-                if (books.size > 0) {
-                    PersistenceManager.instance
-                            .serialize(this.openFileOutput(tmpBooksFile, Context.MODE_PRIVATE))
-                    hasLocalData = true
-                }
-            }
-        }
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_CANCELED)
+        finish()
     }
 
     override fun onResume() {
         super.onResume()
         // the dropbox linking happens in another activity.
-        if (mIsAuthenticating) {
+        if (working) {
             val token = Auth.getOAuth2Token() //generate Access Token
             if (token != null) {
                 Snackbar.make(findViewById(android.R.id.content), "Finishing authentication",
                         Snackbar.LENGTH_INDEFINITE).show()
                 Preferences(this).dbxAccessToken = token //Store accessToken in SharedPreferences
                 Timber.d("new Dropbox token is ${token}")
-                mIsAuthenticating = false
-                if (hasLocalData) {
-                    PersistenceManager.instance.fetchBooks().alwaysUi { merge() }
-                } else {
-                    finishTask()
+                PersistenceManager.invalidate()
+                PersistenceManager.instance.fetchBooks().alwaysUi {
+                    if (hasLocalData) merge() else finishTask()
                 }
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error authenticating with Dropbox",
-                        Snackbar.LENGTH_INDEFINITE)
-                        .setAction("retry", { _ ->
-                            forceRestart()
-                        })
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Error authenticating with Dropbox",
+                        Snackbar.LENGTH_LONG)
                         .show()
                 Timber.d("Error authenticating")
+                working = false
             }
         }
     }
@@ -132,7 +131,8 @@ class DbxLoginActivity : AppCompatActivity() {
         }
 
         manager.removeAppFile(tmpBooksFile) // delete old file
-        if(dialog == null) finishTask()
+        working = false
+        if (dialog == null) finishTask()
     }
 
     private fun finishTask() {
@@ -141,7 +141,7 @@ class DbxLoginActivity : AppCompatActivity() {
     }
 
     private fun forceRestart() {
-       this.finish()
+        this.finish()
     }
 
 }

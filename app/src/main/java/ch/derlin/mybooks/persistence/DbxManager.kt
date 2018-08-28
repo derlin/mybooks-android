@@ -1,26 +1,27 @@
-package ch.derlin.mybooks
+package ch.derlin.mybooks.persistence
 
 import android.content.Context
+import ch.derlin.mybooks.App
+import ch.derlin.mybooks.Books
+import ch.derlin.mybooks.R
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.WriteMode
-import com.google.gson.reflect.TypeToken
 import ch.derlin.mybooks.helpers.Preferences
-import ch.derlin.mybooks.persistence.PersistenceManager
+import ch.derlin.mybooks.sanitize
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.task
 import timber.log.Timber
-import java.io.*
 
 
 /**
  * Created by Lin on 24.11.17.
  */
 
-object DbxManager : PersistenceManager() {
+class DbxManager : PersistenceManager() {
 
     val remoteFilePath = "/${baseFileName}"
 

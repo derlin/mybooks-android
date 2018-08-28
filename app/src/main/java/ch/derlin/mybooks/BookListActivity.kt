@@ -24,8 +24,8 @@ import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
 
 import ch.derlin.mybooks.persistence.PersistenceManager
-import ch.derlin.mybooks.helpers.ThemeHelper
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
+import ch.derlin.mybooks.persistence.DbxManager
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -81,16 +81,14 @@ class BookListActivity : AppCompatActivity() {
             else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
         }
 
-        if (book_detail_container != null) {
-            mTwoPane = true
-        }
+        mTwoPane = book_detail_container != null
 
         manager = PersistenceManager.instance
-        if (manager.books == null) {
+        if (manager.isInitialised) {
+            setupRecyclerView()
+        } else {
             fab.visibility = View.GONE
             loadBooks()
-        } else {
-            setupRecyclerView()
         }
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
@@ -153,7 +151,8 @@ class BookListActivity : AppCompatActivity() {
                 (manager as? DbxManager)?.unbind()?.successUi {
                     Snackbar.make(fab,
                             "Unlink successful", Snackbar.LENGTH_SHORT).show()
-                    PersistenceManager.instance.fetchBooks().always { restart() }
+                    PersistenceManager.invalidate()
+                    restart()
                 }?.failUi {
                     Snackbar.make(fab, "Error: ${it}", Snackbar.LENGTH_LONG).show()
                 }
