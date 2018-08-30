@@ -26,6 +26,7 @@ import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
 import ch.derlin.mybooks.persistence.PersistenceManager
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import ch.derlin.mybooks.persistence.DbxManager
+import ch.derlin.mybooks.persistence.PersistenceManager.Companion.shareAppFile
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import nl.komponents.kovenant.ui.alwaysUi
@@ -133,7 +134,7 @@ class BookListActivity : AppCompatActivity() {
                     notifyBookUpdate(selectedBook!!)
                 }
             LINK_DROPBOX_REQUEST_CODE -> {
-                if(resultCode == Activity.RESULT_OK) restart()
+                if (resultCode == Activity.RESULT_OK) restart()
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
@@ -167,6 +168,8 @@ class BookListActivity : AppCompatActivity() {
                 Preferences(this).currentTheme = item.itemId
                 restart()
                 return true
+            } else if (item.itemId == R.id.action_export_file) {
+                shareAppFile()
             } else {
             }
         }

@@ -1,8 +1,13 @@
 package ch.derlin.mybooks.persistence
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.support.v4.app.ShareCompat
+import android.support.v4.content.FileProvider
 import ch.derlin.mybooks.App
 import ch.derlin.mybooks.Books
+import ch.derlin.mybooks.R
 import ch.derlin.mybooks.helpers.Preferences
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -43,9 +48,12 @@ abstract class PersistenceManager {
         }
     }
 
+    fun getAppFile(filename: String = baseFileName): File {
+        return File(App.appContext.filesDir.getAbsolutePath(), filename)
+    }
+
     fun removeAppFile(filename: String = baseFileName): Boolean {
-        val localFile = File(App.appContext.filesDir.getAbsolutePath(), filename)
-        return localFile.delete()
+        return getAppFile(filename).delete()
     }
 
     companion object {
@@ -62,6 +70,17 @@ abstract class PersistenceManager {
 
         fun invalidate() {
             _instance = null
+        }
+
+        fun Activity.shareAppFile() {
+            val uri = FileProvider.getUriForFile(this, getString(R.string.file_provider_authority), instance.getAppFile())
+            val shareIntent = ShareCompat.IntentBuilder.from(this)
+                    .setStream(uri)
+                    .intent
+            // Provide read access
+            shareIntent.data = uri
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivity(Intent.createChooser(shareIntent, "Export JSON file using"))
         }
     }
 }

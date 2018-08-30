@@ -68,4 +68,10 @@
         android:title="Unlink from Dropbox"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_export_file"
+        android:icon="@drawable/ic_file_download"
+        android:title="Export file"
+        app:showAsAction="never" />
+
 </menu>

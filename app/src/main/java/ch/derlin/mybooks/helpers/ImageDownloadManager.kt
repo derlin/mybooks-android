@@ -94,7 +94,7 @@ object ImageDownloadManager {
                 if (bitmap.compress(base64Compressors.get(type), 100, it))
                 // see https://proandroiddev.com/sharing-files-though-intents-are-you-ready-for-nougat-70f7e9294a0b
                     return if (VERSION.SDK_INT >= VERSION_CODES.N)
-                        android.support.v4.content.FileProvider.getUriForFile(ctx, ctx.packageName + ".provider", file)
+                        android.support.v4.content.FileProvider.getUriForFile(ctx, ctx.getString(R.string.file_provider_authority), file)
                     else
                         Uri.fromFile(file)
             }

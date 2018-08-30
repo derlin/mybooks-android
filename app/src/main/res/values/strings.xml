@@ -22,4 +22,5 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="notes_header">Notes</string>
+    <string name="file_provider_authority">ch.derlin.mybooks.provider</string>
 </resources>
