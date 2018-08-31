@@ -19,6 +19,8 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import ch.derlin.changelog.Changelog
+import ch.derlin.changelog.Changelog.getAppVersion
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
@@ -96,6 +98,8 @@ class BookListActivity : AppCompatActivity() {
         bottomSheetBehavior.setPeekHeight(300)
         bottomSheetBehavior.isHideable = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        displayChangelog()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -143,37 +147,42 @@ class BookListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(iitem: MenuItem?): Boolean {
         iitem?.let { item ->
-            if (item.itemId == R.id.action_dropbox_link) {
-                startActivityForResult(
-                        Intent(this, DbxLoginActivity::class.java),
-                        LINK_DROPBOX_REQUEST_CODE)
 
-            } else if (item.itemId == R.id.action_dropbox_unlink) {
-                (manager as? DbxManager)?.unbind()?.successUi {
-                    Snackbar.make(fab,
-                            getString(R.string.dropbox_unlink_success), Snackbar.LENGTH_SHORT).show()
-                    PersistenceManager.invalidate()
-                    restart()
-                }?.failUi {
-                    Snackbar.make(fab, "${getString(R.string.error)}: ${it}", Snackbar.LENGTH_LONG).show()
+            when (item.groupId) {
+                R.id.group_menu_sort -> {
+                    Preferences(this).sortOrder = item.itemId
+                    adapter.comparator = getSortOrder(item.itemId)
+                    item.isChecked = true
+                    return true
                 }
+                R.id.group_menu_theme -> {
+                    Preferences(this).currentTheme = item.itemId
+                    restart()
+                    return true
+                }
+            }
 
-            } else if (item.groupId == R.id.group_menu_sort) {
-                Preferences(this).sortOrder = item.itemId
-                adapter.comparator = getSortOrder(item.itemId)
-                item.isChecked = true
-                return true
-
-            } else if (item.groupId == R.id.group_menu_theme) {
-                Preferences(this).currentTheme = item.itemId
-                restart()
-                return true
-            } else if (item.itemId == R.id.action_export_file) {
-                shareAppFile()
-            } else {
+            when (item.itemId) {
+                R.id.action_dropbox_link ->
+                    startActivityForResult(
+                            Intent(this, DbxLoginActivity::class.java),
+                            LINK_DROPBOX_REQUEST_CODE)
+                R.id.action_dropbox_unlink -> {
+                    (manager as? DbxManager)?.unbind()?.successUi {
+                        Snackbar.make(fab,
+                                getString(R.string.dropbox_unlink_success), Snackbar.LENGTH_SHORT).show()
+                        PersistenceManager.invalidate()
+                        restart()
+                    }?.failUi {
+                        Snackbar.make(fab, "${getString(R.string.error)}: ${it}", Snackbar.LENGTH_LONG).show()
+                    }
+                }
+                R.id.action_export_file -> shareAppFile()
+                R.id.action_changelog -> Changelog.createDialog(this).show()
+                else -> super.onOptionsItemSelected(iitem)
             }
         }
-        return super.onOptionsItemSelected(iitem)
+        return true
     }
 
     private fun getSortOrder(itemId: Int): Comparator<Book> {
@@ -365,6 +374,17 @@ class BookListActivity : AppCompatActivity() {
     private fun restart() {
         finish()
         startActivity(intent)
+    }
+
+    private fun displayChangelog(){
+        val version = getAppVersion()
+        val prefs = Preferences()
+        if (prefs.versionCode < version.first) {
+            //prefs.versionCode = version.first
+            val dialog = Changelog.createDialog(this,
+                    versionCode = version.first)
+            dialog.show()
+        }
     }
 
     companion object {

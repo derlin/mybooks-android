@@ -35,6 +35,8 @@
         <item name="colorHeaders">?android:attr/colorPrimaryDark</item>
         <item name="colorDividers">?android:attr/colorPrimary</item>
 
+        <item name="changelogStyle">@style/MyChangelog</item>
+
         <!--
         ## IMPORTANT: set no actionbar to avoid
         "This Activity already has an action bar supplied by the window decor" runtime error
@@ -110,6 +112,20 @@
         <item name="android:drawablePadding">15dip</item>
         <item name="android:drawableTint">?android:attr/colorAccent</item>
         <item name="android:textAppearance">?android:attr/textAppearance</item>
+    </style>
+
+    <style name="MyChangelog" parent="LibChangelog">
+        <!-- just override the title style-->
+        <item name="changelogTitleStyle">@style/MyChangelogHeader</item>
+    </style>
+
+    <style name="MyChangelogHeader" parent="LibChangelog.HeaderTitle">
+        <!-- override the changelog title -->
+        <item name="android:background">?attr/colorHeaders</item>
+        <item name="android:textColor">?android:windowBackground</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>

@@ -40,9 +40,13 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.5'
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'ch.derlin.changelog:library:1.0@aar'
 }
 repositories {
     mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/derlin/maven"
+    }
 }
 
 apply plugin: 'kotlin-android-extensions'

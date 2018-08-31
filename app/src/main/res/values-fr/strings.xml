@@ -75,7 +75,7 @@
     <string name="link_to_dropbox">Connexion à Dropbox</string>
     <string name="unlink_from_dropbox">Se déconnecter de Dropbox</string>
     <string name="export_file">Exporter le fichier</string>
-
+    <string name="view_changelog">Afficher le changelog</string>
     <!--webview menu-->
     <string name="open_in_browser">ouvrir dans le navigateur</string>
 </resources>

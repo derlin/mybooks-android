@@ -31,4 +31,9 @@ class Preferences(context: Context = App.appContext) {
                 sharedPrefs.getString("currentTheme", "submenu_theme_light"),
                 "id", App.appContext.packageName)
         set(value) = sharedPrefs.edit().putString("currentTheme", App.appContext.resources.getResourceName(value)).apply()
+
+    /** Keep track of the version to show changelog dialog on update */
+    var versionCode: Int
+        get() = sharedPrefs.getInt("version_code", 0)
+        set(value) = sharedPrefs.edit().putInt("version_code", value).apply()
 }

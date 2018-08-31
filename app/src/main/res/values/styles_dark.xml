@@ -30,6 +30,8 @@
         <item name="colorHeaders">@color/holoBlue</item>
         <item name="colorDividers">@android:color/darker_gray</item>
 
+        <item name="changelogStyle">@style/MyChangelog</item>
+
         <!-- ## IMPORTANT: set no actionbar to avoid
             "This Activity already has an action bar supplied by the window decor" runtime error
         -->
