@@ -8,7 +8,7 @@
         android:id="@+id/action_open_in_browser"
         android:icon='@drawable/ic_open_in_browser'
         android:orderInCategory='80'
-        android:title='open in browser'
+        android:title="@string/open_in_browser"
         app:showAsAction='always' />
 
     <item
@@ -16,21 +16,21 @@
         android:layout_width="wrap_content"
         android:icon='@drawable/ic_share'
         android:orderInCategory='90'
-        android:title='share'
+        android:title='@string/share'
         app:showAsAction='always' />
 
     <item
         android:id='@+id/action_back'
         android:icon='@drawable/ic_arrow_back'
         android:orderInCategory='100'
-        android:title='back'
+        android:title='@string/back'
         app:showAsAction='always' />
 
     <item
         android:id='@+id/action_refresh'
         android:icon='@drawable/ic_refresh'
         android:orderInCategory='101'
-        android:title='refresh'
+        android:title='@string/refresh'
         app:iconTint="@color/paleGreen"
         app:showAsAction='ifRoom' />
 
@@ -38,7 +38,7 @@
         android:id='@+id/action_forward'
         android:icon='@drawable/ic_arrow_forward'
         android:orderInCategory='102'
-        android:title='forward'
+        android:title='@string/forward'
         app:iconTint="@color/paleGreen"
         app:showAsAction='ifRoom' />
 </menu>

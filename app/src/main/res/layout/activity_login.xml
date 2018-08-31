@@ -33,13 +33,13 @@
             style="@style/Header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Link with Dropbox" />
+            android:text="@string/link_to_dropbox" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:text="By linking with Dropbox, you ensure that your books are always backed up and up to date. Don't worry, we only access one file in our own app folder. Your secrets are safe !" />
+            android:text="@string/dbx_link_msg" />
 
         <Button
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
@@ -50,7 +50,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_dropbox"
             android:drawableTint="?attr/colorAccent"
-            android:text="Link with dropbox"
+            android:text="@string/link_to_dropbox"
             android:textColor="?attr/colorHeaders" />
 
         <View

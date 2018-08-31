@@ -80,7 +80,7 @@ abstract class PersistenceManager {
             // Provide read access
             shareIntent.data = uri
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            startActivity(Intent.createChooser(shareIntent, "Export JSON file using"))
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.chooser_title_export_file)))
         }
     }
 }

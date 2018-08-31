@@ -1,7 +1,6 @@
 package ch.derlin.mybooks
 
 import android.content.Context
-import android.content.PeriodicSync
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -91,7 +90,10 @@ class BookEditFragment : Fragment() {
         button_edit_cancel.setOnClickListener { activity.onBackPressed() }
 
         (activity as? BookDetailActivity)?.let {
-            it.updateTitle(if (mItem != null) "Editing ${mItem?.title}" else "New book")
+
+            it.updateTitle(
+                    if (mItem != null) getString(R.string.title_edit_existing_book).format(mItem?.title)
+                    else getString(R.string.title_edit_new_book))
             it.fab.setImageResource(R.drawable.ic_save)
             it.fab.setOnClickListener { _ ->
                 saveBook()
@@ -104,18 +106,20 @@ class BookEditFragment : Fragment() {
         }
 
         // date
-        if(mItem == null){
+        if (mItem == null) {
             // new item --> set a date
             edit_date.setText(Book.readNow)
         }
-        edit_date.setOnFocusChangeListener { _, focus -> if(!focus){
-            edit_date.setText(Book.standardizedReadOn(edit_date.text.toString()))
-        } }
+        edit_date.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                edit_date.setText(Book.standardizedReadOn(edit_date.text.toString()))
+            }
+        }
         edit_date.addTextChangedListener(object : TextWatcher {
             var len = 0
             override fun afterTextChanged(p0: Editable?) {
                 var date = p0.toString()
-                if(date.length == 4 && date.length > len){
+                if (date.length == 4 && date.length > len) {
                     edit_date.append("-")
                 }
             }
@@ -135,14 +139,14 @@ class BookEditFragment : Fragment() {
 
         // check that something has indeed changed
         if (mItem != null && newBook.equals(mItem)) {
-            Toast.makeText(activity, "nothing to save", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, getString(R.string.nothing_to_save), Toast.LENGTH_SHORT).show()
             return
         }
 
         // ensure there are no duplicate names in the account list
         if (newBook.normalizedKey != mItem?.normalizedKey &&
                 manager.books!!.containsKey(newBook.normalizedKey)) {
-            Toast.makeText(activity, "an account with this name already exists", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, getString(R.string.title_exists), Toast.LENGTH_LONG).show()
             return
         }
 
@@ -160,7 +164,7 @@ class BookEditFragment : Fragment() {
         // try save
         manager.persist().successUi {
             // saved ok, end the edit activity
-            Toast.makeText(activity, "Saved!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, getString(R.string.saved), Toast.LENGTH_SHORT).show()
             (activity as? BookDetailActivity)?.setUpdatedBook(newBook)
             (activity as? BookListActivity)?.notifyBookUpdate(newBook)
 
@@ -171,7 +175,7 @@ class BookEditFragment : Fragment() {
             undo(newBook)
             // show error
             Snackbar.make(activity.rootView(),
-                    "Error " + it, Snackbar.LENGTH_LONG)
+                    "${getString(R.string.error)} $it", Snackbar.LENGTH_LONG)
                     .show()
         }
     }

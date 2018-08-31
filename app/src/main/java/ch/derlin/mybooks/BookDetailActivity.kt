@@ -65,7 +65,7 @@ class BookDetailActivity : AppCompatActivity() {
             app_bar.setExpanded(false, true)
             return true
         } else {
-            Toast.makeText(this, "no internet connection available.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
             return false
         }
     }

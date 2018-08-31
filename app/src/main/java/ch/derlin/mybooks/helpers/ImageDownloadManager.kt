@@ -56,13 +56,13 @@ object ImageDownloadManager {
 //                                startActivity(intent)
 //                        })
 //                        .show()
-                Toast.makeText(this, "Image downloaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
                 return true
             }
         } else {
             try {
                 downloadFromUrl(applicationContext, url)
-                Toast.makeText(this, "Image downloaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,  getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
             } catch (t: Throwable) {
                 Timber.e(t)
             }
@@ -114,7 +114,7 @@ object ImageDownloadManager {
             val notificationManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notificationBuilder = NotificationCompat.Builder(ctx, notificationChannelId)
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentText("Downloa complete.")
+                    .setContentText(ctx.getString(R.string.image_downloaded))
                     .setContentTitle(file.name)
                     .setContentIntent(pIntent)
 

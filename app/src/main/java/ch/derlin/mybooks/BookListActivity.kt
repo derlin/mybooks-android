@@ -79,7 +79,7 @@ class BookListActivity : AppCompatActivity() {
         fab.setOnClickListener { _ ->
             if (NetworkStatus.isInternetAvailable(this))
                 showDetails(null, BookDetailActivity.OPERATION_NEW)
-            else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
+            else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
         }
 
         mTwoPane = book_detail_container != null
@@ -151,11 +151,11 @@ class BookListActivity : AppCompatActivity() {
             } else if (item.itemId == R.id.action_dropbox_unlink) {
                 (manager as? DbxManager)?.unbind()?.successUi {
                     Snackbar.make(fab,
-                            "Unlink successful", Snackbar.LENGTH_SHORT).show()
+                            getString(R.string.dropbox_unlink_success), Snackbar.LENGTH_SHORT).show()
                     PersistenceManager.invalidate()
                     restart()
                 }?.failUi {
-                    Snackbar.make(fab, "Error: ${it}", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(fab, "${getString(R.string.error)}: ${it}", Snackbar.LENGTH_LONG).show()
                 }
 
             } else if (item.groupId == R.id.group_menu_sort) {
@@ -203,13 +203,15 @@ class BookListActivity : AppCompatActivity() {
     }
 
     private fun loadBooks() {
+        val showSnackbarFunc = { msg: String ->
+            Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.retry), { _ -> loadBooks() })
+                    .show()
+        }
         if (!NetworkStatus.isInternetAvailable(this)) {
             // no internet, try to load local file
             if (!manager.localFileExists) {
-                Snackbar.make(findViewById(android.R.id.content),
-                        "Internet is not available", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("retry", { _ -> loadBooks() })
-                        .show()
+                showSnackbarFunc(getString(R.string.no_internet_connection))
                 return
             }
         }
@@ -222,10 +224,7 @@ class BookListActivity : AppCompatActivity() {
             fab.visibility = View.VISIBLE
         } failUi {
             Timber.d(it)
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Error: ${it}", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("retry", { _ -> loadBooks() })
-                    .show()
+            showSnackbarFunc("${getString(R.string.error)}: ${it}")
         }
     }
 
@@ -307,7 +306,7 @@ class BookListActivity : AppCompatActivity() {
                 .setOnClickListener { _ ->
                     if (NetworkStatus.isInternetAvailable(this))
                         showDetails(selectedBook!!, BookDetailActivity.OPERATION_EDIT)
-                    else Snackbar.make(fab, "No internet available", Snackbar.LENGTH_LONG).show()
+                    else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
                 }
 
         view.findViewById<ImageButton>(R.id.searchButton)
@@ -339,15 +338,15 @@ class BookListActivity : AppCompatActivity() {
                                             .commit()
 
                                 Timber.d("removed book: %s", item)
-                                Snackbar.make(fab, "Book deleted", Snackbar.LENGTH_LONG)
-                                        .setAction("undo", { _ ->
+                                Snackbar.make(fab, getString(R.string.book_deleted), Snackbar.LENGTH_LONG)
+                                        .setAction(getString(R.string.undo), { _ ->
                                             working = true
                                             adapter.add(item)
                                             manager.persist()
                                                     .alwaysUi { working = false }
                                                     .failUi {
                                                         Toast.makeText(this@BookListActivity,
-                                                                "Failed to undo changes",
+                                                                getString(R.string.undo_failed),
                                                                 Toast.LENGTH_LONG).show()
                                                     }
                                         })
@@ -357,7 +356,7 @@ class BookListActivity : AppCompatActivity() {
                                 // undo swipe !
                                 adapter.add(item)
                                 Toast.makeText(this@BookListActivity,
-                                        "Failed to save changes", Toast.LENGTH_LONG).show()
+                                        getString(R.string.save_failed), Toast.LENGTH_LONG).show()
 
                             }
                 }

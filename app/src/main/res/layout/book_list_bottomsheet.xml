@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingStart="10dp"
-            android:text="title"
+            android:text=""
             android:layout_weight="1"
             android:textColor="?attr/colorHeaders" />
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_google"
             android:id="@+id/searchButton"
-            android:contentDescription="edit"
+            android:contentDescription="@string/open_in_browser"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <ImageButton
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             android:id="@+id/editButton"
-            android:contentDescription="edit"
+            android:contentDescription="@string/edit"
             android:tint="?android:colorAccent"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
@@ -52,5 +52,5 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:textAppearance="@style/AppTheme.TextAppearance"
-        android:text="No notes."/>
+        android:text="@string/no_notes"/>
 </LinearLayout>

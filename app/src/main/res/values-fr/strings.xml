@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">MyBooks</string>
+    <string name="action_settings">Paramètres</string>
+
+    <!--start screen-->
+    <string name="start_quote">Lire, c\'est vivre.</string>
+    <string name="start_quote_author">Lucy Linder</string>
+
+    <!--activity titles-->
+    <string name="title_book_list">Livres</string>
+    <string name="title_book_detail">Détails</string>
+    <string name="title_edit_new_book">Nouveau livre</string>
+    <string name="title_edit_existing_book">Modifier %s</string>
+
+    <!--activity books-->
+    <string name="book_list_counter_text">%1$d livres</string>
+    <!--activity edit-->
+    <string name="infos_header">INFOS</string>
+    <string name="title_label">Titre</string>
+    <string name="author_label">Auteur</string>
+    <string name="date_label">Lu le</string>
+    <string name="notes_header">Notes</string>
+
+    <!--general-->
+    <string name="no_notes">Aucune note.</string>
+    <string name="cancel">Annuler</string>
+    <string name="save">Sauver</string>
+    <string name="share">Partager</string>
+    <string name="saved">Sauvé!</string>
+    <string name="error">Erreur</string>
+    <string name="retry">Réessayer</string>
+    <string name="undo">Annuler</string>
+    <string name="search">Rechercher</string>
+    <string name="forward">Forward</string>
+    <string name="back">Back</string>
+    <string name="refresh">Recharger</string>
+    <string name="edit">Modifier</string>
+
+    <!--messages-->
+    <string name="nothing_to_save">Rien à sauver</string>
+    <string name="no_internet_connection">Connexion internet indisponible.</string>
+    <string name="title_exists">Un livre avec ce titre existe déjà</string>
+    <string name="book_deleted">Livre supprimé</string>
+    <string name="dropbox_unlink_success">Déconnexion réussie</string>
+    <string name="undo_failed">Erreur lors de l\'annulation</string>
+    <string name="save_failed">Erreur lors de la sauvegarde</string>
+
+    <!--download images/export-->
+    <string name="image_downloaded">Image téléchargée</string>
+    <string name="chooser_title_export_file">Exporter le fichier JSON avec</string>
+    <string name="chooser_title_share_link">Partager le lien avec</string>
+    <string name="download_image">Télécharger l\'image</string>
+
+    <!--dropbox authentication-->
+    <string name="dbx_finishing_auth">Encore quelques minutes de patience</string>
+    <string name="dbx_auth_error">Erreur lors de l\'authentification Dropbox</string>
+    <string name="resolve_conflict_title">Résoudre les conflits</string>
+    <string name="resolve_conflict_msg">Vous avez des livres sauvés en local et sur Dropbox. Quelle version souhaitez-vous garder ?</string>
+    <string name="resolve_conflict_option_dropbox">Version Dropbox</string>
+    <string name="resolve_conflict_option_local">Version locale</string>
+    <string name="dbx_link_msg">En connectant l\'application à Dropbox,
+        vos livres sont automatiquement sauvegardés et disponibles depuis n\'importe quel appareil.
+        Soyez sans crainte, nous accédons uniquement à un fichier situé dans le dossier applicatif "MyBooks".
+        En outre, vous pouvez à tout moment décider de déconnecter MyBooks à votre Dropbox.</string>
+
+    <!--main menu-->
+    <string name="sort_order_title">Trier par</string>
+    <string name="sort_order_alpha_asc">A-Z</string>
+    <string name="sort_order_alpha_desc">Z-A</string>
+    <string name="sort_order_date_asc">Premiers lus</string>
+    <string name="sort_order_date_desc">Derniers lus</string>
+    <string name="theme">Thème</string>
+    <string name="theme_light">Thème "light"</string>
+    <string name="theme_dark">Thème "dark"</string>
+    <string name="link_to_dropbox">Connexion à Dropbox</string>
+    <string name="unlink_from_dropbox">Se déconnecter de Dropbox</string>
+    <string name="export_file">Exporter le fichier</string>
+
+    <!--webview menu-->
+    <string name="open_in_browser">ouvrir dans le navigateur</string>
+</resources>

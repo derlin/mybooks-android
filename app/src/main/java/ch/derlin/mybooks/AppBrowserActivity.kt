@@ -147,12 +147,9 @@ class AppBrowserActivity : AppCompatActivity() {
         if (hit.first != WebView.HitTestResult.UNKNOWN_TYPE &&
                 hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE) {
             // something like a link or a part of text --> share
-            contextMenu.add(0, 1, 0, "Share")
+            contextMenu.add(0, 1, 0, getString(R.string.share))
                     .setOnMenuItemClickListener {
-                        val shareIntent = Intent(Intent.ACTION_SEND)
-                        shareIntent.type = "text/plain"
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, hit.second)
-                        startActivity(Intent.createChooser(shareIntent, "Share link using"))
+                        shareLink(hit.second)
                         true
                     }
         }
@@ -162,7 +159,7 @@ class AppBrowserActivity : AppCompatActivity() {
 
             // try to download the image under the click
             if (writeExternalStorageIsGranted) { // if we can actually write the image
-                contextMenu.add(0, 1, 0, "Download image")
+                contextMenu.add(0, 1, 0, getString(R.string.download_image))
                         .setOnMenuItemClickListener {
                             val imageUrl = hit.second
                             downloadImage(imageUrl)
@@ -200,12 +197,7 @@ class AppBrowserActivity : AppCompatActivity() {
             R.id.action_open_in_browser -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(webview.url)))
             R.id.action_back -> webview.goBack()
             R.id.action_forward -> webview.goForward()
-            R.id.action_share -> {
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, webview.url)
-                startActivity(Intent.createChooser(shareIntent, "Share link using"))
-            }
+            R.id.action_share -> shareLink(webview.url)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -218,6 +210,14 @@ class AppBrowserActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+
+    private fun shareLink(link: String){
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, link)
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.chooser_title_share_link)))
     }
 
 }

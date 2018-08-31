@@ -40,14 +40,16 @@ class BookListAdapter(var books: Books,
         return BookViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: BookViewHolder?, position: Int, payloads: MutableList<Any>?) {
+    override fun onBindViewHolder(hholder: BookViewHolder?, position: Int, payloads: MutableList<Any>?) {
         val item = filtered[position]
-        holder!!.titleView.text = item.title.capitalize()
-        holder.leftSubtitleView.text = item.author
-        holder.rightSubtitleView.text = item.date
+        hholder?.let { holder ->
+            holder.titleView.text = item.title.capitalize()
+            holder.leftSubtitleView.text = item.author
+            holder.rightSubtitleView.text = item.date
 
-        holder.view.setOnClickListener { _ -> onClick?.invoke(item) }
-        holder.view.setOnLongClickListener { _ -> onLongClick?.invoke(item); true }
+            holder.view.setOnClickListener { _ -> onClick?.invoke(item) }
+            holder.view.setOnLongClickListener { _ -> onLongClick?.invoke(item); true }
+        }
     }
 
     override fun getItemCount(): Int = filtered.size

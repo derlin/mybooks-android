@@ -12,7 +12,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="title"
+        android:text=""
         android:textColor="?attr/colorHeaders"
         style="@style/AppTheme.TextAppearance"/>
 
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:text="subtitle left"
+        android:text=""
         style="@style/AppTheme.TextAppearance" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:textStyle="italic"
         android:layout_alignParentEnd="true"
-        android:text="subtitle"
+        android:text=""
         android:textColor="?android:attr/textColorSecondary"
         style="@style/AppTheme.TextAppearance.Small" />
 

@@ -76,7 +76,7 @@ class DbxLoginActivity : AppCompatActivity() {
         if (working) {
             val token = Auth.getOAuth2Token() //generate Access Token
             if (token != null) {
-                Snackbar.make(findViewById(android.R.id.content), "Finishing authentication",
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_finishing_auth),
                         Snackbar.LENGTH_INDEFINITE).show()
                 Preferences(this).dbxAccessToken = token //Store accessToken in SharedPreferences
                 Timber.d("new Dropbox token is ${token}")
@@ -86,7 +86,7 @@ class DbxLoginActivity : AppCompatActivity() {
                 }
             } else {
                 Snackbar.make(findViewById(android.R.id.content),
-                        "Error authenticating with Dropbox",
+                        getString(R.string.dbx_auth_error),
                         Snackbar.LENGTH_LONG)
                         .show()
                 Timber.d("Error authenticating")
@@ -114,13 +114,13 @@ class DbxLoginActivity : AppCompatActivity() {
                 // same content, do nothing
             } else {
                 dialog = AlertDialog.Builder(this) // TODO, R.style.AppTheme_AlertDialog)
-                        .setTitle("Resolve conflicts")
-                        .setMessage("You have both books locally and in Dropbox. What version do you want to keep ?")
-                        .setNegativeButton("Dropbox version", { d, _ ->
+                        .setTitle(getString(R.string.resolve_conflict_title))
+                        .setMessage(getString(R.string.resolve_conflict_msg))
+                        .setNegativeButton(getString(R.string.resolve_conflict_option_dropbox), { d, _ ->
                             d.dismiss()
                             finishTask()
                         })
-                        .setPositiveButton("Local version", { _, _ ->
+                        .setPositiveButton(getString(R.string.resolve_conflict_option_local), { _, _ ->
                             manager.books = oldBooks
                             manager.persist()
                             finishTask()

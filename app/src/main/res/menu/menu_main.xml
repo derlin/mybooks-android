@@ -6,13 +6,13 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 
     <item
         android:icon="@drawable/ic_sort"
-        android:title="Sort order"
+        android:title="@string/sort_order_title"
         app:showAsAction="ifRoom">
         <menu>
             <group
@@ -22,26 +22,26 @@
                     android:id="@+id/submenu_sort_title_asc"
                     android:checked="true"
                     android:icon="@drawable/ic_arrow_down"
-                    android:title="A-Z" />
+                    android:title="@string/sort_order_alpha_asc" />
                 <item
                     android:id="@+id/submenu_sort_title_desc"
                     android:icon="@drawable/ic_arrow_up"
-                    android:title="Z-A" />
+                    android:title="@string/sort_order_alpha_desc" />
                 <item
                     android:id="@+id/submenu_sort_year_asc"
                     android:icon="@drawable/ic_arrow_up"
-                    android:title="Older read" />
+                    android:title="@string/sort_order_date_asc" />
                 <item
                     android:id="@+id/submenu_sort_year_desc"
                     android:icon="@drawable/ic_arrow_down"
-                    android:title="Recent read" />
+                    android:title="@string/sort_order_date_desc" />
             </group>
         </menu>
     </item>
 
     <item
         android:icon="@drawable/ic_theme"
-        android:title="Theme"
+        android:title="@string/theme"
         app:showAsAction="ifRoom">
         <menu>
             <group
@@ -49,10 +49,10 @@
                 android:checkableBehavior="single">
                 <item
                     android:id="@+id/submenu_theme_light"
-                    android:title="Light theme" />
+                    android:title="@string/theme_light" />
                 <item
                     android:id="@+id/submenu_theme_dark"
-                    android:title="Dark theme" />
+                    android:title="@string/theme_dark" />
             </group>
         </menu>
     </item>
@@ -60,18 +60,18 @@
     <item
         android:id="@+id/action_dropbox_link"
         android:icon="@drawable/ic_dropbox"
-        android:title="Link to Dropbox"
+        android:title="@string/link_to_dropbox"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_dropbox_unlink"
         android:icon="@drawable/ic_dropbox"
-        android:title="Unlink from Dropbox"
+        android:title="@string/unlink_from_dropbox"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_export_file"
         android:icon="@drawable/ic_file_download"
-        android:title="Export file"
+        android:title="@string/export_file"
         app:showAsAction="never" />
 
 </menu>

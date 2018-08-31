@@ -2,6 +2,8 @@
     <string name="app_name">MyBooks</string>
     <string name="action_settings">Settings</string>
 
+    <string name="file_provider_authority">ch.derlin.mybooks.provider</string>
+
     <!--dropbox token and permissions-->
     <string name="prefs_dbx_access_token">dbx-access-token</string>
     <string name="dbx_app_key">213bpo6j2q90un0</string>
@@ -9,18 +11,77 @@
     <string name="dbx_app_key_manifest">db-213bpo6j2q90un0</string>
     <string name="dbx_request_config_name">MyBooks/2.0</string>
 
+    <!--start screen-->
     <string name="start_quote">Reading is life</string>
     <string name="start_quote_author">Lucy Linder</string>
+
+    <!--activity titles-->
     <string name="title_book_list">Books</string>
     <string name="title_book_detail">Book Detail</string>
+    <string name="title_edit_new_book">New book</string>
+    <string name="title_edit_existing_book">Editing %s</string>
 
+    <!--activity books-->
     <string name="book_list_counter_text">%1$d books</string>
+    <!--activity edit-->
     <string name="infos_header">INFOS</string>
     <string name="title_label">Title</string>
     <string name="author_label">Author</string>
     <string name="date_label">Read on</string>
+    <string name="notes_header">Notes</string>
+
+    <!--general-->
+    <string name="no_notes">No notes.</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
-    <string name="notes_header">Notes</string>
-    <string name="file_provider_authority">ch.derlin.mybooks.provider</string>
+    <string name="share">Share</string>
+    <string name="saved">Saved!</string>
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    <string name="undo">Undo</string>
+    <string name="search">Search</string>
+    <string name="forward">Forward</string>
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="edit">Edit</string>
+
+    <!--messages-->
+    <string name="nothing_to_save">Nothing to save</string>
+    <string name="no_internet_connection">No internet connection available.</string>
+    <string name="title_exists">A book with this title already exists</string>
+    <string name="book_deleted">Book deleted</string>
+    <string name="dropbox_unlink_success">Unlink successful</string>
+    <string name="undo_failed">Failed to undo changes</string>
+    <string name="save_failed">Failed to save changes</string>
+
+    <!--download images/export-->
+    <string name="image_downloaded">Image downloaded</string>
+    <string name="chooser_title_export_file">Export JSON file using</string>
+    <string name="chooser_title_share_link">Share link using</string>
+    <string name="download_image">Download image</string>
+
+    <!--dropbox authentication-->
+    <string name="dbx_finishing_auth">Finishing authentication</string>
+    <string name="dbx_auth_error">Error authenticating with Dropbox</string>
+    <string name="resolve_conflict_title">Resolve conflicts</string>
+    <string name="resolve_conflict_msg">You have both books locally and in Dropbox. What version do you want to keep ?</string>
+    <string name="resolve_conflict_option_dropbox">Dropbox version</string>
+    <string name="resolve_conflict_option_local">Local version</string>
+    <string name="dbx_link_msg">By linking with Dropbox, you ensure that your books are always backed up and up to date. Don\'t worry, we only access one file in our own app folder. Your secrets are safe !</string>
+
+    <!--main menu-->
+    <string name="sort_order_title">Sort order</string>
+    <string name="sort_order_alpha_asc">A-Z</string>
+    <string name="sort_order_alpha_desc">Z-A</string>
+    <string name="sort_order_date_asc">Older read</string>
+    <string name="sort_order_date_desc">Recent read</string>
+    <string name="theme">Theme</string>
+    <string name="theme_light">Light theme</string>
+    <string name="theme_dark">Dark theme</string>
+    <string name="link_to_dropbox">Link to Dropbox</string>
+    <string name="unlink_from_dropbox">Unlink from Dropbox</string>
+    <string name="export_file">Export file</string>
+
+    <!--webview menu-->
+    <string name="open_in_browser">open in browser</string>
 </resources>
