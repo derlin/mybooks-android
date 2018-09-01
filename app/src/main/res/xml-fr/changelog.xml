@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="0.4" versioncode="4" date="2018-09-01">
+        <change>Dropbox est dès à présent optionnel</change>
+        <change>Version française disponible</change>
+        <change>Ajout d`une option pour exporter les données</change>
+    </release>
+    <release version="0.3" versioncode="3" summary="Je l'ai fait!" date="2018-08-18">
+        <change>Première publication.</change>
+    </release>
+</changelog>

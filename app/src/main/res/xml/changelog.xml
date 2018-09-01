@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="1.1" versioncode="4" date="2018-09-01">
+    <release version="0.4" versioncode="4" date="2018-09-01">
         <change>Make Dropbox optional</change>
         <change>Add French locale support</change>
         <change>Allow for file export</change>
         <change>Introduce new bugs</change>
     </release>
-    <release version="1.0" versioncode="3" summary="Made it !" date="2018-08-18">
+    <release version="0.3" versioncode="3" summary="Made it !" date="2018-08-18">
         <change>First release.</change>
     </release>
 </changelog>

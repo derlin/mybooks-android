@@ -380,7 +380,7 @@ class BookListActivity : AppCompatActivity() {
         val version = getAppVersion()
         val prefs = Preferences()
         if (prefs.versionCode < version.first) {
-            //prefs.versionCode = version.first
+            prefs.versionCode = version.first
             val dialog = Changelog.createDialog(this,
                     versionCode = version.first)
             dialog.show()
