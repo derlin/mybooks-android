@@ -13,7 +13,7 @@ import ch.derlin.mybooks.R
 abstract class SwipeToDeleteCallback(context: Context, val backgroundColor: Int = Color.parseColor("#f44336")) :
         ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete)
+    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete)!!
     private val intrinsicWidth = deleteIcon.intrinsicWidth
     private val intrinsicHeight = deleteIcon.intrinsicHeight
     private val background = ColorDrawable()

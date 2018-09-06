@@ -79,5 +79,10 @@
         android:icon="@drawable/ic_file_download"
         android:title="@string/view_changelog"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_intro"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/view_intro"
+        app:showAsAction="never" />
 
 </menu>

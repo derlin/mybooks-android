@@ -43,16 +43,15 @@ class BookEditFragment : Fragment() {
         super.onAttach(context)
 
         if (arguments?.containsKey(BookDetailActivity.BUNDLE_BOOK_KEY) ?: false) {
-            mItem = arguments.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY)
+            mItem = arguments?.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-            inflater!!.inflate(R.layout.book_edit, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+            inflater.inflate(R.layout.book_edit, container, false)
 
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         working = false
         manager = PersistenceManager.instance
@@ -78,7 +77,7 @@ class BookEditFragment : Fragment() {
         edit_notes.maxLines = 5
         edit_notes.setOnEditorActionListener { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                activity.hideKeyboard()
+                activity?.hideKeyboard()
                 true
             } else {
                 false
@@ -87,7 +86,7 @@ class BookEditFragment : Fragment() {
 
         // save and cancel buttons
         button_edit_save.setOnClickListener { saveBook() }
-        button_edit_cancel.setOnClickListener { activity.onBackPressed() }
+        button_edit_cancel.setOnClickListener { activity?.onBackPressed() }
 
         (activity as? BookDetailActivity)?.let {
 
@@ -174,9 +173,11 @@ class BookEditFragment : Fragment() {
             // undo !
             undo(newBook)
             // show error
-            Snackbar.make(activity.rootView(),
-                    "${getString(R.string.error)} $it", Snackbar.LENGTH_LONG)
-                    .show()
+            activity?.let {
+                Snackbar.make(it.rootView(),
+                        "${getString(R.string.error)} $it", Snackbar.LENGTH_LONG)
+                        .show()
+            }
         }
     }
 

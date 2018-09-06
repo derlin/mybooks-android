@@ -21,6 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import ch.derlin.changelog.Changelog
 import ch.derlin.changelog.Changelog.getAppVersion
+import ch.derlin.mybooks.helpers.MiscUtils.showIntro
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
@@ -99,7 +100,12 @@ class BookListActivity : AppCompatActivity() {
         bottomSheetBehavior.isHideable = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        displayChangelog()
+        val prefs = Preferences()
+        if (!prefs.introDone) {
+            showIntro()
+        } else {
+            displayChangelog()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -179,6 +185,7 @@ class BookListActivity : AppCompatActivity() {
                 }
                 R.id.action_export_file -> shareAppFile()
                 R.id.action_changelog -> Changelog.createDialog(this).show()
+                R.id.action_intro -> showIntro()
                 else -> super.onOptionsItemSelected(iitem)
             }
         }
@@ -376,7 +383,7 @@ class BookListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun displayChangelog(){
+    private fun displayChangelog() {
         val version = getAppVersion()
         val prefs = Preferences()
         if (prefs.versionCode < version.first) {

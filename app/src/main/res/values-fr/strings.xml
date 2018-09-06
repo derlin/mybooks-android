@@ -76,6 +76,20 @@
     <string name="unlink_from_dropbox">Se déconnecter de Dropbox</string>
     <string name="export_file">Exporter le fichier</string>
     <string name="view_changelog">Afficher le changelog</string>
+    <string name="view_intro">Afficher l`intro</string>
+
     <!--webview menu-->
     <string name="open_in_browser">ouvrir dans le navigateur</string>
+
+    <!--intro slides-->
+    <string name="intro_welcome_title">Bienvenue!</string>
+    <string name="ontro_welcome_msg">Un moyen simple de garder une trace de vos lectures.</string>
+    <string name="intro_integration_title">Intégration</string>
+    <string name="intro_integration_msg">Vos données sont sauvées dans un fichier JSON que vous pouvez exporter à tout moment depuis le menu.</string>
+    <string name="intro_sync_title">Synchronisation</string>
+    <string name="intro_sync_msg">Liez MyBooks à votre compte Dropbox pour sauvegarder automatiquement vos données et les partager entre tous vos appareils.</string>
+    <string name="intro_theme_title">Thèmes</string>
+    <string name="intro_theme_msg">Choisissez parmi des thèmes clairs ou foncés selon vos préférences.</string>
+    <string name="intro_last_title">Allons-y!</string>
+    <string name="intro_last_msg" />
 </resources>

@@ -41,12 +41,12 @@ dependencies {
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.5'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'ch.derlin.changelog:library:1.0@aar'
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 }
 repositories {
     mavenCentral()
-    maven {
-        url  "https://dl.bintray.com/derlin/maven"
-    }
+    maven { url 'https://dl.bintray.com/derlin/maven' /* changelog lib */ }
+    maven { url 'https://jitpack.io' /* appintro lib */ }
 }
 
 apply plugin: 'kotlin-android-extensions'

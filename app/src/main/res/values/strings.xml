@@ -83,7 +83,21 @@
     <string name="unlink_from_dropbox">Unlink from Dropbox</string>
     <string name="export_file">Export file</string>
     <string name="view_changelog">View changelog</string>
+    <string name="view_intro">View intro</string>
 
     <!--webview menu-->
     <string name="open_in_browser">open in browser</string>
+
+    <!--intro slides-->
+    <string name="intro_welcome_title">Welcome!</string>
+    <string name="ontro_welcome_msg">An easy way to keep track of your readings.</string>
+    <string name="intro_integration_title">Integration</string>
+    <string name="intro_integration_msg">All your data are saved in a JSON file that can be exported and at any moment using the settings menu.</string>
+    <string name="intro_sync_title">Synchronization</string>
+    <string name="intro_sync_msg">Link MyBooks with Dropbox from the settings for automatic backup, history and synchronization on all your devices.</string>
+    <string name="intro_theme_title">Theming</string>
+    <string name="intro_theme_msg">Choose between a light or a dark theme to suit your mood.</string>
+    <string name="intro_last_title">Let\'s do it!</string>
+    <string name="intro_last_msg">Start enjoying MyBooks now!</string>
+
 </resources>

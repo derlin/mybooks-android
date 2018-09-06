@@ -46,6 +46,10 @@
             android:label="login" />
 
         <activity
+            android:name=".IntroActivity"
+            android:label="intro" />
+
+        <activity
             android:name=".AppBrowserActivity"
             android:label="browse" />
 

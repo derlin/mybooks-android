@@ -39,7 +39,7 @@ class BookDetailFragment : Fragment() {
             inflater.inflate(R.layout.book_detail, container, false)
 
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Show the dummy content as text in a TextView.

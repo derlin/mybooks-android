@@ -36,4 +36,9 @@ class Preferences(context: Context = App.appContext) {
     var versionCode: Int
         get() = sharedPrefs.getInt("version_code", 0)
         set(value) = sharedPrefs.edit().putInt("version_code", value).apply()
+
+    /** Are the intro slides already displayed once ? */
+    var introDone: Boolean
+        get() = sharedPrefs.getBoolean("init_done", false)
+        set(value) = sharedPrefs.edit().putBoolean("init_done", value).apply()
 }
