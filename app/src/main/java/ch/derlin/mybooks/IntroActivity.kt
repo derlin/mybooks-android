@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import ch.derlin.mybooks.helpers.MiscUtils.attrColor
 import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import com.github.paolorotolo.appintro.model.SliderPage
@@ -14,6 +15,7 @@ class IntroActivity : AppIntro(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme()
         super.onCreate(savedInstanceState)
 
         addSlide(

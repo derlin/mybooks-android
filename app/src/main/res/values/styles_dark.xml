@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -37,6 +37,10 @@
         -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!--change the navigation bar color, see https://stackoverflow.com/a/39307928/2667536 for details-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">#100</item>
     </style>
 
 </resources>
