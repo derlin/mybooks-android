@@ -2,8 +2,8 @@ package ch.derlin.mybooks
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -41,7 +41,7 @@ class BookEditFragment : Fragment() {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (arguments?.containsKey(BookDetailActivity.BUNDLE_BOOK_KEY) == true) {

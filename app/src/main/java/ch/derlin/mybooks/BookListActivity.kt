@@ -4,15 +4,15 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.helper.ItemTouchHelper
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.core.widget.NestedScrollView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -209,7 +209,7 @@ class BookListActivity : AppCompatActivity() {
             if (selectedBook != null) {
                 showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
             } else {
-                supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment).commit()
+                supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment as BookEditFragment).commit()
             }
         } else {
             if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
@@ -275,7 +275,7 @@ class BookListActivity : AppCompatActivity() {
             mTwoPaneCurrentFragment = if (operation == BookDetailActivity.OPERATION_SHOW) BookDetailFragment() else BookEditFragment()
             mTwoPaneCurrentFragment!!.arguments = arguments
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, mTwoPaneCurrentFragment)
+                    .replace(R.id.frameLayout, mTwoPaneCurrentFragment as BookEditFragment)
                     .commit()
         } else {
             val intent = Intent(this, BookDetailActivity::class.java)
@@ -339,8 +339,8 @@ class BookListActivity : AppCompatActivity() {
     }
 
     private fun createSwipeHandler() = object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.paleGreen)) {
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-            val item = adapter.removeAt(viewHolder!!.adapterPosition)
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val item = adapter.removeAt(viewHolder.adapterPosition)
             working = true
 
             manager.persist()

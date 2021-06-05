@@ -2,7 +2,7 @@ package ch.derlin.mybooks
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import ch.derlin.mybooks.helpers.MiscUtils.attrColor
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme

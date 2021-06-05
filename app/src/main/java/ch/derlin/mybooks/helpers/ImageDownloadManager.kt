@@ -10,8 +10,8 @@ import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Environment
-import android.support.design.widget.Snackbar
-import android.support.v4.app.NotificationCompat
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.NotificationCompat
 import android.webkit.URLUtil
 import android.widget.Toast
 import ch.derlin.mybooks.R
@@ -94,7 +94,7 @@ object ImageDownloadManager {
                 if (bitmap.compress(base64Compressors.get(type), 100, it))
                 // see https://proandroiddev.com/sharing-files-though-intents-are-you-ready-for-nougat-70f7e9294a0b
                     return if (VERSION.SDK_INT >= VERSION_CODES.N)
-                        android.support.v4.content.FileProvider.getUriForFile(ctx, ctx.getString(R.string.file_provider_authority), file)
+                        androidx.core.content.FileProvider.getUriForFile(ctx, ctx.getString(R.string.file_provider_authority), file)
                     else
                         Uri.fromFile(file)
             }

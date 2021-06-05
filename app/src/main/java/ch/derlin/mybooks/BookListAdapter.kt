@@ -1,6 +1,6 @@
 package ch.derlin.mybooks
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,18 +29,17 @@ class BookListAdapter(var books: Books,
         updateCounter()
     }
 
-    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        onBindViewHolder(holder, position, null)
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int, payloads: MutableList<Any>) {
+        onBindViewHolder(holder, position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BookViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         // create a new view
-        val v: View = LayoutInflater.from(parent!!.context).inflate(R.layout.book_list_content, parent, false)
+        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.book_list_content, parent, false)
         return BookViewHolder(v)
     }
 
-
-    override fun onBindViewHolder(holder: BookViewHolder, position: Int, payloads: MutableList<Any>?) {
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val item = filtered[position]
 
         holder.titleView.text = item.title.capitalize()

@@ -1,14 +1,14 @@
 package ch.derlin.mybooks.helpers
 
 import android.content.Context
+import android.content.SharedPreferences
 import ch.derlin.mybooks.App
 
 
 object Preferences {
 
-    private val PREFERENCES_FILENAME = "ch.derlin.easypass.preferences"
-
-    val sharedPrefs = App.appContext.getSharedPreferences(PREFERENCES_FILENAME, Context.MODE_PRIVATE)
+    private const val PREFERENCES_FILENAME = "ch.derlin.easypass.preferences"
+    private val sharedPrefs: SharedPreferences = App.appContext.getSharedPreferences(PREFERENCES_FILENAME, Context.MODE_PRIVATE)
 
     var dbxAccessToken: String?
         get() = sharedPrefs.getString("dbx_access-token", null)
