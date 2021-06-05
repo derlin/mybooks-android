@@ -39,7 +39,7 @@ class AppBrowserActivity : AppCompatActivity() {
     private var _hit: Pair<Int, String>? = null
     private val lastHit: Pair<Int, String>
         get() {
-            val ret = _hit ?: Pair(webview.hitTestResult.type, webview.hitTestResult.extra)
+            val ret = _hit ?: Pair(webview.hitTestResult.type, webview.hitTestResult.extra!!)
             _hit = null
             return ret
         }
@@ -127,7 +127,7 @@ class AppBrowserActivity : AppCompatActivity() {
     private fun checkPermissions() {
         // we need the external storage permission in order to download images
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         } else {
@@ -193,11 +193,11 @@ class AppBrowserActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.action_refresh -> webview!!.loadUrl(webview!!.url)
+            R.id.action_refresh -> webview.url?.let { webview!!.loadUrl(it) }
             R.id.action_open_in_browser -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(webview.url)))
             R.id.action_back -> webview.goBack()
             R.id.action_forward -> webview.goForward()
-            R.id.action_share -> shareLink(webview.url)
+            R.id.action_share -> webview.url?.let { shareLink(it) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -213,7 +213,7 @@ class AppBrowserActivity : AppCompatActivity() {
     }
 
 
-    private fun shareLink(link: String){
+    private fun shareLink(link: String) {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, link)

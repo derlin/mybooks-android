@@ -101,7 +101,7 @@ class BookEditFragment : Fragment() {
 
         // autocomplete for authors
         manager.books?.let {
-            edit_author.setAdapter(ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, it.getAuthors()))
+            edit_author.setAdapter(ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, it.getAuthors()))
         }
 
         // date

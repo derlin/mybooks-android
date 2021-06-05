@@ -7,11 +7,12 @@ androidExtensions {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "ch.derlin.mybooks"
         minSdkVersion 23
-        targetSdkVersion 26
+        targetSdkVersion 30
         versionCode 4
         versionName "0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,19 +35,33 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'nl.komponents.kovenant:kovenant-android:3.3.0'
     implementation 'nl.komponents.kovenant:kovenant-ui:3.3.0'
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.5'
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'ch.derlin.changelog:library:1.0@aar'
+    implementation 'ch.derlin.android:changelog:1.0@aar'
     implementation 'com.github.apl-devs:appintro:v4.2.3'
 }
+
+// read github tokens for access to Github Packages
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
 repositories {
     mavenCentral()
-    maven { url 'https://dl.bintray.com/derlin/maven' /* changelog lib */ }
     maven { url 'https://jitpack.io' /* appintro lib */ }
+    maven { /* changelog lib, see https://github.com/enefce/AndroidLibraryForGitHubPackagesDemo */
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/derlin/android-changelog")
+
+        credentials {
+            username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+            password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+        }
+    }
+
 }
 
 apply plugin: 'kotlin-android-extensions'

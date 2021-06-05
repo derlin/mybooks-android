@@ -6,11 +6,11 @@ import ch.derlin.mybooks.App
 
 
 object NetworkStatus {
-    var isConnected: Boolean? = null
+    var isConnected: Boolean = false
 
     fun isInternetAvailable(context: Context = App.appContext): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        isConnected = cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
-        return isConnected!!
+        isConnected = cm.activeNetworkInfo?.isConnectedOrConnecting == true
+        return isConnected
     }
 }

@@ -49,6 +49,7 @@ import java.util.*
 class BookListActivity : AppCompatActivity() {
 
     private val LINK_DROPBOX_REQUEST_CODE = 2006
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -151,44 +152,43 @@ class BookListActivity : AppCompatActivity() {
 
     }
 
-    override fun onOptionsItemSelected(iitem: MenuItem?): Boolean {
-        iitem?.let { item ->
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-            when (item.groupId) {
-                R.id.group_menu_sort -> {
-                    Preferences(this).sortOrder = item.itemId
-                    adapter.comparator = getSortOrder(item.itemId)
-                    item.isChecked = true
-                    return true
-                }
-                R.id.group_menu_theme -> {
-                    Preferences(this).currentTheme = item.itemId
-                    restart()
-                    return true
-                }
+        when (item.groupId) {
+            R.id.group_menu_sort -> {
+                Preferences(this).sortOrder = item.itemId
+                adapter.comparator = getSortOrder(item.itemId)
+                item.isChecked = true
+                return true
             }
-
-            when (item.itemId) {
-                R.id.action_dropbox_link ->
-                    startActivityForResult(
-                            Intent(this, DbxLoginActivity::class.java),
-                            LINK_DROPBOX_REQUEST_CODE)
-                R.id.action_dropbox_unlink -> {
-                    (manager as? DbxManager)?.unbind()?.successUi {
-                        Snackbar.make(fab,
-                                getString(R.string.dropbox_unlink_success), Snackbar.LENGTH_SHORT).show()
-                        PersistenceManager.invalidate()
-                        restart()
-                    }?.failUi {
-                        Snackbar.make(fab, "${getString(R.string.error)}: ${it}", Snackbar.LENGTH_LONG).show()
-                    }
-                }
-                R.id.action_export_file -> shareAppFile()
-                R.id.action_changelog -> Changelog.createDialog(this).show()
-                R.id.action_intro -> showIntro()
-                else -> super.onOptionsItemSelected(iitem)
+            R.id.group_menu_theme -> {
+                Preferences(this).currentTheme = item.itemId
+                restart()
+                return true
             }
         }
+
+        when (item.itemId) {
+            R.id.action_dropbox_link ->
+                startActivityForResult(
+                        Intent(this, DbxLoginActivity::class.java),
+                        LINK_DROPBOX_REQUEST_CODE)
+            R.id.action_dropbox_unlink -> {
+                (manager as? DbxManager)?.unbind()?.successUi {
+                    Snackbar.make(fab,
+                            getString(R.string.dropbox_unlink_success), Snackbar.LENGTH_SHORT).show()
+                    PersistenceManager.invalidate()
+                    restart()
+                }?.failUi {
+                    Snackbar.make(fab, "${getString(R.string.error)}: ${it}", Snackbar.LENGTH_LONG).show()
+                }
+            }
+            R.id.action_export_file -> shareAppFile()
+            R.id.action_changelog -> Changelog.createDialog(this).show()
+            R.id.action_intro -> showIntro()
+            else -> super.onOptionsItemSelected(item)
+        }
+
         return true
     }
 
