@@ -37,12 +37,12 @@ class BookEditFragment : Fragment() {
 
     private var working: Boolean
         get() = progressBar.visibility == View.VISIBLE
-        set(value) = progressBar.setVisibility(if (value) View.VISIBLE else View.INVISIBLE)
+        set(value) { progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if (arguments?.containsKey(BookDetailActivity.BUNDLE_BOOK_KEY) ?: false) {
+        if (arguments?.containsKey(BookDetailActivity.BUNDLE_BOOK_KEY) == true) {
             mItem = arguments?.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY)
         }
     }
@@ -116,8 +116,8 @@ class BookEditFragment : Fragment() {
         }
         edit_date.addTextChangedListener(object : TextWatcher {
             var len = 0
-            override fun afterTextChanged(p0: Editable?) {
-                var date = p0.toString()
+            override fun afterTextChanged(editable: Editable?) {
+                val date = editable.toString()
                 if (date.length == 4 && date.length > len) {
                     edit_date.append("-")
                 }
@@ -137,14 +137,13 @@ class BookEditFragment : Fragment() {
         val newBook = getBook()
 
         // check that something has indeed changed
-        if (mItem != null && newBook.equals(mItem)) {
+        if (mItem != null && newBook == mItem) {
             Toast.makeText(activity, getString(R.string.nothing_to_save), Toast.LENGTH_SHORT).show()
             return
         }
 
         // ensure there are no duplicate names in the account list
-        if (newBook.normalizedKey != mItem?.normalizedKey &&
-                manager.books!!.containsKey(newBook.normalizedKey)) {
+        if (newBook.normalizedKey != mItem?.normalizedKey && manager.books!!.containsKey(newBook.normalizedKey)) {
             Toast.makeText(activity, getString(R.string.title_exists), Toast.LENGTH_LONG).show()
             return
         }
@@ -174,17 +173,13 @@ class BookEditFragment : Fragment() {
             undo(newBook)
             // show error
             activity?.let {
-                Snackbar.make(it.rootView(),
-                        "${getString(R.string.error)} $it", Snackbar.LENGTH_LONG)
-                        .show()
+                Snackbar.make(it.rootView(), "${getString(R.string.error)} $it", Snackbar.LENGTH_LONG).show()
             }
         }
     }
 
     private fun undo(newAccount: Book) {
-        mItem?.let {
-            manager.books!![it.normalizedKey] = it
-        }
+        mItem?.let { manager.books!![it.normalizedKey] = it }
         manager.books!!.remove(newAccount.normalizedKey)
     }
 

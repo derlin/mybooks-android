@@ -14,7 +14,7 @@ object ThemeHelper {
     )
 
     fun Activity.applyTheme() {
-        Preferences().currentTheme?.let { themeName ->
+        Preferences.currentTheme?.let { themeName ->
             availableThemes.get(themeName)?.let { setTheme(it) }
         }
     }

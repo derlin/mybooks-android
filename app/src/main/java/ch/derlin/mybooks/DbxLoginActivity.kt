@@ -44,15 +44,14 @@ class DbxLoginActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val token = Preferences(this).dbxAccessToken
+        val token = Preferences.dbxAccessToken
         if (token == null) {
             Timber.d("Dropbox token is null")
-            button_link_dropbox.setOnClickListener { _ ->
+            button_link_dropbox.setOnClickListener {
                 // save local books to a tmp file
                 (PersistenceManager.instance as? LocalManager)?.books?.let { books ->
-                    if (books.size > 0) {
-                        PersistenceManager.instance
-                                .serialize(this.openFileOutput(tmpBooksFile, Context.MODE_PRIVATE))
+                    if (books.isNotEmpty()) {
+                        PersistenceManager.instance.serialize(this.openFileOutput(tmpBooksFile, Context.MODE_PRIVATE))
                         hasLocalData = true
                     }
                 }
@@ -60,7 +59,7 @@ class DbxLoginActivity : AppCompatActivity() {
                 Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
             }
         } else {
-            Timber.d("Dropbox token is ${token}")
+            Timber.d("Dropbox token is $token")
             finishTask()
         }
     }
@@ -76,19 +75,15 @@ class DbxLoginActivity : AppCompatActivity() {
         if (working) {
             val token = Auth.getOAuth2Token() //generate Access Token
             if (token != null) {
-                Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_finishing_auth),
-                        Snackbar.LENGTH_INDEFINITE).show()
-                Preferences(this).dbxAccessToken = token //Store accessToken in SharedPreferences
-                Timber.d("new Dropbox token is ${token}")
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_finishing_auth), Snackbar.LENGTH_INDEFINITE).show()
+                Preferences.dbxAccessToken = token //Store accessToken in SharedPreferences
+                Timber.d("new Dropbox token is $token")
                 PersistenceManager.invalidate()
                 PersistenceManager.instance.fetchBooks().alwaysUi {
                     if (hasLocalData) merge() else finishTask()
                 }
             } else {
-                Snackbar.make(findViewById(android.R.id.content),
-                        getString(R.string.dbx_auth_error),
-                        Snackbar.LENGTH_LONG)
-                        .show()
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_auth_error), Snackbar.LENGTH_LONG).show()
                 Timber.d("Error authenticating")
                 working = false
             }
@@ -116,15 +111,15 @@ class DbxLoginActivity : AppCompatActivity() {
                 dialog = AlertDialog.Builder(this) // TODO, R.style.AppTheme_AlertDialog)
                         .setTitle(getString(R.string.resolve_conflict_title))
                         .setMessage(getString(R.string.resolve_conflict_msg))
-                        .setNegativeButton(getString(R.string.resolve_conflict_option_dropbox), { d, _ ->
+                        .setNegativeButton(getString(R.string.resolve_conflict_option_dropbox)) { d, _ ->
                             d.dismiss()
                             finishTask()
-                        })
-                        .setPositiveButton(getString(R.string.resolve_conflict_option_local), { _, _ ->
+                        }
+                        .setPositiveButton(getString(R.string.resolve_conflict_option_local)) { _, _ ->
                             manager.books = oldBooks
                             manager.persist()
                             finishTask()
-                        })
+                        }
                         .create()
                 dialog.show()
             }

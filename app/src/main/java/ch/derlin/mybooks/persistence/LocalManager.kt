@@ -14,12 +14,12 @@ class LocalManager : PersistenceManager() {
     }
 
     override fun persist(): Promise<Boolean, Exception> {
-        assert(books != null)
-        try {
+        requireNotNull(books)
+        return try {
             serialize()
-            return Promise.of(true)
+            Promise.of(true)
         } catch (e: Exception) {
-            return Promise.ofFail(e)
+            Promise.ofFail(e)
         }
     }
 

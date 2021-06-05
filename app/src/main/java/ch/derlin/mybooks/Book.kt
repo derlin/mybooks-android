@@ -77,8 +77,7 @@ data class Book(
          * etc.
          */
         fun standardizedReadOn(readOn: String): String = readOn.replace(
-                Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"),
-                "$10$2")
+                Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
 
         /*if (readOn.matches(Regex("^(19)|(20)[0-9]{2}-[0-9]$"))) {
             readOn.substring(0, readOn.length - 1) + "0${readOn[readOn.length - 1]}"

@@ -25,10 +25,9 @@ object MiscUtils {
 
     /** Hide the soft keyboard */
     fun Activity.hideKeyboard() {
-        val v = window.currentFocus
-        if (v != null) {
+        window.currentFocus?.let { view ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

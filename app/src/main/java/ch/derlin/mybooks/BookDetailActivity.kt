@@ -59,21 +59,20 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     fun editBook(): Boolean {
-        if (NetworkStatus.isInternetAvailable()) {
+        return if (NetworkStatus.isInternetAvailable()) {
             switchFragment(BookEditFragment())
             shouldGoBackToEditView = true
             app_bar.setExpanded(false, true)
-            return true
+            true
         } else {
             Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
-            return false
+            false
         }
     }
 
     fun setUpdatedBook(book: Book) {
         selectedBook = book
         accountModified = true
-        //this.onBackPressed()
         backToDetailsView()
     }
 
@@ -94,7 +93,6 @@ class BookDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             this.onBackPressed()
-            //navigateUpTo(Intent(this, AccountListActivity::class.java))
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -121,11 +119,11 @@ class BookDetailActivity : AppCompatActivity() {
 
 
     companion object {
-        val BUNDLE_BOOK_KEY = "account"
-        val BUNDLE_OPERATION_KEY = "operation"
-        val OPERATION_SHOW = "show"
-        val OPERATION_EDIT = "edit"
-        val OPERATION_NEW = "new"
-        val RETURN_MODIFIED = "modified"
+        const val BUNDLE_BOOK_KEY = "account"
+        const val BUNDLE_OPERATION_KEY = "operation"
+        const val OPERATION_SHOW = "show"
+        const val OPERATION_EDIT = "edit"
+        const val OPERATION_NEW = "new"
+        const val RETURN_MODIFIED = "modified"
     }
 }

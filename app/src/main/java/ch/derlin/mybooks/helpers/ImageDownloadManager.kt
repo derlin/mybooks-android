@@ -118,7 +118,7 @@ object ImageDownloadManager {
                     .setContentTitle(file.name)
                     .setContentIntent(pIntent)
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (VERSION.SDK_INT >= VERSION_CODES.O) {
                 /* for android O (8), channel mandatory */
                 val channelName = ctx.packageName
                 val importance = NotificationManager.IMPORTANCE_DEFAULT

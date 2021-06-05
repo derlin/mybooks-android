@@ -24,8 +24,8 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        val token = Preferences(this).dbxAccessToken
-        Timber.d("Dropbox token is ${token}")
+        val token = Preferences.dbxAccessToken
+        Timber.d("Dropbox token is $token")
         startApp()
     }
 

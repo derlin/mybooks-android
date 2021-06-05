@@ -40,16 +40,16 @@ abstract class PersistenceManager {
     }
 
     fun deserialize(fileInputStream: FileInputStream? = null): Books {
-        try {
+        return try {
             val fin = fileInputStream ?: App.appContext.openFileInput(baseFileName)
-            return gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.getType())
+            gson.fromJson<Books>(BufferedReader(InputStreamReader(fin)), object : TypeToken<Books>() {}.type)
         } catch (e: Exception) {
-            return mutableMapOf()
+            mutableMapOf()
         }
     }
 
     fun getAppFile(filename: String = baseFileName): File {
-        return File(App.appContext.filesDir.getAbsolutePath(), filename)
+        return File(App.appContext.filesDir.absolutePath, filename)
     }
 
     fun removeAppFile(filename: String = baseFileName): Boolean {
@@ -62,7 +62,7 @@ abstract class PersistenceManager {
         val instance: PersistenceManager
             get() {
                 if (_instance == null) {
-                    _instance = if (Preferences().dbxAccessToken != null) DbxManager() else LocalManager()
+                    _instance = if (Preferences.dbxAccessToken != null) DbxManager() else LocalManager()
                 }
                 return _instance!!
             }

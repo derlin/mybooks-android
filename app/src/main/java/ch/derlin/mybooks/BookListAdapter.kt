@@ -9,7 +9,7 @@ import ch.derlin.mybooks.R
 
 class BookListAdapter(var books: Books,
                       defaultComparator: Comparator<Book> = Book.nameComparatorAsc,
-                      var textviewCounter: TextView? = null) :
+                      private var textviewCounter: TextView? = null) :
         RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
 
     var comparator: Comparator<Book> = defaultComparator
@@ -21,7 +21,7 @@ class BookListAdapter(var books: Books,
     var onLongClick: ((Book) -> Unit)? = null
 
     private var lastSearch: String = ""
-    var filtered = books.values.map { i -> i }.toMutableList()
+    private var filtered = books.values.toMutableList()
 
     init {
         setHasStableIds(true)
@@ -29,27 +29,27 @@ class BookListAdapter(var books: Books,
         updateCounter()
     }
 
-    override fun onBindViewHolder(holder: BookViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         onBindViewHolder(holder, position, null)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BookViewHolder {
         // create a new view
-        val v: View = LayoutInflater.from(parent!!.context)
-                .inflate(R.layout.book_list_content, parent, false)
+        val v: View = LayoutInflater.from(parent!!.context).inflate(R.layout.book_list_content, parent, false)
         return BookViewHolder(v)
     }
 
-    override fun onBindViewHolder(hholder: BookViewHolder?, position: Int, payloads: MutableList<Any>?) {
-        val item = filtered[position]
-        hholder?.let { holder ->
-            holder.titleView.text = item.title.capitalize()
-            holder.leftSubtitleView.text = item.author
-            holder.rightSubtitleView.text = item.date
 
-            holder.view.setOnClickListener { _ -> onClick?.invoke(item) }
-            holder.view.setOnLongClickListener { _ -> onLongClick?.invoke(item); true }
-        }
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int, payloads: MutableList<Any>?) {
+        val item = filtered[position]
+
+        holder.titleView.text = item.title.capitalize()
+        holder.leftSubtitleView.text = item.author
+        holder.rightSubtitleView.text = item.date
+
+        holder.view.setOnClickListener { _ -> onClick?.invoke(item) }
+        holder.view.setOnLongClickListener { _ -> onLongClick?.invoke(item); true }
+
     }
 
     override fun getItemCount(): Int = filtered.size
@@ -90,7 +90,7 @@ class BookListAdapter(var books: Books,
         else books.values.filter { i -> i.match(lastSearch) }.toMutableList()
     }
 
-    fun resetAndNotify() {
+    private fun resetAndNotify() {
         doFilter()
         doSort()
         updateCounter()
@@ -106,7 +106,7 @@ class BookListAdapter(var books: Books,
     fun positionOf(book: Book): Int = filtered.indexOf(book)
 
     private fun updateCounter() {
-        textviewCounter?.setText(App.appContext.getString(R.string.book_list_counter_text, filtered.size))
+        textviewCounter?.text = App.appContext.getString(R.string.book_list_counter_text, filtered.size)
     }
     // -----------------------------------------
 

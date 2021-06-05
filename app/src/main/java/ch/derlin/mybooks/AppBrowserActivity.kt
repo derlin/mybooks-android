@@ -53,7 +53,7 @@ class AppBrowserActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.let { actionBar ->
             // remove title, but show a cross to close the webview
-            actionBar.setTitle("")
+            actionBar.title = ""
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.ic_close)
         }

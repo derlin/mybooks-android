@@ -32,11 +32,9 @@ class BookDetailFragment : Fragment() {
 
             }
         }
-
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.book_detail, container, false)
 
 
@@ -44,10 +42,12 @@ class BookDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Show the dummy content as text in a TextView.
-        details_title.setText(mItem.title)
-        details_author.setText(mItem.author)
-        details_date.setText(mItem.date)
-        details_notes.setText(mItem.notes)
+        with(mItem) {
+            details_title.text = title
+            details_author.text = author
+            details_date.text = date
+            details_notes.text = notes
+        }
 
         (activity as? BookDetailActivity)?.let {
             it.fab.setImageResource(R.drawable.ic_edit)

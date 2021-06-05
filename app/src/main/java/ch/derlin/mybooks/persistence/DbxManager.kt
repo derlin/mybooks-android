@@ -23,24 +23,19 @@ import timber.log.Timber
 
 class DbxManager : PersistenceManager() {
 
-    val remoteFilePath = "/${baseFileName}"
+    private val remoteFilePath = "/${baseFileName}"
 
-    var metadata: FileMetadata? = null
+    private var metadata: FileMetadata? = null
 
     override var books: Books? = null
     override val localFileExists: Boolean
-        get() = prefs.revision != null
+        get() = Preferences.revision != null
 
     val client: DbxClientV2 by lazy {
-        val token = Preferences(App.appContext).dbxAccessToken
+        val token = Preferences.dbxAccessToken
         Timber.d("Dropbox token ?? client created")
-        val config = DbxRequestConfig.newBuilder(
-                App.appContext.getString(R.string.dbx_request_config_name)).build()
+        val config = DbxRequestConfig.newBuilder(App.appContext.getString(R.string.dbx_request_config_name)).build()
         DbxClientV2(config, token)
-    }
-
-    val prefs: Preferences by lazy {
-        Preferences(App.appContext)
     }
 
     var isInSync = false
@@ -50,7 +45,7 @@ class DbxManager : PersistenceManager() {
     fun removeLocalFile(): Boolean {
         val ok = removeAppFile()
         Timber.d("""removed local file ? $ok""")
-        prefs.revision = null
+        Preferences.revision = null
         return ok
     }
 
@@ -59,7 +54,7 @@ class DbxManager : PersistenceManager() {
         task {
             try {
                 metadata = client.files().getMetadata(remoteFilePath) as FileMetadata
-                isInSync = metadata?.rev.equals(prefs.revision)
+                isInSync = metadata?.rev.equals(Preferences.revision)
 
                 if (isInSync && localFileExists) {
                     books = deserialize()
@@ -69,7 +64,7 @@ class DbxManager : PersistenceManager() {
                 }
             } catch (e: GetMetadataErrorException) {
                 // session does not exist
-                prefs.revision = null
+                Preferences.revision = null
                 books = mutableMapOf()
                 deferred.resolve(isInSync)
             }
@@ -91,9 +86,8 @@ class DbxManager : PersistenceManager() {
         val deferred = deferred<Boolean, Exception>()
         task {
             Timber.d("revoking Dropbox token")
-            val prefs = Preferences()
-            prefs.dbxAccessToken = null
-            prefs.revision = null
+            Preferences.dbxAccessToken = null
+            Preferences.revision = null
             client.auth().tokenRevoke()
             deferred.resolve(true)
         } fail {
@@ -103,7 +97,7 @@ class DbxManager : PersistenceManager() {
     }
 
     override fun persist(): Promise<Boolean, Exception> {
-        assert(books != null)
+        requireNotNull(books)
 
         val deferred = deferred<Boolean, Exception>()
         task {
@@ -117,7 +111,7 @@ class DbxManager : PersistenceManager() {
                     .withMode(WriteMode.OVERWRITE)
                     .uploadAndFinish(App.appContext.openFileInput(baseFileName))
 
-            prefs.revision = metadata!!.rev
+            Preferences.revision = metadata!!.rev
             deferred.resolve(true)
             Timber.d("end save books %s", Thread.currentThread())
         } fail {
@@ -136,9 +130,8 @@ class DbxManager : PersistenceManager() {
                     .download(metadata!!.pathDisplay)
                     .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
 
-
             books = deserialize()
-            prefs.revision = metadata!!.rev
+            Preferences.revision = metadata!!.rev
             isInSync = true
             deferred.resolve(true)
 
