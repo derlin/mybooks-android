@@ -45,6 +45,7 @@
     <string name="back">Back</string>
     <string name="refresh">Refresh</string>
     <string name="edit">Edit</string>
+    <string name="show">View</string>
 
     <!--messages-->
     <string name="nothing_to_save">Nothing to save</string>

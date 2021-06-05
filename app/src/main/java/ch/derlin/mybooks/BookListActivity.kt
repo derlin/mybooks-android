@@ -318,6 +318,10 @@ class BookListActivity : AppCompatActivity() {
             view.findViewById<TextView>(R.id.notes).text = item.notes
         }
 
+        view.findViewById<ImageButton>(R.id.viewButton).setOnClickListener {
+            showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
+        }
+
         view.findViewById<ImageButton>(R.id.editButton)
                 .setOnClickListener {
                     if (NetworkStatus.isInternetAvailable(this))

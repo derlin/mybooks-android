@@ -35,6 +35,7 @@
     <string name="back">Back</string>
     <string name="refresh">Recharger</string>
     <string name="edit">Modifier</string>
+    <string name="show">Afficher</string>
 
     <!--messages-->
     <string name="nothing_to_save">Rien à sauver</string>

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/windowBackground"
+    android:orientation="vertical"
     android:paddingBottom="50dip"
     app:behavior_hideable="true"
-    android:orientation="vertical"
-    android:background="?android:attr/windowBackground"
     app:layout_behavior="@string/bottom_sheet_behavior"
     tools:context="ch.derlin.mybooks.BookListActivity">
 
@@ -15,35 +15,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:orientation="horizontal"
-        android:foregroundTint="@android:color/primary_text_dark">
+        android:foregroundTint="@android:color/primary_text_dark"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/sheetTitle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingStart="10dp"
             android:text=""
-            android:layout_weight="1"
             android:textColor="?attr/colorHeaders" />
 
         <ImageButton
+            android:id="@+id/searchButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_google"
-            android:id="@+id/searchButton"
             android:contentDescription="@string/open_in_browser"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:src="@drawable/ic_google" />
 
         <ImageButton
+            android:id="@+id/viewButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
+            android:contentDescription="@string/show"
+            android:src="@drawable/ic_view"
+            android:tint="?android:colorAccent" />
+
+        <ImageButton
             android:id="@+id/editButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/edit"
-            android:tint="?android:colorAccent"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:src="@drawable/ic_edit"
+            android:tint="?android:colorAccent" />
     </LinearLayout>
 
     <TextView
@@ -51,6 +60,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:textAppearance="@style/AppTheme.TextAppearance"
-        android:text="@string/no_notes"/>
+        android:text="@string/no_notes"
+        android:textAppearance="@style/AppTheme.TextAppearance" />
 </LinearLayout>
