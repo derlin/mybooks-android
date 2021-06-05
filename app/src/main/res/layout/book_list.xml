@@ -27,7 +27,9 @@
         android:layout_alignParentEnd="false"
         android:background="?android:attr/windowBackground"
         android:backgroundTint="?attr/colorPrimary"
-        android:padding="5dip"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
+        android:paddingStart="10dip"
         android:paddingEnd="10dip"
         android:textColor="@color/whity" />
 

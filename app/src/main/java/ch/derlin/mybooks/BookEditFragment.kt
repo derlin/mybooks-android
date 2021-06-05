@@ -7,19 +7,19 @@ import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
+import ch.derlin.mybooks.helpers.MiscUtils.rootView
+import ch.derlin.mybooks.persistence.PersistenceManager
+import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.book_edit.*
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
-import kotlinx.android.synthetic.main.activity_book_detail.*
-import ch.derlin.mybooks.helpers.MiscUtils.rootView
-import ch.derlin.mybooks.helpers.MiscUtils.hideKeyboard
-import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
-import ch.derlin.mybooks.persistence.PersistenceManager
+
 
 /**
  * A fragment representing a single Book detail screen.
@@ -37,7 +37,9 @@ class BookEditFragment : Fragment() {
 
     private var working: Boolean
         get() = progressBar.visibility == View.VISIBLE
-        set(value) { progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE }
+        set(value) {
+            progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
+        }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -69,19 +71,6 @@ class BookEditFragment : Fragment() {
         edit_title.afterTextChanged { newName ->
             (activity as? BookDetailActivity)?.fab?.isEnabled = newName.isNotBlank()
             button_edit_save.isEnabled = newName.isNotBlank()
-        }
-
-
-        // see https://stackoverflow.com/a/39770984/2667536
-        edit_notes.setHorizontallyScrolling(false)
-        edit_notes.maxLines = 5
-        edit_notes.setOnEditorActionListener { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                activity?.hideKeyboard()
-                true
-            } else {
-                false
-            }
         }
 
         // save and cancel buttons

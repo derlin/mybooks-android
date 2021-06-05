@@ -64,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
             android:layout_marginTop="6dp"
-            android:lineSpacingExtra="10dp"
             android:paddingBottom="10dp"
             android:textAppearance="@style/AppTheme.TextAppearance" />
 
