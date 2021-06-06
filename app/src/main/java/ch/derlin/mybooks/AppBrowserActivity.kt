@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ch.derlin.mybooks.helpers.ImageDownloadManager
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
 
@@ -56,7 +57,6 @@ class AppBrowserActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_close)
         }
 
-        checkPermissions()
         initWebview()
         registerForContextMenu(webview) // to show "download", "open in..." on long-press
 
@@ -72,7 +72,7 @@ class AppBrowserActivity : AppCompatActivity() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 // show loading page progress
                 working = true
-                progressBar.setProgress(progress)
+                progressBar.progress = progress
                 if (progress == 100) working = false
             }
         }
@@ -122,28 +122,13 @@ class AppBrowserActivity : AppCompatActivity() {
         webview.isHorizontalScrollBarEnabled = true
     }
 
-    private fun checkPermissions() {
-        // we need the external storage permission in order to download images
-        if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-        } else {
-            writeExternalStorageIsGranted = true
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        writeExternalStorageIsGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-    }
-
     override fun onCreateContextMenu(contextMenu: ContextMenu, view: View, contextMenuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(contextMenu, view, contextMenuInfo)
         val hit = lastHit
 
         if (hit.first != WebView.HitTestResult.UNKNOWN_TYPE &&
-                hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE) {
+                hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE &&
+                hit.first != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
             // something like a link or a part of text --> share
             contextMenu.add(0, 1, 0, getString(R.string.share))
                     .setOnMenuItemClickListener {
@@ -156,13 +141,12 @@ class AppBrowserActivity : AppCompatActivity() {
                 || hit.first == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
 
             // try to download the image under the click
-            if (writeExternalStorageIsGranted) { // if we can actually write the image
-                contextMenu.add(0, 1, 0, getString(R.string.download_image))
-                        .setOnMenuItemClickListener {
-                            val imageUrl = hit.second
-                            downloadImage(imageUrl)
-                        }
-            }
+            contextMenu.add(0, 1, 0, getString(R.string.download_image))
+                    .setOnMenuItemClickListener {
+                        val imageUrl = hit.second
+                        downloadImage(imageUrl)
+                    }
+
         }
     }
 

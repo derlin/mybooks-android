@@ -1,35 +1,39 @@
 package ch.derlin.mybooks.helpers
 
 import android.app.*
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build.VERSION
-import android.os.Build.VERSION_CODES
 import android.os.Environment
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.app.NotificationCompat
+import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import ch.derlin.mybooks.R
+import nl.komponents.kovenant.Kovenant.deferred
+import nl.komponents.kovenant.Promise
+import nl.komponents.kovenant.task
 import timber.log.Timber
-import java.io.File
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 object ImageDownloadManager {
 
-    val notificationChannelId = "derlin.mybooks"
+    private const val notificationChannelId = "derlin.mybooks"
 
-    val base64Compressors = mapOf<String, Bitmap.CompressFormat>(
+    private val base64Compressors = mapOf(
             "png" to Bitmap.CompressFormat.PNG,
             "jpg" to Bitmap.CompressFormat.JPEG,
             "jpeg" to Bitmap.CompressFormat.JPEG,
             "webp" to Bitmap.CompressFormat.WEBP)
 
-    private fun getBase64ImageType(imageData: String): String? =
+    fun getBase64ImageType(imageData: String): String? =
             Regex("data:image/([^;]+).*").find(imageData)?.groups?.get(1)?.value
 
     fun isDownloadable(url: String): Boolean =
@@ -46,23 +50,13 @@ object ImageDownloadManager {
         if (isBase64Image(url)) {
             val imageURI = downloadBase64Image(applicationContext, url)
             imageURI?.let { _ ->
-                //                Snackbar.make(findViewById(android.R.id.content),
-//                        "Image downloaded", Snackbar.LENGTH_SHORT)
-//                        .setAction("view", { _ ->
-//                            val intent = Intent(Intent.ACTION_VIEW)
-//                            intent.setDataAndType(uri, "image/*")
-//                            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//                            if (intent.resolveActivity(packageManager) != null)
-//                                startActivity(intent)
-//                        })
-//                        .show()
                 Toast.makeText(this, getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
                 return true
             }
         } else {
             try {
                 downloadFromUrl(applicationContext, url)
-                Toast.makeText(this,  getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
             } catch (t: Throwable) {
                 Timber.e(t)
             }
@@ -70,14 +64,19 @@ object ImageDownloadManager {
         return false
     }
 
-    @Throws(IllegalArgumentException::class)
     fun downloadFromUrl(ctx: Context, imageUrl: String): Long {
-        if (!URLUtil.isValidUrl(imageUrl)) throw IllegalArgumentException("Not a valid URL")
-
+        require(URLUtil.isValidUrl(imageUrl)) {
+            "Not a valid URL"
+        }
+        val contentType = getImageUrlContentType(imageUrl).get()
+        require(contentType.isNotBlank()) {
+            "Could not determine content type for URL $imageUrl"
+        }
+        val filename = "${System.currentTimeMillis()}.${contentType.split("/").last()}"
         val request = DownloadManager.Request(Uri.parse(imageUrl))
-        request.allowScanningByMediaScanner()
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, imageUrl.split("/").last())
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
         return (ctx.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
     }
 
@@ -87,52 +86,70 @@ object ImageDownloadManager {
             val bytes = android.util.Base64.decode(imageUrl.split(",").last(), android.util.Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 
-            val externalStorage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val file = File(externalStorage, "${System.currentTimeMillis()}.${type}")
-
-            file.outputStream().use {
-                if (bitmap.compress(base64Compressors.get(type), 100, it))
-                // see https://proandroiddev.com/sharing-files-though-intents-are-you-ready-for-nougat-70f7e9294a0b
-                    return if (VERSION.SDK_INT >= VERSION_CODES.N)
-                        androidx.core.content.FileProvider.getUriForFile(ctx, ctx.getString(R.string.file_provider_authority), file)
-                    else
-                        Uri.fromFile(file)
+            val resolver = ctx.contentResolver
+            val fileName = "${System.currentTimeMillis()}.${type}"
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Downloads.TITLE, fileName)
+                put(MediaStore.Downloads.MIME_TYPE, "image/$type")
+                put(MediaStore.Downloads.IS_PENDING, 1)
             }
 
-            //Tell the media scanner about the new file so that it is immediately available to the user.
-            MediaScannerConnection.scanFile(ctx, arrayOf(file.toString()), null) { path, uri ->
-                Timber.d("Scanned $path:")
-                Timber.i("-> uri=$uri")
-            }
+            resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)?.let { uri ->
 
-            // Show a "download complete" notification
-            val intent = Intent()
-            intent.action = android.content.Intent.ACTION_VIEW
-            intent.setDataAndType(Uri.fromFile(file), "$type/*")
-            val pIntent = PendingIntent.getActivity(ctx, 0, intent, 0)
+                resolver.openOutputStream(uri).use {
+                    bitmap.compress(base64Compressors[type], 100, it)
+                    contentValues.clear()
+                    contentValues.put(MediaStore.Downloads.IS_PENDING, 0)
+                    resolver.update(uri, contentValues, null, null)
+                }
 
-            val notificationManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notificationBuilder = NotificationCompat.Builder(ctx, notificationChannelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentText(ctx.getString(R.string.image_downloaded))
-                    .setContentTitle(file.name)
-                    .setContentIntent(pIntent)
+                // Show a "download complete" notification
+                val intent = Intent()
+                intent.action = Intent.ACTION_VIEW
+                intent.setDataAndType(uri, "image/$type")
+                val pIntent = PendingIntent.getActivity(ctx, 0, intent, 0)
 
-            if (VERSION.SDK_INT >= VERSION_CODES.O) {
-                /* for android O (8), channel mandatory */
-                val channelName = ctx.packageName
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel = NotificationChannel(notificationChannelId, channelName, importance)
+                val notificationManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                // for android O (8), channel mandatory
+                val channel = NotificationChannel(notificationChannelId, ctx.packageName, NotificationManager.IMPORTANCE_DEFAULT)
                 notificationManager.createNotificationChannel(channel)
-                notificationBuilder.setChannelId(notificationChannelId)
+
+                val notification = NotificationCompat.Builder(ctx, notificationChannelId)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentText(ctx.getString(R.string.image_downloaded))
+                        .setContentTitle(fileName)
+                        .setContentIntent(pIntent)
+                        .setChannelId(notificationChannelId)
+                        .build()
+
+                notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
+                val notificationId = 85851
+
+                notificationManager.notify(notificationId, notification)
+                return uri
             }
-
-            val notification = notificationBuilder.build()
-            notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
-            val notificationId = 85851
-
-            notificationManager.notify(notificationId, notification)
         }
         return null
+    }
+
+    private fun getImageUrlContentType(imageUrl: String): Promise<String, Exception> {
+        val deferred = deferred<String, Exception>()
+        task {
+            var contentType = MimeTypeMap.getFileExtensionFromUrl(imageUrl)
+
+            if (contentType.isNullOrBlank()) {
+                (URL(imageUrl).openConnection() as HttpURLConnection).let { connection ->
+                    connection.requestMethod = "HEAD"
+                    connection.connect()
+                    contentType = connection.contentType ?: ""
+                }
+            }
+
+            deferred.resolve(contentType)
+        } fail {
+            deferred.resolve("")
+        }
+
+        return deferred.promise
     }
 }
