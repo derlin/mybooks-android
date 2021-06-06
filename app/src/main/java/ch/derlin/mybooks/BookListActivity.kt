@@ -4,36 +4,28 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
-import androidx.core.widget.NestedScrollView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import ch.derlin.changelog.Changelog
 import ch.derlin.changelog.Changelog.getAppVersion
 import ch.derlin.mybooks.helpers.MiscUtils.showIntro
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
-import ch.derlin.mybooks.helpers.ThemeHelper
-
-import ch.derlin.mybooks.persistence.PersistenceManager
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import ch.derlin.mybooks.helpers.ThemeHelper.toResource
 import ch.derlin.mybooks.helpers.ThemeHelper.toTheme
 import ch.derlin.mybooks.persistence.DbxManager
+import ch.derlin.mybooks.persistence.PersistenceManager
 import ch.derlin.mybooks.persistence.PersistenceManager.Companion.shareAppFile
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
 import kotlinx.android.synthetic.main.book_list_bottomsheet.*
@@ -96,7 +88,6 @@ class BookListActivity : AppCompatActivity() {
         }
 
         bottomSheetDialog = BooksBottomSheetDialog(
-                bottom_sheet_behavior,
                 showButtonCallback = { dialog, book ->
                     showDetails(book, BookDetailActivity.OPERATION_SHOW)
                     dialog.dismiss()
@@ -224,9 +215,7 @@ class BookListActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment as BookEditFragment).commit()
             }
         } else {
-            if (!bottomSheetDialog.hideAll()) {
-                super.onBackPressed()
-            }
+            super.onBackPressed()
         }
     }
 

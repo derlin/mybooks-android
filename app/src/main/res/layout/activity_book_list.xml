@@ -39,14 +39,4 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/bottom_sheet_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="?android:attr/windowBackground"
-        android:clipToPadding="true"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-    </androidx.core.widget.NestedScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

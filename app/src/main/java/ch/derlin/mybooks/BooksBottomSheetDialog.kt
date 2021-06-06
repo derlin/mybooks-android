@@ -3,24 +3,13 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.widget.NestedScrollView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BooksBottomSheetDialog(
-        bottomSheetBehaviorView: NestedScrollView,
         private val searchButtonCallback: (BottomSheetDialog, Book) -> Unit,
         private val editButtonCallback: (BottomSheetDialog, Book) -> Unit,
         private val showButtonCallback: (BottomSheetDialog, Book) -> Unit
 ) {
-
-    private val bottomSheetBehavior: BottomSheetBehavior<NestedScrollView> = BottomSheetBehavior.from(bottomSheetBehaviorView)
-
-    init {
-        bottomSheetBehavior.peekHeight = 300
-        bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-    }
 
     fun show(activity: Activity, book: Book) {
         val bottomSheetDialog = BottomSheetDialog(activity)
@@ -40,14 +29,5 @@ class BooksBottomSheetDialog(
 
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
-    }
-
-    fun hideAll(): Boolean {
-        return if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            true
-        } else {
-            false
-        }
     }
 }
