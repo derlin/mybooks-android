@@ -268,10 +268,10 @@ class BookListActivity : AppCompatActivity() {
             val arguments = Bundle()
             arguments.putParcelable(BookDetailActivity.BUNDLE_BOOK_KEY, item)
             mTwoPaneCurrentFragment = if (operation == BookDetailActivity.OPERATION_SHOW) BookDetailFragment() else BookEditFragment()
-            mTwoPaneCurrentFragment!!.arguments = arguments
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, mTwoPaneCurrentFragment as BookEditFragment)
-                    .commit()
+            mTwoPaneCurrentFragment?.let { fragment ->
+                fragment.arguments = arguments
+                supportFragmentManager.beginTransaction().replace(R.id.book_detail_container, fragment).commit()
+            }
         } else {
             val intent = Intent(this, BookDetailActivity::class.java)
             intent.putExtra(BookDetailActivity.BUNDLE_OPERATION_KEY, operation)
