@@ -4,6 +4,7 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -35,6 +36,7 @@ import ch.derlin.mybooks.persistence.DbxManager
 import ch.derlin.mybooks.persistence.PersistenceManager.Companion.shareAppFile
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
+import kotlinx.android.synthetic.main.book_list_bottomsheet.*
 import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
@@ -78,7 +80,7 @@ class BookListActivity : AppCompatActivity() {
             progressBar.visibility = if (value) View.VISIBLE else View.GONE
         }
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
+    private lateinit var bottomSheetDialog: BooksBottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,10 +90,23 @@ class BookListActivity : AppCompatActivity() {
         toolbar.title = title
 
         fab.setImageResource(R.drawable.ic_add)
-        fab.setOnClickListener { _ ->
+        fab.setOnClickListener {
             if (NetworkStatus.isInternetAvailable(this)) showDetails(null, BookDetailActivity.OPERATION_NEW)
             else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
         }
+
+        bottomSheetDialog = BooksBottomSheetDialog(
+                bottom_sheet_behavior,
+                showButtonCallback = { dialog, book ->
+                    showDetails(book, BookDetailActivity.OPERATION_SHOW)
+                    dialog.dismiss()
+                },
+                editButtonCallback = { dialog, book ->
+                    if (NetworkStatus.isInternetAvailable(this)) showDetails(book, BookDetailActivity.OPERATION_EDIT)
+                    else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
+                },
+                searchButtonCallback = { _, book -> searchGoogle(book) }
+        )
 
         mTwoPane = book_detail_container != null
 
@@ -102,11 +117,6 @@ class BookListActivity : AppCompatActivity() {
             fab.visibility = View.GONE
             loadBooks()
         }
-
-        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-        bottomSheetBehavior.peekHeight = 300
-        bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         if (!Preferences.introDone) {
             showIntro()
@@ -214,9 +224,7 @@ class BookListActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment as BookEditFragment).commit()
             }
         } else {
-            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            } else {
+            if (!bottomSheetDialog.hideAll()) {
                 super.onBackPressed()
             }
         }
@@ -255,10 +263,6 @@ class BookListActivity : AppCompatActivity() {
         adapter.onClick = { book ->
             selectedBook = book
             showBottomSheet(book)
-//            sheetTitle.setText(book.title)
-//            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-//                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//            }
         }
 
         adapter.onLongClick = { book ->
@@ -298,43 +302,14 @@ class BookListActivity : AppCompatActivity() {
         if (mTwoPane) showDetails(item, BookDetailActivity.OPERATION_SHOW)
     }
 
-    private var bottomSheetDialog: BottomSheetDialog? = null
-
     private fun showBottomSheet(item: Book) {
-
         selectedBook = item
-        //hideKeyboard()
         if (searchView.hasFocus()) searchView.clearFocus()
-
         if (mTwoPane) {
-            showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
+            showDetails(item, BookDetailActivity.OPERATION_SHOW)
             return
         }
-
-
-        bottomSheetDialog = BottomSheetDialog(this)
-        val view = layoutInflater.inflate(R.layout.book_list_bottomsheet, null)
-
-        view.findViewById<TextView>(R.id.sheetTitle).text = item.title
-        if (item.notes.isNotBlank()) {
-            view.findViewById<TextView>(R.id.notes).text = item.notes
-        }
-
-        view.findViewById<ImageButton>(R.id.viewButton).setOnClickListener {
-            showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
-        }
-
-        view.findViewById<ImageButton>(R.id.editButton)
-                .setOnClickListener {
-                    if (NetworkStatus.isInternetAvailable(this))
-                        showDetails(selectedBook!!, BookDetailActivity.OPERATION_EDIT)
-                    else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
-                }
-
-        view.findViewById<ImageButton>(R.id.searchButton).setOnClickListener { searchGoogle(selectedBook!!) }
-
-        bottomSheetDialog!!.setContentView(view)
-        bottomSheetDialog!!.show()
+        bottomSheetDialog.show(this, item)
     }
 
     private fun searchGoogle(book: Book) {
