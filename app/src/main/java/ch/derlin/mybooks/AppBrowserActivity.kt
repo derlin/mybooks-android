@@ -7,18 +7,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
-import androidx.appcompat.view.menu.MenuBuilder
-import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 
 
 class AppBrowserActivity : AppCompatActivity() {
@@ -47,7 +46,6 @@ class AppBrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyTheme()
         setContentView(R.layout.activity_webview)
 
         setSupportActionBar(toolbar)

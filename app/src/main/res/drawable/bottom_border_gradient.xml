@@ -11,16 +11,16 @@
                 <!--/>-->
             <gradient
                 android:angle="0"
-                android:startColor="#F5F5F5"
-                android:centerColor="?attr/colorDividers"
-                android:endColor="#F5F5F5"
+                android:startColor="@color/colorDividersEnd"
+                android:centerColor="@color/colorDividersCenter"
+                android:endColor="@color/colorDividersEnd"
                 android:centerX="0.3"
                 />
         </shape>
     </item>
     <item android:bottom="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="?android:windowBackground" />
+            <solid android:color="@color/background" />
         </shape>
     </item>
 </layer-list>

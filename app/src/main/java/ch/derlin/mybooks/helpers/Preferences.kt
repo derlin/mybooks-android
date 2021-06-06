@@ -3,6 +3,7 @@ package ch.derlin.mybooks.helpers
 import android.content.Context
 import android.content.SharedPreferences
 import ch.derlin.mybooks.App
+import ch.derlin.mybooks.helpers.ThemeHelper.Theme
 
 
 object Preferences {
@@ -26,11 +27,9 @@ object Preferences {
                 "id", App.appContext.packageName)
         set(value) = sharedPrefs.edit().putString("sortOrder", App.appContext.resources.getResourceName(value)).apply()
 
-    var currentTheme: Int
-        get() = App.appContext.resources.getIdentifier(
-                sharedPrefs.getString("currentTheme", "submenu_theme_light"),
-                "id", App.appContext.packageName)
-        set(value) = sharedPrefs.edit().putString("currentTheme", App.appContext.resources.getResourceName(value)).apply()
+    var currentTheme: Theme
+        get() = sharedPrefs.getString("currentTheme", null)?.let { Theme.valueOf(it) } ?: Theme.DEFAULT
+        set(value) = sharedPrefs.edit().putString("currentTheme", value.name).apply()
 
     /** Keep track of the version to show changelog dialog on update */
     var versionCode: Int

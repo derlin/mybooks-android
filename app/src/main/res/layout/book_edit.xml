@@ -26,20 +26,20 @@
 
         <!--infos header-->
         <TextView
-            style="?attr/headerStyle"
+            style="@style/Header"
             android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
             android:text="@string/infos_header" />
 
         <!--title-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:labelFor="@id/edit_title"
             android:text="@string/title_label" />
 
         <EditText
             android:id="@+id/edit_title"
-            style="?attr/detailsValueEditStyle"
+            style="@style/DetailsValueEdit"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_author"
@@ -50,13 +50,13 @@
 
         <!--author-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:labelFor="@id/edit_author"
             android:text="@string/author_label" />
 
         <AutoCompleteTextView
             android:id="@+id/edit_author"
-            style="?attr/detailsValueEditStyle"
+            style="@style/DetailsValueEdit"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_date"
@@ -64,13 +64,13 @@
 
         <!--read on-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:labelFor="@id/edit_date"
             android:text="@string/date_label" />
 
         <EditText
             android:id="@+id/edit_date"
-            style="?attr/detailsValueEditStyle"
+            style="@style/DetailsValueEdit"
             android:inputType="textVisiblePassword"
             android:hint="2017-10"
             android:maxLines="1"
@@ -81,7 +81,7 @@
 
         <!--notes header-->
         <TextView
-            style="?attr/headerStyle"
+            style="@style/Header"
             android:labelFor="@id/edit_notes"
             android:layout_gravity="fill_horizontal"
             android:text="@string/notes_header" />
@@ -95,7 +95,7 @@
             android:inputType="textMultiLine|textImeMultiLine" />
 
         <View
-            style="?attr/dividerStyle"
+            style="@style/Divider"
             android:layout_marginTop="10dp" />
 
         <LinearLayout
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancel"
-                android:textColor="?attr/colorAccent" />
+                android:textColor="@color/colorAccent" />
 
             <Button
                 android:id="@+id/button_edit_save"
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/save"
-                android:textColor="?attr/colorHeaders" />
+                android:textColor="@color/colorHeaders" />
         </LinearLayout>
 
 </LinearLayout>

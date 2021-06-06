@@ -25,9 +25,12 @@ import ch.derlin.mybooks.helpers.MiscUtils.showIntro
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.helpers.SwipeToDeleteCallback
+import ch.derlin.mybooks.helpers.ThemeHelper
 
 import ch.derlin.mybooks.persistence.PersistenceManager
 import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
+import ch.derlin.mybooks.helpers.ThemeHelper.toResource
+import ch.derlin.mybooks.helpers.ThemeHelper.toTheme
 import ch.derlin.mybooks.persistence.DbxManager
 import ch.derlin.mybooks.persistence.PersistenceManager.Companion.shareAppFile
 import kotlinx.android.synthetic.main.activity_book_list.*
@@ -79,7 +82,6 @@ class BookListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyTheme()
         setContentView(R.layout.activity_book_list)
 
         setSupportActionBar(toolbar)
@@ -129,7 +131,7 @@ class BookListActivity : AppCompatActivity() {
         menu.findItem(sort).isChecked = true
 
         val theme = Preferences.currentTheme
-        menu.findItem(theme).isChecked = true
+        menu.findItem(theme.toResource()).isChecked = true
 
         val linkedToDbx = Preferences.dbxAccessToken != null
         menu.findItem(R.id.action_dropbox_unlink).isVisible = linkedToDbx
@@ -164,8 +166,8 @@ class BookListActivity : AppCompatActivity() {
                 return true
             }
             R.id.group_menu_theme -> {
-                Preferences.currentTheme = item.itemId
-                restart()
+                applyTheme(item.itemId.toTheme())
+                item.isChecked = true
                 return true
             }
         }
@@ -342,7 +344,7 @@ class BookListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun createSwipeHandler() = object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.paleGreen)) {
+    private fun createSwipeHandler() = object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.colorAccent)) {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val item = adapter.removeAt(viewHolder.adapterPosition)
             working = true

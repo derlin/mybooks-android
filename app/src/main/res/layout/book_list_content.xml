@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="?attr/colorHeaders"
+        android:textColor="@color/colorHeaders"
         style="@style/AppTheme.TextAppearance"/>
 
     <TextView

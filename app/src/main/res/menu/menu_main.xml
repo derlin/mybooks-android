@@ -53,6 +53,9 @@
                 <item
                     android:id="@+id/submenu_theme_dark"
                     android:title="@string/theme_dark" />
+                <item
+                    android:id="@+id/submenu_theme_default"
+                    android:title="@string/theme_default" />
             </group>
         </menu>
     </item>

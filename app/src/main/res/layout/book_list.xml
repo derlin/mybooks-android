@@ -26,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="false"
         android:background="?android:attr/windowBackground"
-        android:backgroundTint="?attr/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
         android:paddingTop="5dip"
         android:paddingBottom="5dip"
         android:paddingStart="10dip"

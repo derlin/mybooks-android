@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="popupOverlayStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+        <!--change the navigation bar color, see https://stackoverflow.com/a/39307928/2667536 for details-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">#100</item>
+    </style>
+
+</resources>

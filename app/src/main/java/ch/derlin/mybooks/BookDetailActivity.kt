@@ -3,12 +3,11 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import ch.derlin.mybooks.helpers.NetworkStatus
-import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import kotlinx.android.synthetic.main.activity_book_detail.*
 
 /**
@@ -26,7 +25,6 @@ class BookDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyTheme()
         setContentView(R.layout.activity_book_detail)
         setSupportActionBar(toolbar)
 

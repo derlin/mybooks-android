@@ -16,42 +16,42 @@
         android:useDefaultMargins="false">
 
         <TextView
-            style="?attr/headerStyle"
+            style="@style/Header"
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
             android:text="@string/infos_header" />
 
         <!--title-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:text="@string/title_label" />
 
         <TextView
             android:id="@+id/details_title"
-            style="?attr/detailsValueStyle" />
+            style="@style/DetailsValue" />
 
         <!--author-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:text="@string/author_label" />
 
         <TextView
             android:id="@+id/details_author"
-            style="?attr/detailsValueStyle"/>
+            style="@style/DetailsValue"/>
 
         <!--date-->
         <TextView
-            style="?attr/detailsLabelStyle"
+            style="@style/DetailsLabel"
             android:text="@string/date_label" />
 
         <TextView
             android:id="@+id/details_date"
-            style="?attr/detailsValueStyle" />
+            style="@style/DetailsValue" />
 
 
         <!--notes header-->
         <TextView
-            style="?attr/headerStyle"
+            style="@style/Header"
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
             android:text="@string/notes_header" />

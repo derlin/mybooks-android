@@ -1,6 +1,6 @@
 package ch.derlin.mybooks.helpers
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatDelegate
 import ch.derlin.mybooks.R
 
 /**
@@ -8,14 +8,32 @@ import ch.derlin.mybooks.R
  */
 object ThemeHelper {
 
-    val availableThemes: HashMap<Int, Int> = hashMapOf(
-            R.id.submenu_theme_light to R.style.AppTheme,
-            R.id.submenu_theme_dark to R.style.AppTheme_Dark
+    enum class Theme {
+        DEFAULT, LIGHT, DARK
+    }
+
+    private val themeToResourceId = listOf(
+            Pair(Theme.DEFAULT, R.id.submenu_theme_default),
+            Pair(Theme.LIGHT, R.id.submenu_theme_light),
+            Pair(Theme.DARK, R.id.submenu_theme_dark)
     )
 
-    fun Activity.applyTheme() {
-        Preferences.currentTheme.let { themeName ->
-            availableThemes.get(themeName)?.let { setTheme(it) }
+    fun Theme.toResource(): Int =
+            themeToResourceId.first { it.first == this }.second
+
+    fun Int.toTheme(): Theme =
+            themeToResourceId.first { it.second == this }.first
+
+    fun Theme.toAppCompatMode(): Int = when (this) {
+        Theme.DEFAULT -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+        Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+    }
+
+    fun applyTheme(newTheme: Theme? = null) {
+        newTheme?.let { Preferences.currentTheme = newTheme }
+        (newTheme ?: Preferences.currentTheme).let {
+            AppCompatDelegate.setDefaultNightMode(it.toAppCompatMode())
         }
     }
 }

@@ -31,7 +31,7 @@
         android:icon='@drawable/ic_refresh'
         android:orderInCategory='101'
         android:title='@string/refresh'
-        app:iconTint="@color/paleGreen"
+        app:iconTint="@color/colorAccent"
         app:showAsAction='ifRoom' />
 
     <item
@@ -39,6 +39,6 @@
         android:icon='@drawable/ic_arrow_forward'
         android:orderInCategory='102'
         android:title='@string/forward'
-        app:iconTint="@color/paleGreen"
+        app:iconTint="@color/colorAccent"
         app:showAsAction='ifRoom' />
 </menu>

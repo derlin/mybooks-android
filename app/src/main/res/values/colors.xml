@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#7F95D1</color>
+    <color name="colorPrimaryDark">#5871B5</color>
+    <color name="colorAccent">#77CBB9</color>
+    <color name="background">@color/whity</color>
+    <color name="textPrimary">@color/blacky</color>
+    <color name="textPrimaryDark">@android:color/black</color>
+    <color name="textSecondary">@color/blackyLight</color>
+
+    <color name="colorHeaders">@color/colorPrimaryDark</color>
+    <color name="colorDividersCenter">@color/colorPrimary</color>
+    <color name="colorDividersEnd">#F5F5F5</color>
+
     <color name="whity">#FAFFFD</color>
     <color name="whityDark">#aeb1b0</color>
     <color name="blacky">#342E37</color>
     <color name="blackyLight">#605d61</color>
-
-
-    <!--vert un peu foncé et rose (first draft)-->
-    <!--<color name="colorPrimary">#689689</color>-->
-    <!--<color name="colorPrimaryDark">#457E6E</color>-->
-    <!--<color name="colorAccent">#D56AA0</color>-->
-
-
-    <!--<color name="colorPrimary">#565676</color> violet foncé -->
-
-    <!-- bleu bébé et vert pale, for the light theme -->
-    <color name="babyBlue">#7F95D1</color>
-    <color name="babyBlueDark">#5871B5</color>
-    <color name="paleGreen">#77CBB9</color>
-
-    <color name="holoBlue">#79c8ff</color>
-
-    <!--<color name="colorPrimaryDark">#90C186</color>-->
-    <!--<color name="colorPrimary">#BBDBB4</color>-->
-    <!--<color name="colorAccent">#D56AA0</color>-->
 </resources>

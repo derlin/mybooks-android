@@ -1,22 +1,33 @@
 <resources>
 
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:itemBackground">@color/colorPrimaryDark</item>
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- ## colors -->
-        <item name="colorPrimary">@color/babyBlue</item>
-        <item name="colorPrimaryDark">@color/babyBlueDark</item>
-        <item name="colorAccent">@color/paleGreen</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!--infos: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35-->
         <!-- editText border color on edit -->
         <!--<item name="colorControlActivated">@color/colorSecondaryLight</item>-->
         <!--ripple color-->
-        <item name="colorControlHighlight">@color/paleGreen</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
         <!--main text color -->
-        <item name="android:textColorPrimary">@color/blacky</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
         <!--color of underlines in edittext (not active), etc. -->
-        <item name="android:textColorSecondary">@color/blackyLight</item>
-        <item name="android:windowBackground">@color/whity</item>
-        <!-- color of the header, the dividers, etc -->
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+
+        <!-- background color -->
+        <item name="android:windowBackground">@color/background</item>
+        <!-- popup background (e.g. settings menu) and alert dialog background -->
+        <item name="itemBackground">@color/background</item>
+        <item name="android:itemBackground">@color/background</item>
+        <!-- alert dialog background -->
+        <item name="colorBackgroundFloating">@color/background</item>
+        <item name="android:colorBackgroundFloating">@color/background</item>
 
         <!-- ## text sizes -->
         <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
@@ -24,16 +35,7 @@
 
         <!-- ## styles (attributes, see attrs.xml) -->
         <item name="appbarOverlayStyle">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="popupOverlayStyle">@style/AppTheme.PopupOverlay</item>
-        <item name="headerStyle">@style/Header</item>
-        <item name="dividerStyle">@style/Divider</item>
-        <item name="detailsLabelStyle">@style/DetailsLabel</item>
-        <item name="detailsValueStyle">@style/DetailsValue</item>
-        <item name="detailsValueEditStyle">@style/DetailsValueEdit</item>
-        <item name="bottomsheetButtonStyle">@style/BottomSheetButton</item>
-
-        <item name="colorHeaders">?android:attr/colorPrimaryDark</item>
-        <item name="colorDividers">?android:attr/colorPrimary</item>
+        <item name="popupOverlayStyle">@style/ThemeOverlay.AppCompat.Dark</item>
 
         <item name="changelogStyle">@style/MyChangelog</item>
 
@@ -46,16 +48,7 @@
 
         <!--change the navigation bar color, see https://stackoverflow.com/a/39307928/2667536 for details-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">?android:attr/colorPrimaryDark</item>
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <!--dropdown in menu bar -->
-        <!--<item name="android:background">?attr/colorPrimary</item>-->
-        <!--<item name="android:textColor">?android:attr/windowBackground</item>-->
-        <!--<item name="colorControlNormal">?android:attr/windowBackground</item>-->
-        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
-        <item name="colorControlNormal">?android:attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
     </style>
 
     <style name="AppTheme.TextAppearance.Large" parent="@android:style/TextAppearance.Large">
@@ -78,7 +71,7 @@
         <item name="android:layout_marginTop">10sp</item>
         <item name="android:layout_marginBottom">10sp</item>
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">?attr/colorHeaders</item>
+        <item name="android:textColor">@color/colorHeaders</item>
         <item name="android:background">@drawable/bottom_border_gradient</item>
     </style>
 
@@ -125,8 +118,7 @@
 
     <style name="MyChangelogHeader" parent="LibChangelog.HeaderTitle">
         <!-- override the changelog title -->
-        <item name="android:background">?attr/colorHeaders</item>
-        <item name="android:textColor">?android:windowBackground</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">6dp</item>
         <item name="android:textAllCaps">true</item>

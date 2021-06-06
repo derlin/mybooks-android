@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Theme">
-        <attr name="activityStyle" format="reference" />
         <attr name="appbarOverlayStyle" format="reference" />
         <attr name="popupOverlayStyle" format="reference" />
-        <attr name="headerStyle" format="reference" />
-        <attr name="dividerStyle" format="reference" />
-        <attr name="detailsLabelStyle" format="reference" />
-        <attr name="detailsValueStyle" format="reference" />
-        <attr name="detailsValueEditStyle" format="reference" />
-        <attr name="bottomsheetButtonStyle" format="reference" />
-        <attr name="colorHeaders" format="reference" />
-        <attr name="colorDividers" format="reference" />
     </declare-styleable>
 </resources>

@@ -73,6 +73,7 @@
     <string name="theme">Thème</string>
     <string name="theme_light">Thème "light"</string>
     <string name="theme_dark">Thème "dark"</string>
+    <string name="theme_default">Système</string>
     <string name="link_to_dropbox">Connexion à Dropbox</string>
     <string name="unlink_from_dropbox">Se déconnecter de Dropbox</string>
     <string name="export_file">Exporter le fichier</string>

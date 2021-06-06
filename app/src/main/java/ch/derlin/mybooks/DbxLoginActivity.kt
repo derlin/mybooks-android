@@ -3,15 +3,14 @@ package ch.derlin.mybooks
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import com.dropbox.core.android.Auth
 import ch.derlin.mybooks.helpers.Preferences
-import ch.derlin.mybooks.helpers.ThemeHelper.applyTheme
 import ch.derlin.mybooks.persistence.LocalManager
 import ch.derlin.mybooks.persistence.PersistenceManager
+import com.dropbox.core.android.Auth
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import nl.komponents.kovenant.ui.alwaysUi
 import timber.log.Timber
@@ -39,7 +38,6 @@ class DbxLoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyTheme()
         setContentView(R.layout.activity_login)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

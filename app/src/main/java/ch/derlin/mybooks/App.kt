@@ -12,6 +12,8 @@ import nl.komponents.kovenant.buildDispatcher
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import android.content.Intent
+import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.helpers.ThemeHelper
 
 
 class App : Application() {
@@ -19,6 +21,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+        ThemeHelper.applyTheme()
         // limit background threads to one to avoid
         // concurrency on account update
         Kovenant.context {
