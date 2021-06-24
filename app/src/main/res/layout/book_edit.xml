@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <!--gridlayout with two columns-->
@@ -27,8 +27,8 @@
         <!--infos header-->
         <TextView
             style="@style/Header"
-            android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
             android:text="@string/infos_header" />
 
         <!--title-->
@@ -71,59 +71,63 @@
         <EditText
             android:id="@+id/edit_date"
             style="@style/DetailsValueEdit"
-            android:inputType="textVisiblePassword"
             android:hint="2017-10"
+            android:inputType="textVisiblePassword"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_notes"
             android:scrollHorizontally="true" />
 
     </GridLayout>
 
-        <!--notes header-->
-        <TextView
-            style="@style/Header"
-            android:labelFor="@id/edit_notes"
-            android:layout_gravity="fill_horizontal"
-            android:text="@string/notes_header" />
+    <!--notes header-->
+    <TextView
+        style="@style/Header"
+        android:layout_gravity="fill_horizontal"
+        android:labelFor="@id/edit_notes"
+        android:text="@string/notes_header" />
 
-        <!--notes field-->
-        <EditText
-            android:id="@+id/edit_notes"
+    <!--notes field-->
+    <EditText
+        android:id="@+id/edit_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:inputType="textMultiLine|textImeMultiLine" />
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical|fill_horizontal"
+        android:background="@drawable/bottom_border_gradient"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_edit_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:inputType="textMultiLine|textImeMultiLine" />
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/colorAccent" />
 
-        <View
-            style="@style/Divider"
-            android:layout_marginTop="10dp" />
-
-        <LinearLayout
-            style="?android:buttonBarButtonStyle"
+        <Button
+            android:id="@+id/button_edit_save"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical|fill_horizontal"
-            android:background="@drawable/bottom_border_gradient"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:textColor="@color/colorHeaders" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/button_edit_cancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/button_edit_save"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save"
-                android:textColor="@color/colorHeaders" />
-        </LinearLayout>
-
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

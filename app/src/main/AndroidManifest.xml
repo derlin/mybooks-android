@@ -55,7 +55,8 @@
         <activity
             android:name=".BookDetailActivity"
             android:label="@string/title_book_detail"
-            android:parentActivityName=".BookListActivity">
+            android:parentActivityName=".BookListActivity"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.derlin.mybooks.BookListActivity" />
