@@ -36,6 +36,7 @@
     <string name="refresh">Recharger</string>
     <string name="edit">Modifier</string>
     <string name="show">Afficher</string>
+    <string name="add">Ajouter</string>
 
     <!--messages-->
     <string name="nothing_to_save">Rien à sauver</string>

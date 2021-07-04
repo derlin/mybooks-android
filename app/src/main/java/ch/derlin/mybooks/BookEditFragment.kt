@@ -78,7 +78,6 @@ class BookEditFragment : Fragment() {
         button_edit_cancel.setOnClickListener { activity?.onBackPressed() }
 
         (activity as? BookDetailActivity)?.let {
-
             it.updateTitle(
                     if (mItem != null) getString(R.string.title_edit_existing_book).format(mItem?.title)
                     else getString(R.string.title_edit_new_book))
@@ -90,7 +89,7 @@ class BookEditFragment : Fragment() {
 
         // autocomplete for authors
         manager.books?.let {
-            edit_author.setAdapter(ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, it.getAuthors()))
+            edit_author.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it.getAuthors()))
         }
 
         // date
@@ -107,7 +106,7 @@ class BookEditFragment : Fragment() {
             var len = 0
             override fun afterTextChanged(editable: Editable?) {
                 val date = editable.toString()
-                if (date.length == 4 && date.length > len) {
+                if (date.matches("^\\d{4}(-\\d{2})?$".toRegex()) && date.length > len) {
                     edit_date.append("-")
                 }
             }

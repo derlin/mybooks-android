@@ -2,8 +2,7 @@
     <string name="app_name">MyBooks</string>
     <string name="action_settings">Settings</string>
 
-    <string translatable="false"
-        name="file_provider_authority">ch.derlin.mybooks.provider</string>
+    <string translatable="false" name="file_provider_authority">ch.derlin.mybooks.provider</string>
 
     <!--dropbox token and permissions-->
     <string translatable="false" name="prefs_dbx_access_token">dbx-access-token</string>
@@ -46,6 +45,7 @@
     <string name="refresh">Refresh</string>
     <string name="edit">Edit</string>
     <string name="show">View</string>
+    <string name="add">Add new</string>
 
     <!--messages-->
     <string name="nothing_to_save">Nothing to save</string>

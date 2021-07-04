@@ -5,7 +5,8 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 import java.util.*
 
 /**
@@ -61,27 +62,21 @@ data class Book(
             if (comp != 0) -comp else nameComparatorAsc.compare(a1, a2)
         }
 
-        private val yearMonthFmt = lazy {
-            SimpleDateFormat("YYYY-MM", Locale.FRENCH)
-        }
-
         val readNow: String
-            get() = yearMonthFmt.value.format(Date())
+            get() = ISO_LOCAL_DATE.format(LocalDate.now())
 
         /**
          * pad months.
          * "2010-1" -> "2010-01"
+         * "2010-1-2" -> "2010-01-02"
          * "  2019-2" -> "  2019-02"
          * "1999-9 " -> "1999-09 "
          * "??" -> "??"
          * etc.
          */
-        fun standardizedReadOn(readOn: String): String = readOn.replace(
-                Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
-
-        /*if (readOn.matches(Regex("^(19)|(20)[0-9]{2}-[0-9]$"))) {
-            readOn.substring(0, readOn.length - 1) + "0${readOn[readOn.length - 1]}"
-        } else readOn*/
+        fun standardizedReadOn(readOn: String): String = readOn
+                .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
+                .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
     }
 
     /**
@@ -118,5 +113,7 @@ data class Book(
 
 fun Books.getAuthors(): List<String> = map { b -> b.value.author }.distinct()
 
-fun Books.sanitize(): Books { return mapValues { it.value.sanitize() }.toMutableMap() }
+fun Books.sanitize(): Books {
+    return mapValues { it.value.sanitize() }.toMutableMap()
+}
 
