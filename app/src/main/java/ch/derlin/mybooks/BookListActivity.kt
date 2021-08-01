@@ -33,6 +33,7 @@ import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
 import timber.log.Timber
+import java.net.URLEncoder
 import java.util.*
 
 /**
@@ -49,8 +50,10 @@ class BookListActivity : AppCompatActivity() {
         private const val LINK_DROPBOX_REQUEST_CODE = 2006
         private const val DETAIL_ACTIVITY_REQUEST_CODE = 1984
 
-        fun googleUrlFor(queryParams: String) =
-                "https://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${queryParams}&pws=0&gl=us&gws_rd=cr"
+        fun googleUrlFor(book: Book): String {
+            val queryParams = URLEncoder.encode("${book.title} ${book.author}", "utf-8")
+            return "https://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${queryParams}&pws=0&gl=us&gws_rd=cr"
+        }
     }
 
     /**
@@ -83,7 +86,7 @@ class BookListActivity : AppCompatActivity() {
 
         fab.setImageResource(R.drawable.ic_add)
         fab.setOnClickListener {
-            if (NetworkStatus.isInternetAvailable(this)) showDetails(null, BookDetailActivity.OPERATION_NEW)
+            if (PersistenceManager.instance.canEdit()) showDetails(null, BookDetailActivity.OPERATION_NEW)
             else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
         }
 
@@ -93,7 +96,7 @@ class BookListActivity : AppCompatActivity() {
                     dialog.dismiss()
                 },
                 editButtonCallback = { dialog, book ->
-                    if (NetworkStatus.isInternetAvailable(this)) showDetails(book, BookDetailActivity.OPERATION_EDIT)
+                    if (PersistenceManager.instance.canEdit()) showDetails(book, BookDetailActivity.OPERATION_EDIT)
                     else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
                 },
                 searchButtonCallback = { _, book -> searchGoogle(book) }
@@ -158,7 +161,6 @@ class BookListActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.groupId) {
             R.id.group_menu_sort -> {
                 Preferences.sortOrder = item.itemId
@@ -246,7 +248,7 @@ class BookListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = BookListAdapter(manager.books!!, getSortOrder(Preferences.sortOrder), countText)
+        adapter = BookListAdapter(requireNotNull(manager.books), getSortOrder(Preferences.sortOrder), countText)
         recyclerView.adapter = adapter
 
         adapter.onClick = { book ->
@@ -304,7 +306,7 @@ class BookListActivity : AppCompatActivity() {
     private fun searchGoogle(book: Book) {
         // see https://stackoverflow.com/a/4800679/2667536
         val intent = Intent(this, AppBrowserActivity::class.java)
-        intent.putExtra("url", googleUrlFor(book.toSearchQuery()))
+        intent.putExtra("url", googleUrlFor(book))
         startActivity(intent)
     }
 

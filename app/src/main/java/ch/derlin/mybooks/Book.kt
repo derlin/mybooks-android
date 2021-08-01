@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.text.Normalizer
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 import java.util.*
@@ -37,16 +38,8 @@ data class Book(
     val normalizedKey: String
         get() = normalizeKey(title)
 
-    fun match(search: String): Boolean {
-        return title.toLowerCase().contains(search) || //
-                author.toLowerCase().contains(search) || //
-                date.toLowerCase().contains(search) || //
-                notes.toLowerCase().contains(search)
-    }
-
-    fun toSearchQuery(): String {
-        return title.split(Regex(" +")).joinToString("+") + "+" +
-                author.split(Regex(" +")).joinToString("+")
+    fun match(search: String): Boolean = with(search.toLowerCase(Locale.getDefault())) {
+        listOf(title, author, date, notes).any { it.toLowerCase(Locale.getDefault()).contains(this) }
     }
 
     companion object {
@@ -88,17 +81,14 @@ data class Book(
      *
      * @return the normalized title
      */
-    fun normalizeKey(key: String): String = key.toLowerCase() //
-            .replace("é", "e")//
-            .replace("è", "e")//
-            .replace("ê", "e")//
-            .replace("à", "a")//
-            .replace("ç", "c")//
-            .replace("ù", "u")//
-            .replace("û", "u")
+    fun normalizeKey(key: String): String = key.toLowerCase()
+            .removeDiacritics()
             .replace("[^a-z0-9 ]".toRegex(), " ")
             .replace(" +".toRegex(), " ")
-            .trim { it <= ' ' }
+            .trim()
+
+    private fun String.removeDiacritics() =
+            Normalizer.normalize(this, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "")
 
     fun sanitize(): Book = Book(
             // trim + capitalize first letter of each word

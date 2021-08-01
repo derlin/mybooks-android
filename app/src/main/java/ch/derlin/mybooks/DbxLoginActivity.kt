@@ -27,7 +27,7 @@ class DbxLoginActivity : AppCompatActivity() {
     private val tmpBooksFile = "mybooks-tmp.json"
     private var hasLocalData = false
 
-    private var working: Boolean
+    private var authInProgress: Boolean
         get() = progressBar.visibility == View.VISIBLE
         set(value) {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
@@ -53,7 +53,7 @@ class DbxLoginActivity : AppCompatActivity() {
                         hasLocalData = true
                     }
                 }
-                working = true
+                authInProgress = true
                 Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
             }
         } else {
@@ -70,7 +70,7 @@ class DbxLoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // the dropbox linking happens in another activity.
-        if (working) {
+        if (authInProgress) {
             val token = Auth.getOAuth2Token() //generate Access Token
             if (token != null) {
                 Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_finishing_auth), Snackbar.LENGTH_INDEFINITE).show()
@@ -83,7 +83,7 @@ class DbxLoginActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_auth_error), Snackbar.LENGTH_LONG).show()
                 Timber.d("Error authenticating")
-                working = false
+                authInProgress = false
             }
         }
     }
@@ -103,7 +103,7 @@ class DbxLoginActivity : AppCompatActivity() {
             manager.persist()
         } else {
             // we have books both in local and remote
-            if (oldBooks.equals(newBooks)) {
+            if (oldBooks == newBooks) {
                 // same content, do nothing
             } else {
                 dialog = AlertDialog.Builder(this) // TODO, R.style.AppTheme_AlertDialog)
@@ -124,7 +124,7 @@ class DbxLoginActivity : AppCompatActivity() {
         }
 
         manager.removeAppFile(tmpBooksFile) // delete old file
-        working = false
+        authInProgress = false
         if (dialog == null) finishTask()
     }
 
@@ -132,9 +132,4 @@ class DbxLoginActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK)
         this.finish()
     }
-
-    private fun forceRestart() {
-        this.finish()
-    }
-
 }

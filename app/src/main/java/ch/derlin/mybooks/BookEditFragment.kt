@@ -123,6 +123,7 @@ class BookEditFragment : Fragment() {
     private fun saveBook() {
 
         val newBook = getBook()
+        val books = requireNotNull(manager.books)
 
         // check that something has indeed changed
         if (mItem != null && newBook == mItem) {
@@ -131,7 +132,7 @@ class BookEditFragment : Fragment() {
         }
 
         // ensure there are no duplicate names in the account list
-        if (newBook.normalizedKey != mItem?.normalizedKey && manager.books!!.containsKey(newBook.normalizedKey)) {
+        if (newBook.normalizedKey != mItem?.normalizedKey && books.containsKey(newBook.normalizedKey)) {
             Toast.makeText(activity, getString(R.string.title_exists), Toast.LENGTH_LONG).show()
             return
         }
@@ -142,9 +143,9 @@ class BookEditFragment : Fragment() {
 
         mItem?.let {
             // remove old book
-            manager.books!!.remove(it.normalizedKey)
+            books.remove(it.normalizedKey)
         }
-        manager.books!![newBook.normalizedKey] = newBook
+        books[newBook.normalizedKey] = newBook
 
 
         // try save
@@ -167,8 +168,10 @@ class BookEditFragment : Fragment() {
     }
 
     private fun undo(newAccount: Book) {
-        mItem?.let { manager.books!![it.normalizedKey] = it }
-        manager.books!!.remove(newAccount.normalizedKey)
+        requireNotNull(manager.books).let { books ->
+            mItem?.let { books[it.normalizedKey] = it }
+            books.remove(newAccount.normalizedKey)
+        }
     }
 
     private fun getBook(): Book = Book(

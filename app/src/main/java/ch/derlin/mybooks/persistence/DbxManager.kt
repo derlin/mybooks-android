@@ -4,6 +4,7 @@ import android.content.Context
 import ch.derlin.mybooks.App
 import ch.derlin.mybooks.Books
 import ch.derlin.mybooks.R
+import ch.derlin.mybooks.helpers.NetworkStatus
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FileMetadata
@@ -41,6 +42,7 @@ class DbxManager : PersistenceManager() {
     var isInSync = false
         private set
 
+    override fun canEdit() = NetworkStatus.isInternetAvailable()
 
     fun removeLocalFile(): Boolean {
         val ok = removeAppFile()
