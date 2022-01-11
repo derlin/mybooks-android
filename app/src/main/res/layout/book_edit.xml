@@ -5,6 +5,13 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+
+    <Button
+        android:id="@+id/button_search_goodreads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="search GoodReads" />
+
     <!--gridlayout with two columns-->
     <GridLayout
         android:layout_width="match_parent"
@@ -71,8 +78,75 @@
         <EditText
             android:id="@+id/edit_date"
             style="@style/DetailsValueEdit"
-            android:hint="2017-10"
+            android:hint="2017-10-01"
             android:inputType="textVisiblePassword"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_pubdate"
+            android:scrollHorizontally="true" />
+
+        <TextView
+            style="@style/Header"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:labelFor="@id/edit_notes"
+            android:text="Metadata" />
+
+        <!--published on-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_pubdate"
+            android:text="Published" />
+
+        <EditText
+            android:id="@+id/edit_pubdate"
+            style="@style/DetailsValueEdit"
+            android:hint="2017-10-01"
+            android:inputType="textVisiblePassword"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_pages"
+            android:scrollHorizontally="true" />
+
+        <!--pages-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_pages"
+            android:text="Pages" />
+
+        <EditText
+            android:id="@+id/edit_pages"
+            style="@style/DetailsValueEdit"
+            android:hint="234"
+            android:inputType="number"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_isbn"
+            android:scrollHorizontally="true" />
+
+        <!--isbn-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_isbn"
+            android:text="ISBN" />
+
+        <EditText
+            android:id="@+id/edit_isbn"
+            style="@style/DetailsValueEdit"
+            android:hint="0394519434"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:nextFocusForward="@id/edit_gr_id"
+            android:scrollHorizontally="true" />
+
+        <!--goodreads ID-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_pages"
+            android:text="GoodReads ID" />
+
+        <EditText
+            android:id="@+id/edit_gr_id"
+            style="@style/DetailsValueEdit"
+            android:hint="54120408"
+            android:inputType="number"
             android:maxLines="1"
             android:nextFocusForward="@id/edit_notes"
             android:scrollHorizontally="true" />

@@ -18,25 +18,36 @@ typealias Books = MutableMap<String, Book>
 
 @SuppressLint("ParcelCreator")
 @Parcelize
+data class BookMeta(
+        @Expose @SerializedName("GoodreadsID") val grId: String,
+        @Expose @SerializedName("pubDate") val pubDate: String? = null,
+        @Expose @SerializedName("pages") val pages: Int? = null,
+        @Expose @SerializedName("ISBN") val isbn: String?,
+): Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class Book(
         @Expose @SerializedName("title") val title: String,
         @Expose @SerializedName("author") val author: String,
         @Expose @SerializedName("date") val date: String = "",
-        @Expose @SerializedName("notes") val notes: String = "") : Parcelable {
+        @Expose @SerializedName("notes") val notes: String = "",
+        @Expose @SerializedName("meta") val metas: BookMeta? = null,
+) : Parcelable {
 
     private var _uid = 0L
 
     val uid: Long
-        get() {
-            if (_uid == 0L) _uid = normalizedKey.hashCode().toLong()
-            return _uid
-        }
+    get() {
+        if (_uid == 0L) _uid = normalizedKey.hashCode().toLong()
+        return _uid
+    }
 
     val dateNumbers: String
-        get() = date.replace("[^\\d]".toRegex(), "")
+    get() = date.replace("[^\\d]".toRegex(), "")
 
     val normalizedKey: String
-        get() = normalizeKey(title)
+    get() = normalizeKey(title)
 
     fun match(search: String): Boolean = with(search.toLowerCase(Locale.getDefault())) {
         listOf(title, author, date, notes).any { it.toLowerCase(Locale.getDefault()).contains(this) }

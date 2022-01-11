@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
-        tools:context="derlin.ch.mybooks.ch.derlin.mybooks.BookListActivity"
+        tools:context="ch.derlin.mybooks.BookListActivity"
         tools:listitem="@layout/book_list_content" />
 
     <TextView

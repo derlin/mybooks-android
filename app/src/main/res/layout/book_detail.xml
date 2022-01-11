@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
     <!--gridlayout with two columns-->
     <!--scrollview : container for main content-->
@@ -49,6 +50,56 @@
             android:id="@+id/details_date"
             style="@style/DetailsValue" />
 
+        <!-- ===== METAS -->
+        <TextView
+            style="@style/Header"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:labelFor="@id/edit_notes"
+            android:contentDescription="metas"
+            android:text="Metadata"
+            tools:ignore="HardcodedText"/>
+
+        <!--published-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:contentDescription="metas"
+            android:text="Published" />
+
+        <TextView
+            android:id="@+id/details_metas_pubDate"
+            android:contentDescription="metas"
+            style="@style/DetailsValue"/>
+
+        <!--pages-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:contentDescription="metas"
+            android:text="Pages" />
+
+        <TextView
+            android:id="@+id/details_metas_pages"
+            android:contentDescription="metas"
+            style="@style/DetailsValue"/>
+
+        <!--isbn-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:contentDescription="metas"
+            android:text="ISBN" />
+
+        <TextView
+            android:id="@+id/details_metas_isbn"
+            android:contentDescription="metas"
+            style="@style/DetailsValue"/>
+
+        <!--gr url -->
+        <TextView
+            android:id="@+id/details_metas_url"
+            android:layout_columnSpan="2"
+            android:contentDescription="metas"
+            android:autoLink="web"
+            style="@style/DetailsValue"/>
 
         <!--notes header-->
         <TextView
@@ -56,7 +107,6 @@
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
             android:text="@string/notes_header" />
-
 
         <!--notes field-->
         <TextView

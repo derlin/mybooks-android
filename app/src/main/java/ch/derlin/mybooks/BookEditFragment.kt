@@ -1,24 +1,30 @@
 package ch.derlin.mybooks
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import ch.derlin.grmetafetcher.GoodReadsMetadata
 import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
+import ch.derlin.mybooks.helpers.MiscUtils.textTrimmed
 import ch.derlin.mybooks.persistence.PersistenceManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.book_edit.*
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
+import timber.log.Timber
+import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 
 
 /**
@@ -28,6 +34,10 @@ import nl.komponents.kovenant.ui.successUi
  * on handsets.
  */
 class BookEditFragment : Fragment() {
+
+    companion object {
+        private val SEARCH_GOODREADS_REQUEST_CODE = 6004
+    }
 
     /**
      * The dummy content this fragment is presenting.
@@ -64,6 +74,14 @@ class BookEditFragment : Fragment() {
             edit_author.setText(it.author)
             edit_date.setText(it.date)
             edit_notes.setText(it.notes)
+        }
+
+
+        mItem?.metas?.let {
+            edit_pubdate.setText(it.pubDate)
+            edit_pages.setText(it.pages?.toString())
+            edit_isbn.setText(it.isbn)
+            edit_gr_id.setText(it.grId)
         }
 
         button_edit_save.isEnabled = mItem?.title?.isNotBlank() ?: false
@@ -117,8 +135,31 @@ class BookEditFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
+
+        button_search_goodreads.setOnClickListener { searchGoodReads() }
     }
 
+    private fun searchGoodReads() {
+        with(Intent(requireContext(), GoodreadsSearchActivity::class.java)) {
+            putExtra(GoodreadsSearchActivity.BUNDLE_TITLE_SEARCH, edit_title.textTrimmed())
+            putExtra(GoodreadsSearchActivity.BUNDLE_AUTHOR_SEARCH, edit_author.textTrimmed())
+            startActivityForResult(this, SEARCH_GOODREADS_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == SEARCH_GOODREADS_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.extras?.getSerializable(GoodreadsSearchActivity.BUNDLE_GR_META)?.let { it as? GoodReadsMetadata }?.let {
+                Timber.d("Received metadata results from GoodReadsActivity $it")
+                edit_title.setText(it.title.capitalizeWords())
+                edit_author.setText(it.authors.joinToString(" & "))
+                edit_pubdate.setText(it.pubDate?.let { d -> ISO_LOCAL_DATE.format(d) })
+                edit_pages.setText(it.pages?.toString())
+                edit_isbn.setText(it.isbn)
+                edit_gr_id.setText(it.id)
+            }
+        }
+    }
 
     private fun saveBook() {
 
@@ -156,7 +197,7 @@ class BookEditFragment : Fragment() {
             (activity as? BookListActivity)?.notifyBookUpdate(newBook)
 
         } failUi {
-            // failed ... oups
+            // failed ... oops
             working = false
             // undo !
             undo(newBook)
@@ -174,9 +215,23 @@ class BookEditFragment : Fragment() {
         }
     }
 
-    private fun getBook(): Book = Book(
-            title = edit_title.text.toString().trim(),
-            author = edit_author.text.toString().trim(),
-            date = Book.standardizedReadOn(edit_date.text.toString().trim()),
-            notes = edit_notes.text.toString().trim())
+    private fun getBook(): Book {
+        return Book(
+                title = edit_title.textTrimmed(),
+                author = edit_author.textTrimmed(),
+                date = Book.standardizedReadOn(edit_date.textTrimmed()),
+                notes = edit_notes.textTrimmed(),
+                metas = edit_gr_id.textOrNull()?.let { grId ->
+                    BookMeta(
+                            grId = grId,
+                            pubDate = edit_pubdate.textOrNull(),
+                            pages = edit_pages.textOrNull()?.toInt(),
+                            isbn = edit_isbn.textOrNull()
+                    )
+                })
+    }
+
+    private fun EditText.textOrNull() = textTrimmed().let { if (it.isBlank()) null else it }
+
+    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }
 }

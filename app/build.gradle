@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.5'
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'ch.derlin.android:changelog:1.1@aar'
+    implementation'ch.derlin:goodreads-metadata-fetcher:1.0.0-SNAPSHOT'
     implementation 'com.github.apl-devs:appintro:v4.2.3'
 }
 
@@ -52,6 +53,7 @@ githubProperties.load(new FileInputStream(rootProject.file("github.properties"))
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven { url 'https://jitpack.io' /* appintro lib */ }
     maven { /* changelog lib, see https://github.com/enefce/AndroidLibraryForGitHubPackagesDemo */
         name = "GitHubPackages"

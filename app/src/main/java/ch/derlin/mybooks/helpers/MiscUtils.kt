@@ -1,14 +1,9 @@
 package ch.derlin.mybooks.helpers
 
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.text.Editable
-import android.text.Html
-import android.text.Spanned
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
@@ -46,6 +41,9 @@ object MiscUtils {
             }
         })
     }
+
+    /** Get trimed text from editText */
+    fun EditText.textTrimmed() = text.toString().trim()
 
     /** Launch the introduction slides activity using the [IntroActivity.INTENT_INTRO] request code */
     fun Activity.showIntro() {
