@@ -5,13 +5,14 @@ import ch.derlin.mybooks.App
 import ch.derlin.mybooks.Books
 import ch.derlin.mybooks.R
 import ch.derlin.mybooks.helpers.NetworkStatus
+import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.sanitize
 import com.dropbox.core.DbxRequestConfig
+import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.WriteMode
-import ch.derlin.mybooks.helpers.Preferences
-import ch.derlin.mybooks.sanitize
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.task
@@ -24,6 +25,11 @@ import timber.log.Timber
 
 class DbxManager : PersistenceManager() {
 
+    companion object {
+        fun requestConfig(): DbxRequestConfig = DbxRequestConfig
+                .newBuilder(App.appContext.getString(R.string.dbx_request_config_name)).build()
+    }
+
     private val remoteFilePath = "/${baseFileName}"
 
     private var metadata: FileMetadata? = null
@@ -32,11 +38,10 @@ class DbxManager : PersistenceManager() {
     override val localFileExists: Boolean
         get() = Preferences.revision != null
 
-    val client: DbxClientV2 by lazy {
+    private val client: DbxClientV2 by lazy {
         val token = Preferences.dbxAccessToken
         Timber.d("Dropbox token ?? client created")
-        val config = DbxRequestConfig.newBuilder(App.appContext.getString(R.string.dbx_request_config_name)).build()
-        DbxClientV2(config, token)
+        DbxClientV2(requestConfig(), DbxCredential.Reader.readFully(token))
     }
 
     var isInSync = false
@@ -69,7 +74,7 @@ class DbxManager : PersistenceManager() {
                 Preferences.revision = null
                 books = mutableMapOf()
                 deferred.resolve(isInSync)
-            }
+            } // TODO: catch InvalidAccessTokenException and set token to null in prefs
         } fail {
             deferred.reject(it)
         }

@@ -12,7 +12,7 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "ch.derlin.mybooks"
-        minSdkVersion 29
+        minSdkVersion 28
         targetSdkVersion 30
         versionCode 4
         versionName "0.4"

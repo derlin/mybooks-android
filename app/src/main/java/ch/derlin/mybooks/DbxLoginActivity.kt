@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import ch.derlin.mybooks.helpers.Preferences
+import ch.derlin.mybooks.persistence.DbxManager
 import ch.derlin.mybooks.persistence.LocalManager
 import ch.derlin.mybooks.persistence.PersistenceManager
 import com.dropbox.core.android.Auth
@@ -54,7 +55,7 @@ class DbxLoginActivity : AppCompatActivity() {
                     }
                 }
                 authInProgress = true
-                Auth.startOAuth2Authentication(this, getString(R.string.dbx_app_key))
+                Auth.startOAuth2PKCE(this, getString(R.string.dbx_app_key), DbxManager.requestConfig())
             }
         } else {
             Timber.d("Dropbox token is $token")
@@ -71,10 +72,10 @@ class DbxLoginActivity : AppCompatActivity() {
         super.onResume()
         // the dropbox linking happens in another activity.
         if (authInProgress) {
-            val token = Auth.getOAuth2Token() //generate Access Token
+            val token = Auth.getDbxCredential() //generate Access Token
             if (token != null) {
                 Snackbar.make(findViewById(android.R.id.content), getString(R.string.dbx_finishing_auth), Snackbar.LENGTH_INDEFINITE).show()
-                Preferences.dbxAccessToken = token //Store accessToken in SharedPreferences
+                Preferences.dbxAccessToken = token.toString() //Store accessToken in SharedPreferences
                 Timber.d("new Dropbox token is $token")
                 PersistenceManager.invalidate()
                 PersistenceManager.instance.fetchBooks().alwaysUi {
