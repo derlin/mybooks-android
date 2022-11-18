@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
     <!--gridlayout with two columns-->
     <!--scrollview : container for main content-->
 
@@ -10,8 +9,8 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
         android:layout_marginTop="20sp"
+        android:layout_marginEnd="4dp"
         android:columnCount="2"
         android:orientation="horizontal"
         android:padding="10dp"
@@ -39,7 +38,7 @@
 
         <TextView
             android:id="@+id/details_author"
-            style="@style/DetailsValue"/>
+            style="@style/DetailsValue" />
 
         <!--date-->
         <TextView
@@ -55,51 +54,50 @@
             style="@style/Header"
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
-            android:labelFor="@id/edit_notes"
             android:contentDescription="metas"
-            android:text="Metadata"
-            tools:ignore="HardcodedText"/>
+            android:labelFor="@id/edit_notes"
+            android:text="@string/metadata_header" />
 
         <!--published-->
         <TextView
             style="@style/DetailsLabel"
             android:contentDescription="metas"
-            android:text="Published" />
+            android:text="@string/published_label" />
 
         <TextView
             android:id="@+id/details_metas_pubDate"
-            android:contentDescription="metas"
-            style="@style/DetailsValue"/>
+            style="@style/DetailsValue"
+            android:contentDescription="metas" />
 
         <!--pages-->
         <TextView
             style="@style/DetailsLabel"
             android:contentDescription="metas"
-            android:text="Pages" />
+            android:text="@string/pages_label" />
 
         <TextView
             android:id="@+id/details_metas_pages"
-            android:contentDescription="metas"
-            style="@style/DetailsValue"/>
+            style="@style/DetailsValue"
+            android:contentDescription="metas" />
 
         <!--isbn-->
         <TextView
             style="@style/DetailsLabel"
             android:contentDescription="metas"
-            android:text="ISBN" />
+            android:text="@string/isbn_label" />
 
         <TextView
             android:id="@+id/details_metas_isbn"
-            android:contentDescription="metas"
-            style="@style/DetailsValue"/>
+            style="@style/DetailsValue"
+            android:contentDescription="metas" />
 
         <!--gr url -->
         <TextView
             android:id="@+id/details_metas_url"
+            style="@style/DetailsValue"
             android:layout_columnSpan="2"
-            android:contentDescription="metas"
             android:autoLink="web"
-            style="@style/DetailsValue"/>
+            android:contentDescription="metas" />
 
         <!--notes header-->
         <TextView

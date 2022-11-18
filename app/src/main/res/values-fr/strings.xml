@@ -20,6 +20,11 @@
     <string name="author_label">Auteur</string>
     <string name="date_label">Lu le</string>
     <string name="notes_header">Notes</string>
+    <string name="metadata_header">Metadata</string>
+    <string name="published_label">Publié le</string>
+    <string name="pages_label">Pages</string>
+    <string name="isbn_label">ISBN</string>
+    <string name="goodreads_id_label">ID GoodReads</string>
 
     <!--general-->
     <string name="no_notes">Aucune note.</string>
@@ -79,7 +84,7 @@
     <string name="unlink_from_dropbox">Se déconnecter de Dropbox</string>
     <string name="export_file">Exporter le fichier</string>
     <string name="view_changelog">Afficher le changelog</string>
-    <string name="view_intro">Afficher l`intro</string>
+    <string name="view_intro">Afficher l\'intro</string>
 
     <!--webview menu-->
     <string name="open_in_browser">ouvrir dans le navigateur</string>
@@ -95,4 +100,10 @@
     <string name="intro_theme_msg">Choisissez parmi des thèmes clairs ou foncés selon vos préférences.</string>
     <string name="intro_last_title">Allons-y!</string>
     <string name="intro_last_msg" />
+
+    <!-- GoodReads search -->
+    <string name="goodreads_search">Rechercher sur GoodReads</string>
+    <string name="goodreads_enter_search_prompt">Entrez un titre et/ou un auteur et cliquez sur "Rechercher".</string>
+    <string name="goodreads_showing_x_out_of_y">%d/%d résultat(s). Cliquez sur un résultat pour le sélectionner.</string>
+    <string name="goodreads_no_results">Aucun livre trouvé. Veuillez raffiner les termes de recherche.</string>
 </resources>

@@ -10,7 +10,7 @@
         android:id="@+id/button_search_goodreads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="search GoodReads" />
+        android:text="@string/goodreads_search" />
 
     <!--gridlayout with two columns-->
     <GridLayout
@@ -89,13 +89,13 @@
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
             android:labelFor="@id/edit_notes"
-            android:text="Metadata" />
+            android:text="@string/metadata_header" />
 
         <!--published on-->
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_pubdate"
-            android:text="Published" />
+            android:text="@string/published_label" />
 
         <EditText
             android:id="@+id/edit_pubdate"
@@ -110,7 +110,7 @@
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_pages"
-            android:text="Pages" />
+            android:text="@string/pages_label" />
 
         <EditText
             android:id="@+id/edit_pages"
@@ -125,7 +125,7 @@
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_isbn"
-            android:text="ISBN" />
+            android:text="@string/isbn_label" />
 
         <EditText
             android:id="@+id/edit_isbn"
@@ -140,7 +140,7 @@
         <TextView
             style="@style/DetailsLabel"
             android:labelFor="@id/edit_pages"
-            android:text="GoodReads ID" />
+            android:text="@string/goodreads_id_label" />
 
         <EditText
             android:id="@+id/edit_gr_id"

@@ -80,14 +80,14 @@ class GoodreadsSearchActivity : AppCompatActivity() {
     private fun updateInfoText() {
         currentResults?.let {
             gr_result_text.text = if (it.totalResults > 0)
-                "Showing ${resultsListAdapter.itemCount} out of ${it.totalResults} results. Click one to select."
+                getString(R.string.goodreads_showing_x_out_of_y).format(resultsListAdapter.itemCount, it.totalResults)
             else
-                "Nothing found on GoodReads. Try another search."
+                getString(R.string.goodreads_no_results)
         } ?: resetInfoText()
     }
 
     private fun resetInfoText() {
-        gr_result_text.text = "Enter a title and/or author to search Goodreads."
+        gr_result_text.text = getString(R.string.goodreads_enter_search_prompt)
     }
 
     private fun search() {

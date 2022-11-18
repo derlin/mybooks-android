@@ -29,6 +29,11 @@
     <string name="author_label">Author</string>
     <string name="date_label">Read on</string>
     <string name="notes_header">Notes</string>
+    <string name="metadata_header">Metadata</string>
+    <string name="published_label">Published</string>
+    <string name="pages_label">Pages</string>
+    <string name="isbn_label">ISBN</string>
+    <string name="goodreads_id_label">GoodReads ID</string>
 
     <!--general-->
     <string name="no_notes">No notes.</string>
@@ -101,5 +106,11 @@
     <string name="intro_theme_msg">Choose between a light or a dark theme to suit your mood.</string>
     <string name="intro_last_title">Let\'s do it!</string>
     <string name="intro_last_msg">Start enjoying MyBooks now!</string>
+
+    <!-- GoodReads search -->
+    <string name="goodreads_search">search GoodReads</string>
+    <string name="goodreads_enter_search_prompt">Enter a title and/or author to search GoodReads.</string>
+    <string name="goodreads_showing_x_out_of_y">Showing %d out of %d results. Click one to select.</string>
+    <string name="goodreads_no_results">Nothing found on GoodReads. Try another search.</string>
 
 </resources>
