@@ -28,7 +28,6 @@ import ch.derlin.mybooks.persistence.PersistenceManager.Companion.shareAppFile
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.book_list.*
-import kotlinx.android.synthetic.main.book_list_bottomsheet.*
 import nl.komponents.kovenant.ui.alwaysUi
 import nl.komponents.kovenant.ui.failUi
 import nl.komponents.kovenant.ui.successUi
@@ -95,7 +94,7 @@ class BookListActivity : AppCompatActivity() {
                     showDetails(book, BookDetailActivity.OPERATION_SHOW)
                     dialog.dismiss()
                 },
-                editButtonCallback = { dialog, book ->
+                editButtonCallback = { _, book ->
                     if (PersistenceManager.instance.canEdit()) showDetails(book, BookDetailActivity.OPERATION_EDIT)
                     else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
                 },
@@ -313,7 +312,7 @@ class BookListActivity : AppCompatActivity() {
 
     private fun createSwipeHandler() = object : SwipeToDeleteCallback(this, backgroundColor = getColor(R.color.colorAccent)) {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val item = adapter.removeAt(viewHolder.adapterPosition)
+            val item = adapter.removeAt(viewHolder.bindingAdapterPosition)
             working = true
 
             manager.persist()

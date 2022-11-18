@@ -1,10 +1,8 @@
 package ch.derlin.mybooks
 
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.ContextMenu
@@ -14,9 +12,6 @@ import android.view.View
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import ch.derlin.mybooks.helpers.ImageDownloadManager
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import kotlinx.android.synthetic.main.activity_webview.*
 
@@ -29,9 +24,6 @@ class AppBrowserActivity : AppCompatActivity() {
         set(value) {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
-
-    // don't show a "download image" option if we can't write the storage
-    private var writeExternalStorageIsGranted = false
 
     // keep track of the last link/image/phone (i.e. <a href>) link pressed
     // needed because the link is detected in shouldOverrideUrlLoading but the context menu

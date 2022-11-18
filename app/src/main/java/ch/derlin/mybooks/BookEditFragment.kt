@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import ch.derlin.grmetafetcher.GoodReadsMetadata
 import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
+import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
 import ch.derlin.mybooks.helpers.MiscUtils.textTrimmed
 import ch.derlin.mybooks.persistence.PersistenceManager
@@ -36,7 +37,7 @@ import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 class BookEditFragment : Fragment() {
 
     companion object {
-        private val SEARCH_GOODREADS_REQUEST_CODE = 6004
+        private const val SEARCH_GOODREADS_REQUEST_CODE = 6004
     }
 
     /**
@@ -59,7 +60,7 @@ class BookEditFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.book_edit, container, false)
 
 
@@ -100,9 +101,7 @@ class BookEditFragment : Fragment() {
                     if (mItem != null) getString(R.string.title_edit_existing_book).format(mItem?.title)
                     else getString(R.string.title_edit_new_book))
             it.fab.setImageResource(R.drawable.ic_save)
-            it.fab.setOnClickListener { _ ->
-                saveBook()
-            }
+            it.fab.setOnClickListener { saveBook() }
         }
 
         // autocomplete for authors
@@ -232,7 +231,7 @@ class BookEditFragment : Fragment() {
                 })
     }
 
-    private fun EditText.textOrNull() = textTrimmed().let { if (it.isBlank()) null else it }
+    private fun EditText.textOrNull() = textTrimmed().let { it.ifBlank { null } }
 
     private fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }
 }

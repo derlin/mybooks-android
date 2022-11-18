@@ -2,6 +2,7 @@ package ch.derlin.mybooks
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -23,7 +24,7 @@ data class BookMeta(
         @Expose @SerializedName("pubDate") val pubDate: String? = null,
         @Expose @SerializedName("pages") val pages: Int? = null,
         @Expose @SerializedName("ISBN") val isbn: String?,
-): Parcelable
+) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize
@@ -38,19 +39,19 @@ data class Book(
     private var _uid = 0L
 
     val uid: Long
-    get() {
-        if (_uid == 0L) _uid = normalizedKey.hashCode().toLong()
-        return _uid
-    }
+        get() {
+            if (_uid == 0L) _uid = normalizedKey.hashCode().toLong()
+            return _uid
+        }
 
     val dateNumbers: String
-    get() = date.replace("[^\\d]".toRegex(), "")
+        get() = date.replace("[^\\d]".toRegex(), "")
 
     val normalizedKey: String
-    get() = normalizeKey(title)
+        get() = normalizeKey(title)
 
-    fun match(search: String): Boolean = with(search.toLowerCase(Locale.getDefault())) {
-        listOf(title, author, date, notes).any { it.toLowerCase(Locale.getDefault()).contains(this) }
+    fun match(search: String): Boolean = with(search.lowercase(Locale.getDefault())) {
+        listOf(title, author, date, notes).any { it.lowercase(Locale.getDefault()).contains(this) }
     }
 
     companion object {
@@ -92,7 +93,7 @@ data class Book(
      *
      * @return the normalized title
      */
-    fun normalizeKey(key: String): String = key.toLowerCase()
+    private fun normalizeKey(key: String): String = key.lowercase()
             .removeDiacritics()
             .replace("[^a-z0-9 ]".toRegex(), " ")
             .replace(" +".toRegex(), " ")

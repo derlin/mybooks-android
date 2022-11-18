@@ -5,15 +5,13 @@ package ch.derlin.mybooks
  */
 import android.app.Application
 import android.content.Context
+import ch.derlin.mybooks.helpers.ThemeHelper
 import nl.komponents.kovenant.Kovenant
 import nl.komponents.kovenant.android.startKovenant
 import nl.komponents.kovenant.android.stopKovenant
 import nl.komponents.kovenant.buildDispatcher
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import android.content.Intent
-import ch.derlin.mybooks.helpers.Preferences
-import ch.derlin.mybooks.helpers.ThemeHelper
 
 
 class App : Application() {

@@ -1,11 +1,11 @@
 package ch.derlin.mybooks
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import ch.derlin.mybooks.R
+import androidx.recyclerview.widget.RecyclerView
+import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 
 class BookListAdapter(var books: Books,
                       defaultComparator: Comparator<Book> = Book.nameComparatorAsc,

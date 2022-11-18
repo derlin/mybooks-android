@@ -42,7 +42,10 @@ object MiscUtils {
         })
     }
 
-    /** Get trimed text from editText */
+    /** Re-implement the old capitalize with the new best practices. */
+    fun String.capitalize() = this.replaceFirstChar { it.uppercase() }
+
+    /** Get trimmed text from editText */
     fun EditText.textTrimmed() = text.toString().trim()
 
     /** Launch the introduction slides activity using the [IntroActivity.INTENT_INTRO] request code */

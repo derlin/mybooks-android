@@ -2,12 +2,8 @@ package ch.derlin.mybooks
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import com.dropbox.core.android.Auth
 import ch.derlin.mybooks.helpers.Preferences
-import kotlinx.android.synthetic.main.activity_start.*
 import timber.log.Timber
 
 /**
@@ -18,7 +14,6 @@ import timber.log.Timber
  * @author Lucy Linder
  */
 class StartActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

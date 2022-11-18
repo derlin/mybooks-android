@@ -18,7 +18,6 @@ import nl.komponents.kovenant.Kovenant.deferred
 import nl.komponents.kovenant.Promise
 import nl.komponents.kovenant.task
 import timber.log.Timber
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -107,7 +106,7 @@ object ImageDownloadManager {
                 val intent = Intent()
                 intent.action = Intent.ACTION_VIEW
                 intent.setDataAndType(uri, "image/$type")
-                val pIntent = PendingIntent.getActivity(ctx, 0, intent, 0)
+                val pIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
                 val notificationManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 // for android O (8), channel mandatory

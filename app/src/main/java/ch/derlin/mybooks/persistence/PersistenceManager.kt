@@ -10,6 +10,7 @@ import ch.derlin.mybooks.Books
 import ch.derlin.mybooks.R
 import ch.derlin.mybooks.helpers.Preferences
 import ch.derlin.mybooks.persistence.Migrations.performMigrations
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import nl.komponents.kovenant.Promise
@@ -19,7 +20,7 @@ import java.io.FileOutputStream
 
 abstract class PersistenceManager {
 
-    protected val gson =
+    protected val gson: Gson =
             GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .setPrettyPrinting()
@@ -63,19 +64,19 @@ abstract class PersistenceManager {
     }
 
     companion object {
-        private var _instance: PersistenceManager? = null
+        private var instance_: PersistenceManager? = null
 
         val instance: PersistenceManager
             get() {
-                if (_instance == null) {
-                    _instance = if (Preferences.dbxAccessToken != null) DbxManager() else LocalManager()
+                if (instance_ == null) {
+                    instance_ = if (Preferences.dbxAccessToken != null) DbxManager() else LocalManager()
                 }
-                return _instance!!
+                return instance_!!
             }
 
 
         fun invalidate() {
-            _instance = null
+            instance_ = null
         }
 
         fun Activity.shareAppFile() {

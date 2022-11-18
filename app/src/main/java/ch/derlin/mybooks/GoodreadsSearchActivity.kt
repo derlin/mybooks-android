@@ -148,7 +148,7 @@ class GoodreadsSearchActivity : AppCompatActivity() {
             }
             finish()
         } failUi {
-            Snackbar.make(rootView(), "An error occurred while fetching metas for $result: $it", Snackbar.LENGTH_LONG)
+            Snackbar.make(rootView(), "An error occurred while fetching metas for $result: $it", Snackbar.LENGTH_LONG).show()
         }
     }
 

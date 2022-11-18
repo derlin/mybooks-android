@@ -24,7 +24,6 @@ class BookDetailFragment : Fragment() {
      * The dummy content this fragment is presenting.
      */
     private lateinit var mItem: Book
-    private lateinit var mMetaViews: List<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_book_detail.*
  */
 class BookDetailActivity : AppCompatActivity() {
 
-    var selectedBook: Book? = null
+    private var selectedBook: Book? = null
     private var selectedOperation: String? = null
     private var shouldGoBackToEditView = false
     private var accountModified = false
@@ -28,7 +28,7 @@ class BookDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_detail)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { _ -> editBook() }
+        fab.setOnClickListener { editBook() }
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar
@@ -39,7 +39,7 @@ class BookDetailActivity : AppCompatActivity() {
             selectedOperation = extras.getString(BUNDLE_OPERATION_KEY)
 
             if (selectedOperation == OPERATION_EDIT || selectedOperation == OPERATION_SHOW) {
-                selectedBook = intent.getParcelableExtra<Book>(BUNDLE_BOOK_KEY)
+                selectedBook = intent.getParcelableExtra(BUNDLE_BOOK_KEY)
             }
         }
 
