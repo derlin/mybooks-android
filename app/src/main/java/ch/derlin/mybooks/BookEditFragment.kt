@@ -147,6 +147,7 @@ class BookEditFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SEARCH_GOODREADS_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.extras?.getSerializable(GoodreadsSearchActivity.BUNDLE_GR_META)?.let { it as? GoodReadsMetadata }?.let {

@@ -45,6 +45,7 @@ dependencies {
     implementation 'ch.derlin.android:changelog:1.1@aar'
     implementation'ch.derlin:goodreads-metadata-fetcher:1.0.0-SNAPSHOT'
     implementation 'com.github.apl-devs:appintro:v4.2.3'
+    implementation 'ch.derlin:goodreads-metadata-fetcher:1.0.0-SNAPSHOT'
 }
 
 // read github tokens for access to Github Packages
