@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_border_gradient"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp"
     android:paddingTop="5dp"
+    android:paddingEnd="16dp"
     android:paddingBottom="5dp">
 
     <TextView
         android:id="@+id/title"
+        style="@style/AppTheme.TextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
         android:textColor="@color/colorHeaders"
-        style="@style/AppTheme.TextAppearance"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/subtitle_left"
-        android:layout_below="@id/title"
-        android:layout_width="wrap_content"
+        style="@style/AppTheme.TextAppearance"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:text=""
-        style="@style/AppTheme.TextAppearance" />
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/subtitle_right"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
         android:id="@+id/subtitle_right"
-        android:layout_below="@id/title"
+        style="@style/AppTheme.TextAppearance.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:layout_alignParentEnd="true"
         android:text=""
         android:textColor="?android:attr/textColorSecondary"
-        style="@style/AppTheme.TextAppearance.Small" />
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
