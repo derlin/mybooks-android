@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -46,9 +47,6 @@ import java.util.*
 class BookListActivity : AppCompatActivity() {
 
     companion object {
-        private const val LINK_DROPBOX_REQUEST_CODE = 2006
-        private const val DETAIL_ACTIVITY_REQUEST_CODE = 1984
-
         fun googleUrlFor(book: Book): String {
             val queryParams = URLEncoder.encode("${book.title} ${book.author}", "utf-8")
             return "https://www.google.com/search?lr=lang_${Locale.getDefault().language}&q=${queryParams}&pws=0&gl=us&gws_rd=cr"
@@ -75,6 +73,21 @@ class BookListActivity : AppCompatActivity() {
         }
 
     private lateinit var bottomSheetDialog: BooksBottomSheetDialog
+
+    private val showDetails = registerForActivityResult(StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val data = it.data
+            if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) == true) {
+                // update the list in case of modification
+                selectedBook = data.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
+                notifyBookUpdate(selectedBook!!)
+            }
+        }
+    }
+
+    private val linkDropbox = registerForActivityResult(StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) restart()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,23 +156,6 @@ class BookListActivity : AppCompatActivity() {
         return true
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            DETAIL_ACTIVITY_REQUEST_CODE ->
-                if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) == true) {
-                    // update the list in case of modification
-                    selectedBook = data.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
-                    notifyBookUpdate(selectedBook!!)
-                }
-            LINK_DROPBOX_REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK) restart()
-            }
-            else -> super.onActivityResult(requestCode, resultCode, data)
-        }
-
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.groupId) {
             R.id.group_menu_sort -> {
@@ -177,9 +173,7 @@ class BookListActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_dropbox_link ->
-                startActivityForResult(
-                        Intent(this, DbxLoginActivity::class.java),
-                        LINK_DROPBOX_REQUEST_CODE)
+                linkDropbox.launch(Intent(this, DbxLoginActivity::class.java))
 
             R.id.action_dropbox_unlink -> {
                 (manager as? DbxManager)?.unbind()?.successUi {
@@ -278,7 +272,7 @@ class BookListActivity : AppCompatActivity() {
             val intent = Intent(this, BookDetailActivity::class.java)
             intent.putExtra(BookDetailActivity.BUNDLE_OPERATION_KEY, operation)
             intent.putExtra(BookDetailActivity.BUNDLE_BOOK_KEY, item)
-            startActivityForResult(intent, DETAIL_ACTIVITY_REQUEST_CODE)
+            showDetails.launch(intent)
         }
         return true
     }
@@ -316,26 +310,27 @@ class BookListActivity : AppCompatActivity() {
             working = true
 
             manager.persist()
-                    .alwaysUi { working = false }
-                    .successUi {
-                        if (mTwoPane && selectedBook == item)
-                            supportFragmentManager.beginTransaction()
-                                    .remove(mTwoPaneCurrentFragment!!)
-                                    .commit()
+                .alwaysUi { working = false }
+                .successUi {
+                    if (mTwoPane && selectedBook == item)
+                        supportFragmentManager.beginTransaction()
+                            .remove(mTwoPaneCurrentFragment!!)
+                            .commit()
 
-                        Timber.d("removed book: %s", item)
-                        Snackbar.make(fab, getString(R.string.book_deleted), Snackbar.LENGTH_LONG)
-                                .setAction(getString(R.string.undo)) {
-                                    working = true
-                                    adapter.add(item)
-                                    manager.persist()
-                                            .alwaysUi { working = false }
-                                            .failUi {
-                                                Toast.makeText(
-                                                        this@BookListActivity, getString(R.string.undo_failed), Toast.LENGTH_LONG).show()
-                                            }
+                    Timber.d("removed book: %s", item)
+                    Snackbar.make(fab, getString(R.string.book_deleted), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.undo)) {
+                            working = true
+                            adapter.add(item)
+                            manager.persist()
+                                .alwaysUi { working = false }
+                                .failUi {
+                                    Toast.makeText(
+                                        this@BookListActivity, getString(R.string.undo_failed), Toast.LENGTH_LONG
+                                    ).show()
                                 }
-                                .show()
+                        }
+                        .show()
                     }
                     .failUi {
                         // undo swipe !
