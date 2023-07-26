@@ -5,40 +5,48 @@
     tools:context=".AppWebviewActivity">
 
     <item
-        android:id="@+id/action_open_in_browser"
-        android:icon='@drawable/ic_open_in_browser'
-        android:orderInCategory='80'
-        android:title="@string/open_in_browser"
-        app:showAsAction='always' />
-
-    <item
-        android:id="@+id/action_share"
-        android:layout_width="wrap_content"
-        android:icon='@drawable/ic_share'
-        android:orderInCategory='90'
-        android:title='@string/share'
-        app:showAsAction='always' />
-
-    <item
-        android:id='@+id/action_back'
-        android:icon='@drawable/ic_arrow_back'
-        android:orderInCategory='100'
-        android:title='@string/back'
+        android:id="@+id/action_parse_goodreads"
+        android:icon='@drawable/ic_goodreads_parse'
+        android:orderInCategory='10'
+        android:title="@string/goodreads_parse"
         app:showAsAction='always' />
 
     <item
         android:id='@+id/action_refresh'
         android:icon='@drawable/ic_refresh'
-        android:orderInCategory='101'
+        android:orderInCategory='20'
         android:title='@string/refresh'
         app:iconTint="@color/colorAccent"
-        app:showAsAction='ifRoom' />
+        app:showAsAction='always' />
+
+    <item
+        android:id='@+id/action_back'
+        android:icon='@drawable/ic_arrow_back'
+        android:orderInCategory='30'
+        android:title='@string/back'
+        app:showAsAction='always' />
+
 
     <item
         android:id='@+id/action_forward'
         android:icon='@drawable/ic_arrow_forward'
-        android:orderInCategory='102'
+        android:orderInCategory='40'
         android:title='@string/forward'
         app:iconTint="@color/colorAccent"
+        app:showAsAction='always' />
+
+    <item
+        android:id="@+id/action_open_in_browser"
+        android:icon='@drawable/ic_open_in_browser'
+        android:orderInCategory='50'
+        android:title="@string/open_in_browser"
+        app:showAsAction='ifRoom' />
+
+    <item
+        android:id="@+id/action_share"
+        android:layout_width="wrap_content"
+        android:icon='@drawable/ic_share'
+        android:orderInCategory='60'
+        android:title='@string/share'
         app:showAsAction='ifRoom' />
 </menu>

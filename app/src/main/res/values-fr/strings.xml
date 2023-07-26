@@ -28,6 +28,7 @@
 
     <!--general-->
     <string name="no_notes">Aucune note.</string>
+    <string name="continue_">Continue</string>
     <string name="cancel">Annuler</string>
     <string name="save">Sauver</string>
     <string name="share">Partager</string>
@@ -88,6 +89,7 @@
 
     <!--webview menu-->
     <string name="open_in_browser">ouvrir dans le navigateur</string>
+    <string name="goodreads_parse">extraire</string>
 
     <!--intro slides-->
     <string name="intro_welcome_title">Bienvenue!</string>

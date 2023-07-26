@@ -34,7 +34,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/open_in_browser"
-            android:src="@drawable/ic_google" />
+            android:src="@drawable/ic_goodreads" />
 
         <ImageButton
             android:id="@+id/viewButton"

@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
-import ch.derlin.grmetafetcher.GoodReadsMetadata
+import ch.derlin.mybooks.goodreads.GoodReadsMeta
+import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.MiscUtils.afterTextChanged
 import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
@@ -51,6 +53,12 @@ class BookEditFragment : Fragment() {
         set(value) {
             progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
+
+    val searchGoodreads = registerForActivityResult(StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { loadGoodReadsResult(it) }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -139,26 +147,29 @@ class BookEditFragment : Fragment() {
     }
 
     private fun searchGoodReads() {
-        with(Intent(requireContext(), GoodreadsSearchActivity::class.java)) {
-            putExtra(GoodreadsSearchActivity.BUNDLE_TITLE_SEARCH, edit_title.textTrimmed())
-            putExtra(GoodreadsSearchActivity.BUNDLE_AUTHOR_SEARCH, edit_author.textTrimmed())
-            startActivityForResult(this, SEARCH_GOODREADS_REQUEST_CODE)
+        with(Intent(requireContext(), AppBrowserActivity::class.java)) {
+            val grId = edit_gr_id.textTrimmed()
+            val url = if (grId.isNotBlank()) GoodReadsUrl.forBookId(grId) else {
+                // author search sucks on GoodReads
+                GoodReadsUrl.queryFor(edit_title.textTrimmed(), null)
+            }
+            putExtra(AppBrowserActivity.BUNDLE_URL, url)
+            putExtra(AppBrowserActivity.BUNDLE_IS_GOODREADS_SEARCH, true)
+            searchGoodreads.launch(this)
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == SEARCH_GOODREADS_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            data?.extras?.getSerializable(GoodreadsSearchActivity.BUNDLE_GR_META)?.let { it as? GoodReadsMetadata }?.let {
-                Timber.d("Received metadata results from GoodReadsActivity $it")
-                edit_title.setText(it.title.capitalizeWords())
-                edit_author.setText(it.authors.joinToString(" & "))
-                edit_pubdate.setText(it.pubDate?.let { d -> ISO_LOCAL_DATE.format(d) })
-                edit_pages.setText(it.pages?.toString())
-                edit_isbn.setText(it.isbn)
-                edit_gr_id.setText(it.id)
-            }
+    private fun loadGoodReadsResult(data: Intent) {
+        data.extras?.getSerializable(AppBrowserActivity.BUNDLE_GR_META)?.let { it as? GoodReadsMeta }?.let { meta ->
+            Timber.d("Received metadata results from GoodReadsActivity $meta")
+            meta.title?.let { edit_title.setText(it.capitalizeWords()) }
+            meta.authors?.let { edit_author.setText(it.joinToString(" & ")) }
+            meta.pubDate?.let { edit_pubdate.setText(ISO_LOCAL_DATE.format(it)) }
+            meta.pages?.let { edit_pages.setText(it.toString()) }
+            meta.isbn?.let { edit_isbn.setText(it) }
+            meta.id?.let { edit_gr_id.setText(it) }
         }
+
     }
 
     private fun saveBook() {

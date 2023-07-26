@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ch.derlin.changelog.Changelog
 import ch.derlin.changelog.Changelog.getAppVersion
+import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.MiscUtils.showIntro
 import ch.derlin.mybooks.helpers.NetworkStatus
 import ch.derlin.mybooks.helpers.Preferences
@@ -252,7 +253,7 @@ class BookListActivity : AppCompatActivity() {
 
         adapter.onLongClick = { book ->
             selectedBook = book
-            showDetails(book, BookDetailActivity.OPERATION_EDIT)
+            showDetails(book, BookDetailActivity.OPERATION_SHOW)
         }
 
         val itemTouchHelper = ItemTouchHelper(createSwipeHandler())
@@ -300,7 +301,8 @@ class BookListActivity : AppCompatActivity() {
     private fun searchGoogle(book: Book) {
         // see https://stackoverflow.com/a/4800679/2667536
         val intent = Intent(this, AppBrowserActivity::class.java)
-        intent.putExtra("url", googleUrlFor(book))
+        val url = book.metas?.grId?.let { GoodReadsUrl.forBookId(it) } ?: googleUrlFor(book)
+        intent.putExtra(AppBrowserActivity.BUNDLE_URL, url)
         startActivity(intent)
     }
 

@@ -17,15 +17,18 @@ class BooksBottomSheetDialog(
 
         view.findViewById<TextView>(R.id.sheetTitle).text = book.title
         view.findViewById<TextView>(R.id.notes).text = book.notes
+
         view.findViewById<ImageButton>(R.id.viewButton).setOnClickListener {
             showButtonCallback(bottomSheetDialog, book)
         }
         view.findViewById<ImageButton>(R.id.editButton).setOnClickListener {
             editButtonCallback(bottomSheetDialog, book)
         }
-        view.findViewById<ImageButton>(R.id.searchButton).setOnClickListener {
-            searchButtonCallback(bottomSheetDialog, book)
-        }
+        view.findViewById<ImageButton>(R.id.searchButton)
+            .apply { this.setImageResource(if (book.metas?.grId != null) R.drawable.ic_goodreads else R.drawable.ic_google) }
+            .setOnClickListener {
+                searchButtonCallback(bottomSheetDialog, book)
+            }
 
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()

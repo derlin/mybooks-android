@@ -6,7 +6,7 @@ import android.view.View
 import android.view.View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ch.derlin.grmetafetcher.GoodReadsUrl
+import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.book_detail.*

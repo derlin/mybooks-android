@@ -2,6 +2,8 @@ package ch.derlin.mybooks
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,11 +14,23 @@ import android.view.View
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
+import ch.derlin.mybooks.goodreads.GoodReadsMeta
+import ch.derlin.mybooks.goodreads.GoodReadsParser
+import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_goodreads_search.*
 import kotlinx.android.synthetic.main.activity_webview.*
+import kotlinx.android.synthetic.main.activity_webview.toolbar
 
 
 class AppBrowserActivity : AppCompatActivity() {
+
+    companion object {
+        const val BUNDLE_URL = "url"
+        const val BUNDLE_IS_GOODREADS_SEARCH = "grIsSearch"
+        const val BUNDLE_GR_META = "result_meta"
+    }
 
     // update the progressbar when the browser is working, i.e. loading a page
     private var working: Boolean
@@ -36,6 +50,8 @@ class AppBrowserActivity : AppCompatActivity() {
             return ret
         }
 
+    private var isGoodReadsSearch = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +68,11 @@ class AppBrowserActivity : AppCompatActivity() {
         initWebview()
         registerForContextMenu(webview) // to show "download", "open in..." on long-press
 
+
+        isGoodReadsSearch = intent.extras?.getBoolean(BUNDLE_IS_GOODREADS_SEARCH) == true
         // TODO: what if no url is provided ?
         // right now, just load the google search screen
-        webview.loadUrl(intent.getStringExtra("url") ?: "https://google.com")
+        webview.loadUrl(intent.getStringExtra(BUNDLE_URL) ?: "https://google.com")
 
     }
 
@@ -109,9 +127,6 @@ class AppBrowserActivity : AppCompatActivity() {
         webview.clearHistory()
 
         webview.settings.javaScriptEnabled = true
-        webview.settings.setSupportZoom(true)
-        webview.settings.builtInZoomControls = true
-        webview.isHorizontalScrollBarEnabled = true
     }
 
     override fun onCreateContextMenu(contextMenu: ContextMenu, view: View, contextMenuInfo: ContextMenu.ContextMenuInfo?) {
@@ -154,6 +169,10 @@ class AppBrowserActivity : AppCompatActivity() {
         // update the back/forward buttons: enabled only if the action is actually possible
         setMenuItemState(menu.findItem(R.id.action_back), webview.canGoBack())
         setMenuItemState(menu.findItem(R.id.action_forward), webview.canGoForward())
+        menu.findItem(R.id.action_parse_goodreads).let {
+            if (isGoodReadsSearch) setMenuItemState(it, isGoodReadsDetailsPage())
+            else it.isVisible = false
+        }
         return true
     }
 
@@ -172,6 +191,7 @@ class AppBrowserActivity : AppCompatActivity() {
             R.id.action_back -> webview.goBack()
             R.id.action_forward -> webview.goForward()
             R.id.action_share -> webview.url?.let { shareLink(it) }
+            R.id.action_parse_goodreads -> parsePage()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -194,4 +214,40 @@ class AppBrowserActivity : AppCompatActivity() {
         startActivity(Intent.createChooser(shareIntent, getString(R.string.chooser_title_share_link)))
     }
 
+    private fun parsePage() {
+        if (!isGoodReadsSearch) return
+        if (!isGoodReadsDetailsPage()) return
+
+        webview.evaluateJavascript("(function() { return document.documentElement.outerHTML; })();") {
+            val html = Gson().fromJson(it, String::class.java)
+            val meta = GoodReadsParser.parse(requireNotNull(webview.url), html)
+            if (!meta.isValid()) {
+                someMetaMissingDialog(meta, "Title and/or author could not be parsed.")
+            } else if (meta.isbn == null) {
+                someMetaMissingDialog(meta, "The ISBN was not found. Try to expand the book details section (below the description).")
+            } else {
+                finishWithmeta(meta)
+            }
+        }
+    }
+
+    private fun someMetaMissingDialog(meta: GoodReadsMeta, message: String) {
+        AlertDialog.Builder(this)
+            .apply {
+                setMessage(message)
+                setPositiveButton(R.string.continue_) { _, _ -> finishWithmeta(meta) }
+                setNegativeButton(R.string.cancel) { _, _ -> }
+            }.create().show()
+    }
+
+    private fun isGoodReadsDetailsPage() =
+        webview.url?.contains("goodreads.com/book/show") == true
+
+    private fun finishWithmeta(meta: GoodReadsMeta) {
+        with(Intent()) {
+            putExtra(BUNDLE_GR_META, meta)
+            setResult(Activity.RESULT_OK, this)
+        }
+        finish()
+    }
 }

@@ -37,6 +37,7 @@
 
     <!--general-->
     <string name="no_notes">No notes.</string>
+    <string name="continue_">Go ahead</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="share">Share</string>
@@ -94,6 +95,7 @@
 
     <!--webview menu-->
     <string name="open_in_browser">open in browser</string>
+    <string name="goodreads_parse">extract</string>
 
     <!--intro slides-->
     <string name="intro_welcome_title">Welcome!</string>
