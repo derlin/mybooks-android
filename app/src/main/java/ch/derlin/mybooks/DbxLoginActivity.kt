@@ -108,18 +108,18 @@ class DbxLoginActivity : AppCompatActivity() {
                 // same content, do nothing
             } else {
                 dialog = AlertDialog.Builder(this) // TODO, R.style.AppTheme_AlertDialog)
-                        .setTitle(getString(R.string.resolve_conflict_title))
-                        .setMessage(getString(R.string.resolve_conflict_msg))
-                        .setNegativeButton(getString(R.string.resolve_conflict_option_dropbox)) { d, _ ->
-                            d.dismiss()
-                            finishTask()
-                        }
-                        .setPositiveButton(getString(R.string.resolve_conflict_option_local)) { _, _ ->
-                            manager.books = oldBooks
-                            manager.persist()
-                            finishTask()
-                        }
-                        .create()
+                    .setTitle(getString(R.string.resolve_conflict_title))
+                    .setMessage(getString(R.string.resolve_conflict_msg))
+                    .setNegativeButton(getString(R.string.resolve_conflict_option_dropbox)) { d, _ ->
+                        d.dismiss()
+                        finishTask()
+                    }
+                    .setPositiveButton(getString(R.string.resolve_conflict_option_local)) { _, _ ->
+                        manager.books = oldBooks
+                        manager.persist()
+                        finishTask()
+                    }
+                    .create()
                 dialog.show()
             }
         }

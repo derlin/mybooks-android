@@ -27,28 +27,27 @@ object ImageDownloadManager {
     private const val notificationChannelId = "derlin.mybooks"
 
     private val base64Compressors = mapOf(
-            "png" to Bitmap.CompressFormat.PNG,
-            "jpg" to Bitmap.CompressFormat.JPEG,
-            "jpeg" to Bitmap.CompressFormat.JPEG,
-            "webp" to Bitmap.CompressFormat.WEBP)
+        "png" to Bitmap.CompressFormat.PNG,
+        "jpg" to Bitmap.CompressFormat.JPEG,
+        "jpeg" to Bitmap.CompressFormat.JPEG,
+        "webp" to Bitmap.CompressFormat.WEBP
+    )
 
     fun getBase64ImageType(imageData: String): String? =
-            Regex("data:image/([^;]+).*").find(imageData)?.groups?.get(1)?.value
+        Regex("data:image/([^;]+).*").find(imageData)?.groups?.get(1)?.value
 
     fun isDownloadable(url: String): Boolean =
-            (url.startsWith("http") && URLUtil.isValidUrl(url)) || isBase64Image(url)
+        (url.startsWith("http") && URLUtil.isValidUrl(url)) || isBase64Image(url)
 
-    fun isBase64Image(url: String): Boolean {
+    fun isBase64Image(url: String): Boolean =
         getBase64ImageType(url)?.let {
-            return base64Compressors.containsKey(it)
-        }
-        return false
-    }
+            base64Compressors.containsKey(it)
+        } ?: false
 
     fun Activity.downloadImage(url: String): Boolean {
         if (isBase64Image(url)) {
             val imageURI = downloadBase64Image(applicationContext, url)
-            imageURI?.let { _ ->
+            if (imageURI != null) {
                 Toast.makeText(this, getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
                 return true
             }
@@ -56,6 +55,7 @@ object ImageDownloadManager {
             try {
                 downloadFromUrl(applicationContext, url)
                 Toast.makeText(this, getString(R.string.image_downloaded), Toast.LENGTH_SHORT).show()
+                return true
             } catch (t: Throwable) {
                 Timber.e(t)
             }
@@ -79,8 +79,7 @@ object ImageDownloadManager {
         return (ctx.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
     }
 
-    fun downloadBase64Image(ctx: Context, imageUrl: String): Uri? {
-
+    fun downloadBase64Image(ctx: Context, imageUrl: String): Uri? =
         getBase64ImageType(imageUrl)?.let { type ->
             val bytes = android.util.Base64.decode(imageUrl.split(",").last(), android.util.Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
@@ -114,22 +113,20 @@ object ImageDownloadManager {
                 notificationManager.createNotificationChannel(channel)
 
                 val notification = NotificationCompat.Builder(ctx, notificationChannelId)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentText(ctx.getString(R.string.image_downloaded))
-                        .setContentTitle(fileName)
-                        .setContentIntent(pIntent)
-                        .setChannelId(notificationChannelId)
-                        .build()
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText(ctx.getString(R.string.image_downloaded))
+                    .setContentTitle(fileName)
+                    .setContentIntent(pIntent)
+                    .setChannelId(notificationChannelId)
+                    .build()
 
                 notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
                 val notificationId = 85851
 
                 notificationManager.notify(notificationId, notification)
-                return uri
+                uri
             }
         }
-        return null
-    }
 
     private fun getImageUrlContentType(imageUrl: String): Promise<String, Exception> {
         val deferred = deferred<String, Exception>()

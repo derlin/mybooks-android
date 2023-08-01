@@ -21,10 +21,10 @@ import java.io.FileOutputStream
 abstract class PersistenceManager {
 
     protected val gson: Gson =
-            GsonBuilder()
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .setPrettyPrinting()
-                    .create()
+        GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .setPrettyPrinting()
+            .create()
 
     val baseFileName = "mybooks.json"
 
@@ -82,8 +82,8 @@ abstract class PersistenceManager {
         fun Activity.shareAppFile() {
             val uri = FileProvider.getUriForFile(this, getString(R.string.file_provider_authority), instance.getAppFile())
             val shareIntent = ShareCompat.IntentBuilder.from(this)
-                    .setStream(uri)
-                    .intent
+                .setStream(uri)
+                .intent
             // Provide read access
             shareIntent.data = uri
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

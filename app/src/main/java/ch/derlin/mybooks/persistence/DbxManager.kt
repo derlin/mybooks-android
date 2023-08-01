@@ -27,7 +27,7 @@ class DbxManager : PersistenceManager() {
 
     companion object {
         fun requestConfig(): DbxRequestConfig = DbxRequestConfig
-                .newBuilder(App.appContext.getString(R.string.dbx_request_config_name)).build()
+            .newBuilder(App.appContext.getString(R.string.dbx_request_config_name)).build()
     }
 
     private val remoteFilePath = "/${baseFileName}"
@@ -114,9 +114,9 @@ class DbxManager : PersistenceManager() {
             serialize()
             // upload changes to dropbox
             metadata = client.files()
-                    .uploadBuilder(remoteFilePath)
-                    .withMode(WriteMode.OVERWRITE)
-                    .uploadAndFinish(App.appContext.openFileInput(baseFileName))
+                .uploadBuilder(remoteFilePath)
+                .withMode(WriteMode.OVERWRITE)
+                .uploadAndFinish(App.appContext.openFileInput(baseFileName))
 
             Preferences.revision = metadata!!.rev
             deferred.resolve(true)
@@ -134,8 +134,8 @@ class DbxManager : PersistenceManager() {
     private fun fetchRemote(deferred: nl.komponents.kovenant.Deferred<Boolean, Exception>) {
         try {
             metadata = client.files()
-                    .download(metadata!!.pathDisplay)
-                    .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
+                .download(metadata!!.pathDisplay)
+                .download(App.appContext.openFileOutput(baseFileName, Context.MODE_PRIVATE))
 
             books = deserialize()
             Preferences.revision = metadata!!.rev

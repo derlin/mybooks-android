@@ -55,7 +55,7 @@ object MiscUtils {
         startActivityForResult(intent, IntroActivity.INTENT_INTRO)
     }
 
-    /** Resolve an attribute color, for example [android.R.attrcolorAccent] */
+    /** Resolve an attribute color, for example [android.R.attr.colorAccent] */
     fun Activity.attrColor(resourceId: Int): Int {
         // see https://stackoverflow.com/a/27611244/2667536
         val typedValue = TypedValue()

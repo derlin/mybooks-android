@@ -37,11 +37,6 @@ import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
  * on handsets.
  */
 class BookEditFragment : Fragment() {
-
-    companion object {
-        private const val SEARCH_GOODREADS_REQUEST_CODE = 6004
-    }
-
     /**
      * The dummy content this fragment is presenting.
      */
@@ -69,7 +64,7 @@ class BookEditFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.book_edit, container, false)
+        inflater.inflate(R.layout.book_edit, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,8 +101,9 @@ class BookEditFragment : Fragment() {
 
         (activity as? BookDetailActivity)?.let {
             it.updateTitle(
-                    if (mItem != null) getString(R.string.title_edit_existing_book).format(mItem?.title)
-                    else getString(R.string.title_edit_new_book))
+                if (mItem != null) getString(R.string.title_edit_existing_book).format(mItem?.title)
+                else getString(R.string.title_edit_new_book)
+            )
             it.fab.setImageResource(R.drawable.ic_save)
             it.fab.setOnClickListener { saveBook() }
         }
@@ -228,18 +224,18 @@ class BookEditFragment : Fragment() {
 
     private fun getBook(): Book {
         return Book(
-                title = edit_title.textTrimmed(),
-                author = edit_author.textTrimmed(),
-                date = Book.standardizedReadOn(edit_date.textTrimmed()),
-                notes = edit_notes.textTrimmed(),
-                metas = edit_gr_id.textOrNull()?.let { grId ->
-                    BookMeta(
-                            grId = grId,
-                            pubDate = edit_pubdate.textOrNull(),
-                            pages = edit_pages.textOrNull()?.toInt(),
-                            isbn = edit_isbn.textOrNull()
-                    )
-                })
+            title = edit_title.textTrimmed(),
+            author = edit_author.textTrimmed(),
+            date = Book.standardizedReadOn(edit_date.textTrimmed()),
+            notes = edit_notes.textTrimmed(),
+            metas = edit_gr_id.textOrNull()?.let { grId ->
+                BookMeta(
+                    grId = grId,
+                    pubDate = edit_pubdate.textOrNull(),
+                    pages = edit_pages.textOrNull()?.toInt(),
+                    isbn = edit_isbn.textOrNull()
+                )
+            })
     }
 
     private fun EditText.textOrNull() = textTrimmed().let { it.ifBlank { null } }

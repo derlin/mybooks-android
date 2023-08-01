@@ -76,7 +76,3 @@ private fun Document.getPublicationDate(): LocalDate? =
         ?.text()
         ?.removePrefix("Published ")?.removePrefix("First published ")
         ?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("MMMM d, yyyy")) }
-
-
-private fun Document.getJsonData(): String? =
-    this.getElementsByAttributeValue("type", "application/ld+json").first()?.data()

@@ -7,10 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 
-class BookListAdapter(var books: Books,
-                      defaultComparator: Comparator<Book> = Book.nameComparatorAsc,
-                      private var textviewCounter: TextView? = null) :
-        RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
+class BookListAdapter(
+    var books: Books,
+    defaultComparator: Comparator<Book> = Book.nameComparatorAsc,
+    private var textviewCounter: TextView? = null
+) :
+    RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
 
     var comparator: Comparator<Book> = defaultComparator
         set(value) {
@@ -46,8 +48,8 @@ class BookListAdapter(var books: Books,
         holder.leftSubtitleView.text = item.author
         holder.rightSubtitleView.text = item.date
 
-        holder.view.setOnClickListener { _ -> onClick?.invoke(item) }
-        holder.view.setOnLongClickListener { _ -> onLongClick?.invoke(item); true }
+        holder.view.setOnClickListener { onClick?.invoke(item) }
+        holder.view.setOnLongClickListener { onLongClick?.invoke(item); true }
 
     }
 

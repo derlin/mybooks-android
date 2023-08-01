@@ -38,7 +38,7 @@ class BookDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.book_detail, container, false)
+        inflater.inflate(R.layout.book_detail, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

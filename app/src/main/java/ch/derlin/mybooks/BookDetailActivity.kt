@@ -47,8 +47,10 @@ class BookDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction only the first time
-            switchFragment(if (selectedOperation == OPERATION_SHOW)
-                BookDetailFragment() else BookEditFragment())
+            switchFragment(
+                if (selectedOperation == OPERATION_SHOW)
+                    BookDetailFragment() else BookEditFragment()
+            )
         }
     }
 

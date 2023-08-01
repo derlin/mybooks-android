@@ -104,15 +104,15 @@ class BookListActivity : AppCompatActivity() {
         }
 
         bottomSheetDialog = BooksBottomSheetDialog(
-                showButtonCallback = { dialog, book ->
-                    showDetails(book, BookDetailActivity.OPERATION_SHOW)
-                    dialog.dismiss()
-                },
-                editButtonCallback = { _, book ->
-                    if (PersistenceManager.instance.canEdit()) showDetails(book, BookDetailActivity.OPERATION_EDIT)
-                    else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
-                },
-                searchButtonCallback = { _, book -> searchGoogle(book) }
+            showButtonCallback = { dialog, book ->
+                showDetails(book, BookDetailActivity.OPERATION_SHOW)
+                dialog.dismiss()
+            },
+            editButtonCallback = { _, book ->
+                if (PersistenceManager.instance.canEdit()) showDetails(book, BookDetailActivity.OPERATION_EDIT)
+                else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
+            },
+            searchButtonCallback = { _, book -> searchGoogle(book) }
         )
 
         mTwoPane = book_detail_container != null
@@ -219,8 +219,8 @@ class BookListActivity : AppCompatActivity() {
     private fun loadBooks() {
         val showSnackbarFunc = { msg: String ->
             Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.retry)) { loadBooks() }
-                    .show()
+                .setAction(getString(R.string.retry)) { loadBooks() }
+                .show()
         }
         if (!NetworkStatus.isInternetAvailable(this)) {
             // no internet, try to load local file
@@ -260,7 +260,7 @@ class BookListActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun showDetails(item: Book?, operation: String): Boolean {
+    private fun showDetails(item: Book?, operation: String) {
         if (mTwoPane) {
             val arguments = Bundle()
             arguments.putParcelable(BookDetailActivity.BUNDLE_BOOK_KEY, item)
@@ -275,7 +275,6 @@ class BookListActivity : AppCompatActivity() {
             intent.putExtra(BookDetailActivity.BUNDLE_BOOK_KEY, item)
             showDetails.launch(intent)
         }
-        return true
     }
 
     // only called in mTwoPane mode
@@ -333,12 +332,12 @@ class BookListActivity : AppCompatActivity() {
                                 }
                         }
                         .show()
-                    }
-                    .failUi {
-                        // undo swipe !
-                        adapter.add(item)
-                        Toast.makeText(this@BookListActivity, getString(R.string.save_failed), Toast.LENGTH_LONG).show()
-                    }
+                }
+                .failUi {
+                    // undo swipe !
+                    adapter.add(item)
+                    Toast.makeText(this@BookListActivity, getString(R.string.save_failed), Toast.LENGTH_LONG).show()
+                }
         }
     }
 

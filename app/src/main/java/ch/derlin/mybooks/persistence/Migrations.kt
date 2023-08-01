@@ -5,7 +5,7 @@ import ch.derlin.mybooks.Books
 object Migrations {
 
     fun Books.performMigrations(): Books = this
-            .M001_changeNormalizedKey()
+        .M001_changeNormalizedKey()
 
 
     private fun Books.M001_changeNormalizedKey(): Books {

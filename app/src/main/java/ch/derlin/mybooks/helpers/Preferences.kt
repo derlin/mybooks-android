@@ -23,8 +23,9 @@ object Preferences {
 
     var sortOrder: Int
         get() = App.appContext.resources.getIdentifier(
-                sharedPrefs.getString("sortOrder", "submenu_sort_title_asc"),
-                "id", App.appContext.packageName)
+            sharedPrefs.getString("sortOrder", "submenu_sort_title_asc"),
+            "id", App.appContext.packageName
+        )
         set(value) = sharedPrefs.edit().putString("sortOrder", App.appContext.resources.getResourceName(value)).apply()
 
     var currentTheme: Theme

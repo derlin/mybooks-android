@@ -17,34 +17,34 @@ class IntroActivity : AppIntro() {
         super.onCreate(savedInstanceState)
 
         addSlide(
-                getString(R.string.intro_welcome_title),
-                getString(R.string.ontro_welcome_msg),
-                attrColor(R.attr.colorPrimary),
-                R.drawable.splashscreen
+            getString(R.string.intro_welcome_title),
+            getString(R.string.ontro_welcome_msg),
+            attrColor(R.attr.colorPrimary),
+            R.drawable.splashscreen
         )
         addSlide(
-                getString(R.string.intro_integration_title),
-                getString(R.string.intro_integration_msg),
-                Color.parseColor("#F18805"),
-                R.drawable.puzzle
+            getString(R.string.intro_integration_title),
+            getString(R.string.intro_integration_msg),
+            Color.parseColor("#F18805"),
+            R.drawable.puzzle
         )
         addSlide(
-                getString(R.string.intro_sync_title),
-                getString(R.string.intro_sync_msg),
-                Color.parseColor("#0093D8"),
-                R.drawable.dropbox
+            getString(R.string.intro_sync_title),
+            getString(R.string.intro_sync_msg),
+            Color.parseColor("#0093D8"),
+            R.drawable.dropbox
         )
         addSlide(
-                getString(R.string.intro_theme_title),
-                getString(R.string.intro_theme_msg),
-                Color.parseColor("#EA4865"),
-                R.drawable.paint
+            getString(R.string.intro_theme_title),
+            getString(R.string.intro_theme_msg),
+            Color.parseColor("#EA4865"),
+            R.drawable.paint
         )
         addSlide(
-                getString(R.string.intro_last_title),
-                getString(R.string.intro_last_msg),
-                attrColor(R.attr.colorPrimary),
-                R.drawable.splashscreen
+            getString(R.string.intro_last_title),
+            getString(R.string.intro_last_msg),
+            attrColor(R.attr.colorPrimary),
+            R.drawable.splashscreen
         )
 
         setNavBarColor(R.color.blacky)

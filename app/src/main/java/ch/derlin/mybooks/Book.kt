@@ -20,20 +20,20 @@ typealias Books = MutableMap<String, Book>
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class BookMeta(
-        @Expose @SerializedName("GoodreadsID") val grId: String,
-        @Expose @SerializedName("pubDate") val pubDate: String? = null,
-        @Expose @SerializedName("pages") val pages: Int? = null,
-        @Expose @SerializedName("ISBN") val isbn: String?,
+    @Expose @SerializedName("GoodreadsID") val grId: String,
+    @Expose @SerializedName("pubDate") val pubDate: String? = null,
+    @Expose @SerializedName("pages") val pages: Int? = null,
+    @Expose @SerializedName("ISBN") val isbn: String?,
 ) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class Book(
-        @Expose @SerializedName("title") val title: String,
-        @Expose @SerializedName("author") val author: String,
-        @Expose @SerializedName("date") val date: String = "",
-        @Expose @SerializedName("notes") val notes: String = "",
-        @Expose @SerializedName("meta") val metas: BookMeta? = null,
+    @Expose @SerializedName("title") val title: String,
+    @Expose @SerializedName("author") val author: String,
+    @Expose @SerializedName("date") val date: String = "",
+    @Expose @SerializedName("notes") val notes: String = "",
+    @Expose @SerializedName("meta") val metas: BookMeta? = null,
 ) : Parcelable {
 
     private var _uid = 0L
@@ -45,7 +45,7 @@ data class Book(
         }
 
     val dateNumbers: String
-        get() = date.replace("[^\\d]".toRegex(), "")
+        get() = date.replace("\\D".toRegex(), "")
 
     val normalizedKey: String
         get() = normalizeKey(title)
@@ -80,8 +80,8 @@ data class Book(
          * etc.
          */
         fun standardizedReadOn(readOn: String): String = readOn
-                .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
-                .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
+            .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
+            .replace(Regex("(19[0-9]{2}-|20[0-9]{2}-[0-9]{2}-)([1-9]$|[1-9][^0-9])"), "$10$2")
     }
 
     /**
@@ -94,21 +94,21 @@ data class Book(
      * @return the normalized title
      */
     private fun normalizeKey(key: String): String = key.lowercase()
-            .removeDiacritics()
-            .replace("[^a-z0-9 ]".toRegex(), " ")
-            .replace(" +".toRegex(), " ")
-            .trim()
+        .removeDiacritics()
+        .replace("[^a-z0-9 ]".toRegex(), " ")
+        .replace(" +".toRegex(), " ")
+        .trim()
 
     private fun String.removeDiacritics() =
-            Normalizer.normalize(this, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "")
+        Normalizer.normalize(this, Normalizer.Form.NFD).replace("\\p{Mn}+".toRegex(), "")
 
     fun sanitize(): Book = Book(
-            // trim + capitalize first letter of each word
-            title = title.trim().split(' ').joinToString(" ") { it.capitalize() },
-            author = author.trim().split(' ').joinToString(" ") { it.capitalize() },
-            // just trim
-            date = date.trim(),
-            notes = notes.trim()
+        // trim + capitalize first letter of each word
+        title = title.trim().split(' ').joinToString(" ") { it.capitalize() },
+        author = author.trim().split(' ').joinToString(" ") { it.capitalize() },
+        // just trim
+        date = date.trim(),
+        notes = notes.trim()
     )
 }
 

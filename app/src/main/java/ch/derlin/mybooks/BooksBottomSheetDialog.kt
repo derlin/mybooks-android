@@ -6,9 +6,9 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BooksBottomSheetDialog(
-        private val searchButtonCallback: (BottomSheetDialog, Book) -> Unit,
-        private val editButtonCallback: (BottomSheetDialog, Book) -> Unit,
-        private val showButtonCallback: (BottomSheetDialog, Book) -> Unit
+    private val searchButtonCallback: (BottomSheetDialog, Book) -> Unit,
+    private val editButtonCallback: (BottomSheetDialog, Book) -> Unit,
+    private val showButtonCallback: (BottomSheetDialog, Book) -> Unit
 ) {
 
     fun show(activity: Activity, book: Book) {

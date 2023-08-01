@@ -13,16 +13,16 @@ object ThemeHelper {
     }
 
     private val themeToResourceId = listOf(
-            Pair(Theme.DEFAULT, R.id.submenu_theme_default),
-            Pair(Theme.LIGHT, R.id.submenu_theme_light),
-            Pair(Theme.DARK, R.id.submenu_theme_dark)
+        Pair(Theme.DEFAULT, R.id.submenu_theme_default),
+        Pair(Theme.LIGHT, R.id.submenu_theme_light),
+        Pair(Theme.DARK, R.id.submenu_theme_dark)
     )
 
     fun Theme.toResource(): Int =
-            themeToResourceId.first { it.first == this }.second
+        themeToResourceId.first { it.first == this }.second
 
     fun Int.toTheme(): Theme =
-            themeToResourceId.first { it.second == this }.first
+        themeToResourceId.first { it.second == this }.first
 
     fun Theme.toAppCompatMode(): Int = when (this) {
         Theme.DEFAULT -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM

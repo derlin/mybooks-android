@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import ch.derlin.mybooks.goodreads.GoodReadsMeta
 import ch.derlin.mybooks.goodreads.GoodReadsParser
-import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.ImageDownloadManager.downloadImage
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_goodreads_search.*
@@ -109,10 +108,10 @@ class AppBrowserActivity : AppCompatActivity() {
                     if (url.startsWith("http")) return super.shouldOverrideUrlLoading(view, request)
 
                     val type =
-                            if (url.startsWith("tel:")) WebView.HitTestResult.PHONE_TYPE
-                            else if (url.startsWith("mailto:")) WebView.HitTestResult.EMAIL_TYPE
-                            else if (url.startsWith("data:image")) WebView.HitTestResult.IMAGE_TYPE
-                            else WebView.HitTestResult.UNKNOWN_TYPE
+                        if (url.startsWith("tel:")) WebView.HitTestResult.PHONE_TYPE
+                        else if (url.startsWith("mailto:")) WebView.HitTestResult.EMAIL_TYPE
+                        else if (url.startsWith("data:image")) WebView.HitTestResult.IMAGE_TYPE
+                        else WebView.HitTestResult.UNKNOWN_TYPE
 
                     _hit = Pair(type, url)
                     openContextMenu(view)
@@ -134,25 +133,27 @@ class AppBrowserActivity : AppCompatActivity() {
         val hit = lastHit
 
         if (hit.first != WebView.HitTestResult.UNKNOWN_TYPE &&
-                hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE &&
-                hit.first != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+            hit.first != WebView.HitTestResult.EDIT_TEXT_TYPE &&
+            hit.first != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE
+        ) {
             // something like a link or a part of text --> share
             contextMenu.add(0, 1, 0, getString(R.string.share))
-                    .setOnMenuItemClickListener {
-                        shareLink(hit.second)
-                        true
-                    }
+                .setOnMenuItemClickListener {
+                    shareLink(hit.second)
+                    true
+                }
         }
 
         if (hit.first == WebView.HitTestResult.IMAGE_TYPE
-                || hit.first == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+            || hit.first == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE
+        ) {
 
             // try to download the image under the click
             contextMenu.add(0, 1, 0, getString(R.string.download_image))
-                    .setOnMenuItemClickListener {
-                        val imageUrl = hit.second
-                        downloadImage(imageUrl)
-                    }
+                .setOnMenuItemClickListener {
+                    val imageUrl = hit.second
+                    downloadImage(imageUrl)
+                }
 
         }
     }
@@ -226,7 +227,7 @@ class AppBrowserActivity : AppCompatActivity() {
             } else if (meta.isbn == null) {
                 someMetaMissingDialog(meta, "The ISBN was not found. Try to expand the book details section (below the description).")
             } else {
-                finishWithmeta(meta)
+                finishWithMeta(meta)
             }
         }
     }
@@ -235,7 +236,7 @@ class AppBrowserActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .apply {
                 setMessage(message)
-                setPositiveButton(R.string.continue_) { _, _ -> finishWithmeta(meta) }
+                setPositiveButton(R.string.continue_) { _, _ -> finishWithMeta(meta) }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }.create().show()
     }
@@ -243,7 +244,7 @@ class AppBrowserActivity : AppCompatActivity() {
     private fun isGoodReadsDetailsPage() =
         webview.url?.contains("goodreads.com/book/show") == true
 
-    private fun finishWithmeta(meta: GoodReadsMeta) {
+    private fun finishWithMeta(meta: GoodReadsMeta) {
         with(Intent()) {
             putExtra(BUNDLE_GR_META, meta)
             setResult(Activity.RESULT_OK, this)
