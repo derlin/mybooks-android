@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.0" versioncode="5" date="2024-02-10">
+        <change>Ajout de nouveaux champs</change>
+        <change>Support de GoodReads pour récupérer les métadonnées</change>
+        <change>Mise à jour des librairies</change>
+        <change>Beaucoup plus, mais j'ai un peu oublié quoi...</change>
+    </release>
     <release version="0.4" versioncode="4" date="2018-09-01">
         <change>Dropbox est dès à présent optionnel</change>
         <change>Version française disponible</change>

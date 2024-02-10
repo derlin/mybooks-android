@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -80,7 +81,7 @@ class BookListActivity : AppCompatActivity() {
             val data = it.data
             if (data?.getBooleanExtra(BookDetailActivity.RETURN_MODIFIED, false) == true) {
                 // update the list in case of modification
-                selectedBook = data.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY)
+                selectedBook = data.getParcelableExtra(BookDetailActivity.BUNDLE_BOOK_KEY, Book::class.java)
                 notifyBookUpdate(selectedBook!!)
             }
         }
@@ -130,6 +131,8 @@ class BookListActivity : AppCompatActivity() {
         } else {
             displayChangelog()
         }
+
+        registerOnBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -204,18 +207,6 @@ class BookListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (mTwoPane && mTwoPaneCurrentFragment is BookEditFragment) {
-            if (selectedBook != null) {
-                showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
-            } else {
-                supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment as BookEditFragment).commit()
-            }
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     private fun loadBooks() {
         val showSnackbarFunc = { msg: String ->
             Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_INDEFINITE)
@@ -275,6 +266,22 @@ class BookListActivity : AppCompatActivity() {
             intent.putExtra(BookDetailActivity.BUNDLE_BOOK_KEY, item)
             showDetails.launch(intent)
         }
+    }
+
+    private fun registerOnBackPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (mTwoPane && mTwoPaneCurrentFragment is BookEditFragment) {
+                    if (selectedBook != null) {
+                        showDetails(selectedBook!!, BookDetailActivity.OPERATION_SHOW)
+                    } else {
+                        supportFragmentManager.beginTransaction().remove(mTwoPaneCurrentFragment as BookEditFragment).commit()
+                    }
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
     }
 
     // only called in mTwoPane mode

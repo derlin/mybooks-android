@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import ch.derlin.mybooks.goodreads.GoodReadsMeta
@@ -72,6 +73,19 @@ class AppBrowserActivity : AppCompatActivity() {
         // TODO: what if no url is provided ?
         // right now, just load the google search screen
         webview.loadUrl(intent.getStringExtra(BUNDLE_URL) ?: "https://google.com")
+
+        // handle onBackPressed
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // go back in the browser on back button pressed
+                // return to the book list view only if browser history is empty
+                if (webview.canGoBack()) {
+                    webview.goBack()
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
 
     }
 
@@ -181,7 +195,7 @@ class AppBrowserActivity : AppCompatActivity() {
         // make the icon a bit transparent if disabled
         // easier than creating a button_state with xml
         item.isEnabled = enabled
-        item.icon.alpha = if (enabled) 255 else 125
+        item.icon?.let { it.alpha = if (enabled) 255 else 125 }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -196,17 +210,6 @@ class AppBrowserActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onBackPressed() {
-        // go back in the browser on back button pressed
-        // return to the book list view only if browser history is empty
-        if (webview.canGoBack()) {
-            webview.goBack()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
 
     private fun shareLink(link: String) {
         val shareIntent = Intent(Intent.ACTION_SEND)

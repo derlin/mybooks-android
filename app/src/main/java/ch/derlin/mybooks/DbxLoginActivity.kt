@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import ch.derlin.mybooks.helpers.Preferences
@@ -41,6 +42,13 @@ class DbxLoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }
+        })
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val token = Preferences.dbxAccessToken
@@ -61,11 +69,6 @@ class DbxLoginActivity : AppCompatActivity() {
             Timber.d("Dropbox token is $token")
             finishTask()
         }
-    }
-
-    override fun onBackPressed() {
-        setResult(Activity.RESULT_CANCELED)
-        finish()
     }
 
     override fun onResume() {

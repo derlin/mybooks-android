@@ -81,7 +81,7 @@ abstract class PersistenceManager {
 
         fun Activity.shareAppFile() {
             val uri = FileProvider.getUriForFile(this, getString(R.string.file_provider_authority), instance.getAppFile())
-            val shareIntent = ShareCompat.IntentBuilder.from(this)
+            val shareIntent = ShareCompat.IntentBuilder(this)
                 .setStream(uri)
                 .intent
             // Provide read access

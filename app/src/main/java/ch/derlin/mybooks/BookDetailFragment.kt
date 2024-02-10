@@ -29,7 +29,7 @@ class BookDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            it.getParcelable<Book>(BookDetailActivity.BUNDLE_BOOK_KEY)?.let { book ->
+            it.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY, Book::class.java)?.let { book ->
                 mItem = book
                 (activity as? BookDetailActivity)?.updateTitle(book.title)
 

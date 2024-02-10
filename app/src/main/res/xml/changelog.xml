@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.0" versioncode="5" date="2024-02-10">
+        <change>Add new metadata fields</change>
+        <change>Add GoodReads integration to fetch metadata</change>
+        <change>Upgrade everything</change>
+        <change>So much more, but I don't remember...</change>
+    </release>
     <release version="0.4" versioncode="4" date="2018-09-01">
         <change>Make Dropbox optional</change>
         <change>Add French locale support</change>

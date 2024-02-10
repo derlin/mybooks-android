@@ -5,6 +5,7 @@ import android.os.Parcelable
 import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.text.Normalizer
 import java.time.LocalDate
@@ -36,6 +37,7 @@ data class Book(
     @Expose @SerializedName("meta") val metas: BookMeta? = null,
 ) : Parcelable {
 
+    @IgnoredOnParcel
     private var _uid = 0L
 
     val uid: Long

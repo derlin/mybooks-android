@@ -30,7 +30,7 @@ object ImageDownloadManager {
         "png" to Bitmap.CompressFormat.PNG,
         "jpg" to Bitmap.CompressFormat.JPEG,
         "jpeg" to Bitmap.CompressFormat.JPEG,
-        "webp" to Bitmap.CompressFormat.WEBP
+        "webp" to Bitmap.CompressFormat.WEBP_LOSSLESS
     )
 
     fun getBase64ImageType(imageData: String): String? =
@@ -94,8 +94,8 @@ object ImageDownloadManager {
 
             resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)?.let { uri ->
 
-                resolver.openOutputStream(uri).use {
-                    bitmap.compress(base64Compressors[type], 100, it)
+                resolver.openOutputStream(uri)?.use {
+                    bitmap.compress(base64Compressors[type]!!, 100, it)
                     contentValues.clear()
                     contentValues.put(MediaStore.Downloads.IS_PENDING, 0)
                     resolver.update(uri, contentValues, null, null)

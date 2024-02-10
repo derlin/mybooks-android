@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ch.derlin.mybooks.helpers.NetworkStatus
@@ -39,7 +40,7 @@ class BookDetailActivity : AppCompatActivity() {
             selectedOperation = extras.getString(BUNDLE_OPERATION_KEY)
 
             if (selectedOperation == OPERATION_EDIT || selectedOperation == OPERATION_SHOW) {
-                selectedBook = intent.getParcelableExtra(BUNDLE_BOOK_KEY)
+                selectedBook = intent.getParcelableExtra(BUNDLE_BOOK_KEY, Book::class.java)
             }
         }
 
@@ -52,6 +53,8 @@ class BookDetailActivity : AppCompatActivity() {
                     BookDetailFragment() else BookEditFragment()
             )
         }
+
+        registerOnBackPressed()
     }
 
     fun updateTitle(title: String) {
@@ -92,7 +95,7 @@ class BookDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            this.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -105,16 +108,20 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
 
-    override fun onBackPressed() {
-        if (shouldGoBackToEditView) {
-            backToDetailsView()
-        } else {
-            val returnIntent = Intent()
-            returnIntent.putExtra("modified", accountModified)
-            returnIntent.putExtra(BUNDLE_BOOK_KEY, selectedBook)
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
-        }
+    private fun registerOnBackPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (shouldGoBackToEditView) {
+                    backToDetailsView()
+                } else {
+                    val returnIntent = Intent()
+                    returnIntent.putExtra("modified", accountModified)
+                    returnIntent.putExtra(BUNDLE_BOOK_KEY, selectedBook)
+                    setResult(Activity.RESULT_OK, returnIntent)
+                    finish()
+                }
+            }
+        })
     }
 
 

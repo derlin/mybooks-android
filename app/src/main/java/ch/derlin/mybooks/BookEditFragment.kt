@@ -59,7 +59,7 @@ class BookEditFragment : Fragment() {
         super.onAttach(context)
 
         if (arguments?.containsKey(BookDetailActivity.BUNDLE_BOOK_KEY) == true) {
-            mItem = arguments?.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY)
+            mItem = arguments?.getParcelable(BookDetailActivity.BUNDLE_BOOK_KEY, Book::class.java)
         }
     }
 
@@ -97,7 +97,7 @@ class BookEditFragment : Fragment() {
 
         // save and cancel buttons
         button_edit_save.setOnClickListener { saveBook() }
-        button_edit_cancel.setOnClickListener { activity?.onBackPressed() }
+        button_edit_cancel.setOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
 
         (activity as? BookDetailActivity)?.let {
             it.updateTitle(
@@ -156,7 +156,7 @@ class BookEditFragment : Fragment() {
     }
 
     private fun loadGoodReadsResult(data: Intent) {
-        data.extras?.getSerializable(AppBrowserActivity.BUNDLE_GR_META)?.let { it as? GoodReadsMeta }?.let { meta ->
+        data.extras?.getSerializable(AppBrowserActivity.BUNDLE_GR_META, GoodReadsMeta::class.java)?.let { meta ->
             Timber.d("Received metadata results from GoodReadsActivity $meta")
             meta.title?.let { edit_title.setText(it.capitalizeWords()) }
             meta.authors?.let { edit_author.setText(it.joinToString(" & ")) }
