@@ -112,6 +112,21 @@ data class Book(
         date = date.trim(),
         notes = notes.trim()
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Book
+
+        if (title != other.title) return false
+        if (author != other.author) return false
+        if (date != other.date) return false
+        if (notes != other.notes) return false
+        if (metas != other.metas) return false
+
+        return true
+    }
 }
 
 
