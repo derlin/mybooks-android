@@ -57,7 +57,7 @@ class BookDetailFragment : Fragment() {
                 details_metas_pubDate.text = it.pubDate
                 details_metas_pages.text = it.pages?.toString()
                 details_metas_isbn.text = it.isbn
-                details_metas_url.text = GoodReadsUrl.forBookId(it.grId)
+                details_metas_url.text = it.grId?.let { id -> GoodReadsUrl.forBookId(id) }
             }
         } else {
             val metasViews = ArrayList<View>()

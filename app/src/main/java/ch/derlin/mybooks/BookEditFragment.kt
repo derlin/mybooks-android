@@ -228,14 +228,12 @@ class BookEditFragment : Fragment() {
             author = edit_author.textTrimmed(),
             date = Book.standardizedReadOn(edit_date.textTrimmed()),
             notes = edit_notes.textTrimmed(),
-            metas = edit_gr_id.textOrNull()?.let { grId ->
-                BookMeta(
-                    grId = grId,
-                    pubDate = edit_pubdate.textOrNull(),
-                    pages = edit_pages.textOrNull()?.toInt(),
-                    isbn = edit_isbn.textOrNull()
-                )
-            })
+            metas = BookMeta(
+                grId = edit_gr_id.textOrNull(),
+                pubDate = edit_pubdate.textOrNull(),
+                pages = edit_pages.textOrNull()?.toInt(),
+                isbn = edit_isbn.textOrNull()
+            ).takeUnless { it.isEmpty() })
     }
 
     private fun EditText.textOrNull() = textTrimmed().let { it.ifBlank { null } }

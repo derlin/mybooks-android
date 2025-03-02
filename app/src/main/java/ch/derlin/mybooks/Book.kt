@@ -21,11 +21,15 @@ typealias Books = MutableMap<String, Book>
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class BookMeta(
-    @Expose @SerializedName("GoodreadsID") val grId: String,
+    @Expose @SerializedName("GoodreadsID") val grId: String? = null,
     @Expose @SerializedName("pubDate") val pubDate: String? = null,
     @Expose @SerializedName("pages") val pages: Int? = null,
     @Expose @SerializedName("ISBN") val isbn: String?,
-) : Parcelable
+) : Parcelable {
+    fun isEmpty(): Boolean {
+        return listOfNotNull(grId, pubDate, pages, isbn).isEmpty()
+    }
+}
 
 @SuppressLint("ParcelCreator")
 @Parcelize
