@@ -11,9 +11,34 @@
         app:showAsAction="always" />
 
     <item
+        android:icon="@drawable/ic_audiobook_filter"
+        android:title="@string/filter_audiobook_title"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/group_menu_filter_audiobooks"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/submenu_audiobook_any"
+                    android:checked="true"
+                    android:icon="@drawable/ic_any"
+                    android:title="@string/filter_audiobook_any" />
+                <item
+                    android:id="@+id/submenu_audiobook_only"
+                    android:icon="@drawable/ic_audio"
+                    android:title="@string/filter_audiobook_only" />
+                <item
+                    android:id="@+id/submenu_audiobook_except"
+                    android:icon="@drawable/ic_book"
+                    android:title="@string/filter_audiobook_except" />
+            </group>
+        </menu>
+    </item>
+
+    <item
         android:icon="@drawable/ic_sort"
         android:title="@string/sort_order_title"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
         <menu>
             <group
                 android:id="@+id/group_menu_sort"

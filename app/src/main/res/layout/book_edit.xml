@@ -118,6 +118,21 @@
             android:hint="234"
             android:inputType="number"
             android:maxLines="1"
+            android:nextFocusForward="@id/edit_duration"
+            android:scrollHorizontally="true" />
+
+        <!--duration (audiobook)-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_pages"
+            android:text="@string/duration_label" />
+
+        <EditText
+            android:id="@+id/edit_duration"
+            style="@style/DetailsValueEdit"
+            android:hint="7h:30m"
+            android:inputType="text"
+            android:maxLines="1"
             android:nextFocusForward="@id/edit_isbn"
             android:scrollHorizontally="true" />
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ch.derlin.mybooks.goodreads.GoodReadsUrl
 import ch.derlin.mybooks.helpers.MiscUtils.rootView
@@ -55,7 +56,12 @@ class BookDetailFragment : Fragment() {
         if (mItem.metas != null) {
             mItem.metas?.let {
                 details_metas_pubDate.text = it.pubDate
-                details_metas_pages.text = it.pages?.toString()
+                if (it.pages != null)
+                    details_metas_pages.text = it.pages.toString()
+                else if (it.audiobookMinutes != null) {
+                    details_metas_pages.text = it.audiobookMinutes.fromAudiobookMinutes()
+                    label_metas_pages.text = resources.getText(R.string.duration_label)
+                }
                 details_metas_isbn.text = it.isbn
                 details_metas_url.text = it.grId?.let { id -> GoodReadsUrl.forBookId(id) }
             }

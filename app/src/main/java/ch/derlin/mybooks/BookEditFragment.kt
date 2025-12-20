@@ -84,6 +84,7 @@ class BookEditFragment : Fragment() {
         mItem?.metas?.let {
             edit_pubdate.setText(it.pubDate)
             edit_pages.setText(it.pages?.toString())
+            edit_duration.setText(it.audiobookMinutes?.fromAudiobookMinutes(simple = true))
             edit_isbn.setText(it.isbn)
             edit_gr_id.setText(it.grId)
         }
@@ -139,6 +140,24 @@ class BookEditFragment : Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
 
+        // audiobook duration
+        edit_duration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                try {
+                    s.toString().toAudiobookMinutes()
+                } catch (ex: IllegalArgumentException) {
+                    edit_duration.error = ex.message
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                edit_duration.error = null
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+
         button_search_goodreads.setOnClickListener { searchGoodReads() }
     }
 
@@ -169,6 +188,10 @@ class BookEditFragment : Fragment() {
     }
 
     private fun saveBook() {
+        if (edit_duration.error != null) {
+            Toast.makeText(activity, "Invalid duration", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val newBook = getBook()
         val books = requireNotNull(manager.books)
@@ -232,6 +255,7 @@ class BookEditFragment : Fragment() {
                 grId = edit_gr_id.textOrNull(),
                 pubDate = edit_pubdate.textOrNull(),
                 pages = edit_pages.textOrNull()?.toInt(),
+                audiobookMinutes = edit_duration.textOrNull()?.toAudiobookMinutes(),
                 isbn = edit_isbn.textOrNull()
             ).takeUnless { it.isEmpty() })
     }
