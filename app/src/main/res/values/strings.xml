@@ -92,6 +92,10 @@
     <string name="export_file">Export file</string>
     <string name="view_changelog">View changelog</string>
     <string name="view_intro">View intro</string>
+    <string name="filter_audiobook_title">Type</string>
+    <string name="filter_audiobook_any">All</string>
+    <string name="filter_audiobook_only">Audio Books</string>
+    <string name="filter_audiobook_except">Paper Books</string>
 
     <!--webview menu-->
     <string name="open_in_browser">open in browser</string>
@@ -114,5 +118,6 @@
     <string name="goodreads_enter_search_prompt">Enter a title and/or author to search GoodReads.</string>
     <string name="goodreads_showing_x_out_of_y">Showing %d out of %d results. Click one to select.</string>
     <string name="goodreads_no_results">Nothing found on GoodReads. Try another search.</string>
+    <string name="duration_label">Duration</string>
 
 </resources>

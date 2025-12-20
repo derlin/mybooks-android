@@ -22,6 +22,7 @@ class BookListAdapter(
     var onClick: ((Book) -> Unit)? = null
     var onLongClick: ((Book) -> Unit)? = null
 
+    private var audiobookFilter: Boolean? = null // null == any
     private var lastSearch: String = ""
     private var filtered = books.values.toMutableList()
 
@@ -44,7 +45,14 @@ class BookListAdapter(
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val item = filtered[position]
 
-        holder.titleView.text = item.title.capitalize()
+        if (item.metas?.audiobookMinutes != null) {
+            holder.titleView.text = "${item.title.capitalize()} ♬"
+            holder.titleView.setTextColor(holder.itemView.context.getColor(R.color.colorAccent))
+        } else {
+            holder.titleView.text = item.title.capitalize()
+            holder.titleView.setTextColor(holder.itemView.context.getColor(R.color.colorHeaders))
+        }
+
         holder.leftSubtitleView.text = item.author
         holder.rightSubtitleView.text = item.date
 
@@ -76,6 +84,10 @@ class BookListAdapter(
         resetAndNotify()
     }
 
+    fun filterByIsAudiobook(isAudiobook: Boolean?) {
+        audiobookFilter = isAudiobook
+        resetAndNotify()
+    }
 
     fun add(item: Book) {
         books[item.normalizedKey] = item
@@ -87,8 +99,13 @@ class BookListAdapter(
     }
 
     private fun doFilter() {
-        filtered = if (lastSearch.isBlank()) books.values.toMutableList()
-        else books.values.filter { i -> i.match(lastSearch) }.toMutableList()
+        filtered = books.values.filter {
+            // exclude the audio book filter first
+            if (audiobookFilter != null && it.isAudiobook() != audiobookFilter) false
+            // then apply the search, if any
+            else if (lastSearch.isBlank()) true
+            else it.match(lastSearch)
+        }.toMutableList()
     }
 
     private fun resetAndNotify() {

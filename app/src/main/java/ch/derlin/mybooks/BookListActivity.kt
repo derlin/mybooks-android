@@ -173,6 +173,15 @@ class BookListActivity : AppCompatActivity() {
                 item.isChecked = true
                 return true
             }
+            R.id.group_menu_filter_audiobooks -> {
+                when (item.itemId) {
+                    R.id.submenu_audiobook_any -> adapter.filterByIsAudiobook(null)
+                    R.id.submenu_audiobook_except -> adapter.filterByIsAudiobook(false)
+                    R.id.submenu_audiobook_only -> adapter.filterByIsAudiobook(true)
+                }
+                item.isChecked = true
+                return true
+            }
         }
 
         when (item.itemId) {

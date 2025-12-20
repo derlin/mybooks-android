@@ -71,6 +71,7 @@
 
         <!--pages-->
         <TextView
+            android:id="@+id/label_metas_pages"
             style="@style/DetailsLabel"
             android:contentDescription="metas"
             android:text="@string/pages_label" />

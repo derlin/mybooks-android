@@ -18,16 +18,34 @@ import java.util.*
 
 typealias Books = MutableMap<String, Book>
 
+fun String.toAudiobookMinutes(): Int {
+    val regex = Regex("""^(\d+)h(\d{1,2})?$""")
+    val match = regex.matchEntire(this)
+        ?: throw IllegalArgumentException("Expected format: 7h34")
+
+    val hours = match.groupValues[1].toInt()
+    val minutes = match.groupValues[2].ifEmpty { "0" }.toInt()
+
+    require(minutes in 0..59) { "Minutes must be between 0 and 59" }
+    return hours * 60 + minutes
+}
+
+fun Int.fromAudiobookMinutes(simple: Boolean = false): String =
+    if (simple) String.format("%dh%d", this / 60, this % 60)
+    else String.format("%02dh:%02dm", this / 60, this % 60)
+
+
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class BookMeta(
     @Expose @SerializedName("GoodreadsID") val grId: String? = null,
     @Expose @SerializedName("pubDate") val pubDate: String? = null,
     @Expose @SerializedName("pages") val pages: Int? = null,
+    @Expose @SerializedName("duration") val audiobookMinutes: Int? = null,
     @Expose @SerializedName("ISBN") val isbn: String?,
 ) : Parcelable {
     fun isEmpty(): Boolean {
-        return listOfNotNull(grId, pubDate, pages, isbn).isEmpty()
+        return listOfNotNull(grId, pubDate, pages, audiobookMinutes, isbn).isEmpty()
     }
 }
 
@@ -59,6 +77,8 @@ data class Book(
     fun match(search: String): Boolean = with(search.lowercase(Locale.getDefault())) {
         listOf(title, author, date, notes).any { it.lowercase(Locale.getDefault()).contains(this) }
     }
+
+    fun isAudiobook(): Boolean = metas?.audiobookMinutes != null
 
     companion object {
 
