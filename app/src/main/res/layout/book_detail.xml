@@ -29,7 +29,8 @@
 
         <TextView
             android:id="@+id/details_title"
-            style="@style/DetailsValue" />
+            style="@style/DetailsValue"
+            android:textIsSelectable="true" />
 
         <!--author-->
         <TextView
@@ -38,7 +39,8 @@
 
         <TextView
             android:id="@+id/details_author"
-            style="@style/DetailsValue" />
+            style="@style/DetailsValue"
+            android:textIsSelectable="true" />
 
         <!--date-->
         <TextView
@@ -115,6 +117,7 @@
             android:layout_columnSpan="2"
             android:layout_marginTop="6dp"
             android:paddingBottom="10dp"
+            android:textIsSelectable="true"
             android:textAppearance="@style/AppTheme.TextAppearance" />
 
         <Space
