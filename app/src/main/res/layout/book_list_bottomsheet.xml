@@ -65,7 +65,8 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/no_notes"
-            android:textAppearance="@style/AppTheme.TextAppearance" />
+            android:textAppearance="@style/AppTheme.TextAppearance"
+            android:textIsSelectable="true" />
 
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
