@@ -109,9 +109,11 @@ class BookListActivity : AppCompatActivity() {
                 showDetails(book, BookDetailActivity.OPERATION_SHOW)
                 dialog.dismiss()
             },
-            editButtonCallback = { _, book ->
-                if (PersistenceManager.instance.canEdit()) showDetails(book, BookDetailActivity.OPERATION_EDIT)
-                else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
+            editButtonCallback = { dialog, book ->
+                if (PersistenceManager.instance.canEdit()) {
+                    showDetails(book, BookDetailActivity.OPERATION_EDIT)
+                    dialog.dismiss()
+                } else Snackbar.make(fab, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
             },
             searchButtonCallback = { _, book -> searchGoogle(book) }
         )
@@ -168,11 +170,13 @@ class BookListActivity : AppCompatActivity() {
                 item.isChecked = true
                 return true
             }
+
             R.id.group_menu_theme -> {
                 applyTheme(item.itemId.toTheme())
                 item.isChecked = true
                 return true
             }
+
             R.id.group_menu_filter_audiobooks -> {
                 when (item.itemId) {
                     R.id.submenu_audiobook_any -> adapter.filterByIsAudiobook(null)
@@ -197,6 +201,7 @@ class BookListActivity : AppCompatActivity() {
                     Snackbar.make(fab, "${getString(R.string.error)}: $it", Snackbar.LENGTH_LONG).show()
                 }
             }
+
             R.id.action_export_file -> shareAppFile()
             R.id.action_changelog -> Changelog.createDialog(this).show()
             R.id.action_intro -> showIntro()
