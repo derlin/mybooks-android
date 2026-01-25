@@ -78,6 +78,7 @@ class BookEditFragment : Fragment() {
             edit_author.setText(it.author)
             edit_date.setText(it.date)
             edit_notes.setText(it.notes)
+            edit_dnf.isChecked = it.isDnf
         }
 
 
@@ -250,6 +251,7 @@ class BookEditFragment : Fragment() {
             title = edit_title.textTrimmed(),
             author = edit_author.textTrimmed(),
             date = Book.standardizedReadOn(edit_date.textTrimmed()),
+            isDnf = edit_dnf.isChecked,
             notes = edit_notes.textTrimmed(),
             metas = BookMeta(
                 grId = edit_gr_id.textOrNull(),

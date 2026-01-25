@@ -56,6 +56,7 @@ data class Book(
     @Expose @SerializedName("author") val author: String,
     @Expose @SerializedName("date") val date: String = "",
     @Expose @SerializedName("notes") val notes: String = "",
+    @Expose @SerializedName("dnf") val isDnf: Boolean = false,
     @Expose @SerializedName("meta") val metas: BookMeta? = null,
 ) : Parcelable {
 
@@ -146,6 +147,7 @@ data class Book(
         if (title != other.title) return false
         if (author != other.author) return false
         if (date != other.date) return false
+        if (isDnf != other.isDnf) return false
         if (notes != other.notes) return false
         if (metas != other.metas) return false
 

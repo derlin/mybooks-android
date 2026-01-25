@@ -81,8 +81,18 @@
             android:hint="2017-10-01"
             android:inputType="textVisiblePassword"
             android:maxLines="1"
-            android:nextFocusForward="@id/edit_pubdate"
+            android:nextFocusForward="@id/edit_dnf"
             android:scrollHorizontally="true" />
+
+        <!--DNF-->
+        <TextView
+            style="@style/DetailsLabel"
+            android:labelFor="@id/edit_dnf"
+            android:text="@string/dnf_label" />
+
+        <CheckBox
+            android:id="@+id/edit_dnf"
+            style="@style/DetailsValueEdit" />
 
         <TextView
             style="@style/Header"
