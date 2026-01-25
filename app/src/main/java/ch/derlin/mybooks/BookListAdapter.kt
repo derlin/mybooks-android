@@ -3,7 +3,9 @@ package ch.derlin.mybooks
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import ch.derlin.mybooks.helpers.MiscUtils.capitalize
 
@@ -53,6 +55,12 @@ class BookListAdapter(
             holder.titleView.setTextColor(holder.itemView.context.getColor(R.color.colorHeaders))
         }
 
+        holder.leftImageView.setImageDrawable(
+            if (item.isDnf) AppCompatResources.getDrawable(
+                holder.view.context,
+                R.drawable.ic_dnf
+            ) else null
+        )
         holder.leftSubtitleView.text = item.author
         holder.rightSubtitleView.text = item.date
 
@@ -133,6 +141,7 @@ class BookListAdapter(
     // you provide access to all the views for a data item in a view holder
     class BookViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titleView: TextView = view.findViewById(R.id.title)
+        val leftImageView: ImageView = view.findViewById(R.id.image_right)
         val leftSubtitleView: TextView = view.findViewById(R.id.subtitle_left)
         val rightSubtitleView: TextView = view.findViewById(R.id.subtitle_right)
     }

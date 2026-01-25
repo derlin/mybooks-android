@@ -34,6 +34,8 @@
     <string name="pages_label">Pages</string>
     <string name="isbn_label">ISBN</string>
     <string name="goodreads_id_label">GoodReads ID</string>
+    <string name="duration_label">Duration</string>
+    <string name="dnf_label">DNF</string>
 
     <!--general-->
     <string name="no_notes">No notes.</string>
@@ -118,6 +120,5 @@
     <string name="goodreads_enter_search_prompt">Enter a title and/or author to search GoodReads.</string>
     <string name="goodreads_showing_x_out_of_y">Showing %d out of %d results. Click one to select.</string>
     <string name="goodreads_no_results">Nothing found on GoodReads. Try another search.</string>
-    <string name="duration_label">Duration</string>
 
 </resources>

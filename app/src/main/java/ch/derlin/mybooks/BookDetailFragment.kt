@@ -51,6 +51,7 @@ class BookDetailFragment : Fragment() {
             details_author.text = author
             details_date.text = date
             details_notes.text = notes
+            details_dnf.isChecked = isDnf
         }
 
         if (mItem.metas != null) {

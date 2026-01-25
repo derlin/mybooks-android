@@ -23,9 +23,10 @@
     <string name="metadata_header">Metadata</string>
     <string name="published_label">Publié le</string>
     <string name="pages_label">Pages</string>
-    <string name="duration_label">Durée</string>
     <string name="isbn_label">ISBN</string>
     <string name="goodreads_id_label">ID GoodReads</string>
+    <string name="duration_label">Duration</string>
+    <string name="dnf_label">Durée</string>
 
     <!--general-->
     <string name="no_notes">Aucune note.</string>
