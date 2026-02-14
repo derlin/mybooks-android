@@ -25,8 +25,8 @@
     <string name="pages_label">Pages</string>
     <string name="isbn_label">ISBN</string>
     <string name="goodreads_id_label">ID GoodReads</string>
-    <string name="duration_label">Duration</string>
-    <string name="dnf_label">Durée</string>
+    <string name="duration_label">Durée (livre audio)</string>
+    <string name="dnf_label">Pas terminé</string>
 
     <!--general-->
     <string name="no_notes">Aucune note.</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.0" versioncode="5" date="2025-02-14">
+    <release version="2.0" versioncode="6" date="2025-02-14">
         <change>Improve GoodReads integration and allow adding metadata without GoodReads ID</change>
         <change>Add DNF (Did Not Finish) support</change>
         <change>Add audiobook support</change>

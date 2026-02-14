@@ -144,10 +144,12 @@ class BookEditFragment : Fragment() {
         // audiobook duration
         edit_duration.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                try {
-                    s.toString().toAudiobookMinutes()
-                } catch (ex: IllegalArgumentException) {
-                    edit_duration.error = ex.message
+                s.toString().takeUnless { it.isBlank() }?.let {
+                    try {
+                        it.toAudiobookMinutes()
+                    } catch (ex: IllegalArgumentException) {
+                        edit_duration.error = ex.message
+                    }
                 }
             }
 
