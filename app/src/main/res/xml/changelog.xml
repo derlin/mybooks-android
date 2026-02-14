@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.1" versioncode="9" date="2025-02-15">
+        <change>Fix duration field not clearable</change>
+        <change>Fix wrong French translations</change>
+        <change>Add filter for DNF</change>
+    </release>
     <release version="2.0" versioncode="6" date="2025-02-14">
         <change>Improve GoodReads integration and allow adding metadata without GoodReads ID</change>
         <change>Add DNF (Did Not Finish) support</change>
