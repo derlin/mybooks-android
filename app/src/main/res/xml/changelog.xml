@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0" versioncode="5" date="2025-02-14">
+        <change>Improve GoodReads integration and allow adding metadata without GoodReads ID</change>
+        <change>Add DNF (Did Not Finish) support</change>
+        <change>Add audiobook support</change>
+        <change>Make notes selectable</change>
+        <change>Close bottomsheet on edit</change>
+        <change>Properly detect changes in book metadata</change>
+        <change>Upgrade all dependencies</change>
+    </release>
     <release version="1.0" versioncode="5" date="2024-02-10">
         <change>Add new metadata fields</change>
         <change>Add GoodReads integration to fetch metadata</change>
