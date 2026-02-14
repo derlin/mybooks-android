@@ -24,6 +24,7 @@ class BookListAdapter(
     var onClick: ((Book) -> Unit)? = null
     var onLongClick: ((Book) -> Unit)? = null
 
+    private var dnfFilter: Boolean? = null // null == any
     private var audiobookFilter: Boolean? = null // null == any
     private var lastSearch: String = ""
     private var filtered = books.values.toMutableList()
@@ -92,6 +93,11 @@ class BookListAdapter(
         resetAndNotify()
     }
 
+    fun filterByIsDnf(isDNF: Boolean?) {
+        dnfFilter = isDNF
+        resetAndNotify()
+    }
+
     fun filterByIsAudiobook(isAudiobook: Boolean?) {
         audiobookFilter = isAudiobook
         resetAndNotify()
@@ -108,8 +114,9 @@ class BookListAdapter(
 
     private fun doFilter() {
         filtered = books.values.filter {
-            // exclude the audio book filter first
-            if (audiobookFilter != null && it.isAudiobook() != audiobookFilter) false
+            // exclude the audio book and DNF filter first
+            if (dnfFilter != null && it.isDnf != dnfFilter) false
+            else if (audiobookFilter != null && it.isAudiobook() != audiobookFilter) false
             // then apply the search, if any
             else if (lastSearch.isBlank()) true
             else it.match(lastSearch)

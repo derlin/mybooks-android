@@ -11,51 +11,48 @@
         app:showAsAction="always" />
 
     <item
-        android:icon="@drawable/ic_audiobook_filter"
-        android:title="@string/filter_audiobook_title"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/filter"
         app:showAsAction="always">
         <menu>
+            <!-- DNF filter -->
+            <item
+                android:enabled="false"
+                android:title="@string/filter_dnf_title" />
             <group
-                android:id="@+id/group_menu_filter_audiobooks"
+                android:id="@+id/group_menu_filter_dnf"
                 android:checkableBehavior="single">
                 <item
-                    android:id="@+id/submenu_audiobook_any"
+                    android:id="@+id/filter_dnf_any"
                     android:checked="true"
-                    android:icon="@drawable/ic_any"
-                    android:title="@string/filter_audiobook_any" />
+                    android:title="@string/filter_dnf_any" />
                 <item
-                    android:id="@+id/submenu_audiobook_only"
-                    android:icon="@drawable/ic_audio"
-                    android:title="@string/filter_audiobook_only" />
+                    android:id="@+id/filter_dnf_true"
+                    android:title="@string/filter_dnf_true" />
                 <item
-                    android:id="@+id/submenu_audiobook_except"
-                    android:icon="@drawable/ic_book"
-                    android:title="@string/filter_audiobook_except" />
+                    android:id="@+id/filter_dnf_false"
+                    android:title="@string/filter_dnf_false" />
             </group>
-        </menu>
-    </item>
-
-    <item
-        android:icon="@drawable/ic_audiobook_filter"
-        android:title="@string/filter_audiobook_title"
-        app:showAsAction="always">
-        <menu>
+            <!-- Audiobook filter -->
+            <item
+                android:enabled="false"
+                android:title="@string/filter_audiobook_title" />
             <group
                 android:id="@+id/group_menu_filter_audiobooks"
                 android:checkableBehavior="single">
                 <item
-                    android:id="@+id/submenu_audiobook_any"
+                    android:id="@+id/filter_audiobook_any"
                     android:checked="true"
                     android:icon="@drawable/ic_any"
                     android:title="@string/filter_audiobook_any" />
                 <item
-                    android:id="@+id/submenu_audiobook_only"
+                    android:id="@+id/filter_audiobook_true"
                     android:icon="@drawable/ic_audio"
-                    android:title="@string/filter_audiobook_only" />
+                    android:title="@string/filter_audiobook_true" />
                 <item
-                    android:id="@+id/submenu_audiobook_except"
+                    android:id="@+id/filter_audiobook_false"
                     android:icon="@drawable/ic_book"
-                    android:title="@string/filter_audiobook_except" />
+                    android:title="@string/filter_audiobook_false" />
             </group>
         </menu>
     </item>

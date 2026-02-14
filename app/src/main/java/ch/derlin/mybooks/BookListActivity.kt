@@ -177,15 +177,26 @@ class BookListActivity : AppCompatActivity() {
                 return true
             }
 
-            R.id.group_menu_filter_audiobooks -> {
+            R.id.group_menu_filter_dnf -> {
                 when (item.itemId) {
-                    R.id.submenu_audiobook_any -> adapter.filterByIsAudiobook(null)
-                    R.id.submenu_audiobook_except -> adapter.filterByIsAudiobook(false)
-                    R.id.submenu_audiobook_only -> adapter.filterByIsAudiobook(true)
+                    R.id.filter_dnf_any -> adapter.filterByIsDnf(null)
+                    R.id.filter_dnf_false -> adapter.filterByIsDnf(false)
+                    R.id.filter_dnf_true -> adapter.filterByIsDnf(true)
                 }
                 item.isChecked = true
                 return true
             }
+
+            R.id.group_menu_filter_audiobooks -> {
+                when (item.itemId) {
+                    R.id.filter_audiobook_any -> adapter.filterByIsAudiobook(null)
+                    R.id.filter_audiobook_false -> adapter.filterByIsAudiobook(false)
+                    R.id.filter_audiobook_true -> adapter.filterByIsAudiobook(true)
+                }
+                item.isChecked = true
+                return true
+            }
+
         }
 
         when (item.itemId) {

@@ -2,14 +2,14 @@
     <string name="app_name">MyBooks</string>
     <string name="action_settings">Settings</string>
 
-    <string translatable="false" name="file_provider_authority">ch.derlin.mybooks.provider</string>
+    <string name="file_provider_authority" translatable="false">ch.derlin.mybooks.provider</string>
 
     <!--dropbox token and permissions-->
-    <string translatable="false" name="prefs_dbx_access_token">dbx_access-token</string>
-    <string translatable="false" name="dbx_app_key">213bpo6j2q90un0</string>
-    <string translatable="false" name="dbx_app_secret">b1tijzm481l9eta</string>
-    <string translatable="false" name="dbx_app_key_manifest">db-213bpo6j2q90un0</string>
-    <string translatable="false" name="dbx_request_config_name">MyBooks/2.0</string>
+    <string name="prefs_dbx_access_token" translatable="false">dbx_access-token</string>
+    <string name="dbx_app_key" translatable="false">213bpo6j2q90un0</string>
+    <string name="dbx_app_secret" translatable="false">b1tijzm481l9eta</string>
+    <string name="dbx_app_key_manifest" translatable="false">db-213bpo6j2q90un0</string>
+    <string name="dbx_request_config_name" translatable="false">MyBooks/2.0</string>
 
     <!--start screen-->
     <string name="start_quote">Reading is life</string>
@@ -94,10 +94,16 @@
     <string name="export_file">Export file</string>
     <string name="view_changelog">View changelog</string>
     <string name="view_intro">View intro</string>
+    <string name="filter">Filter</string>
+    <!-- filter menu   -->
+    <string name="filter_dnf_title">Status</string>
+    <string name="filter_dnf_any">All</string>
+    <string name="filter_dnf_true">DNF only</string>
+    <string name="filter_dnf_false">Finished only</string>
     <string name="filter_audiobook_title">Type</string>
     <string name="filter_audiobook_any">All</string>
-    <string name="filter_audiobook_only">Audio Books</string>
-    <string name="filter_audiobook_except">Paper Books</string>
+    <string name="filter_audiobook_true">Audio Books</string>
+    <string name="filter_audiobook_false">Paper Books</string>
 
     <!--webview menu-->
     <string name="open_in_browser">open in browser</string>
