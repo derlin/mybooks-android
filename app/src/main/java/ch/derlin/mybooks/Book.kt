@@ -58,6 +58,7 @@ data class Book(
     @Expose @SerializedName("notes") val notes: String = "",
     @Expose @SerializedName("dnf") val isDnf: Boolean = false,
     @Expose @SerializedName("meta") val metas: BookMeta? = null,
+    @Expose @SerializedName("tags") val tags: List<String>? = null
 ) : Parcelable {
 
     @IgnoredOnParcel
